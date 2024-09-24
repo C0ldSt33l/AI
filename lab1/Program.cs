@@ -1,9 +1,7 @@
 ﻿using System.Numerics;
-using System.Linq;
 
 using Raylib_cs;
 using rl = Raylib_cs.Raylib;
-using Microsoft.VisualBasic;
 using System.Security.Cryptography;
 
 namespace Game;
@@ -37,12 +35,47 @@ public class Cell(Vector2 Pos) {
     }
 }
 
-public class Button(Vector2 Pos) {
-    public static readonly Texture2D Texture;
-    public Rectangle Rect = new Rectangle(Pos, new Vector2(100));
+public class Button {
+    private static readonly Texture2D _texture;
+
+    public Vector2 Pos;
+    public float Rotation;
+
+    static Button() {
+        var image = rl.LoadImage("arrow.png");
+        // rl.ImageCrop(ref image, new Rectangle(Vector2.Zero, new Vector2(100)));
+        rl.ImageResize(ref image, 100, 100);
+        _texture = rl.LoadTextureFromImage(image);
+    }
+
+    public Button(Vector2 Pos, float Rotation) {
+        this.Pos = Pos;
+        this.Rotation = Rotation;
+
+        Vector2 offset = Vector2.Zero;
+        switch (Rotation) {
+            case 0:
+                offset = Vector2.Zero;
+                break;
+            case 90:
+                offset = new Vector2(1, 0);
+                break;
+            case 180:
+                offset = new Vector2(1, 1);
+                break;
+            case -90:
+                offset = new Vector2(0, 1);
+                break;
+        }
+        offset *= 100;
+        this.Pos += offset;
+    }
 
     public void Draw() {
 
+
+        // rl.DrawTextureRec(_texture, _drawRect, Pos, Color.White);
+        rl.DrawTextureEx(_texture, this.Pos, this.Rotation, 1, Color.White);
     }
 }
 
@@ -79,6 +112,16 @@ public class Game {
         }
 
         for (var i = 0; i < 4; i++) {
+            // var hor_up_button = new Button(startPos + new Vector2(Cell.SIZE.X * i, -Cell.SIZE.Y));
+            // var hor_down_button = new Button(startPos + new Vector2(Cell.SIZE.X * i, Cell.SIZE.Y * 4));
+
+            // var ver_left_button = new Button(startPos + new Vector2(-Cell.SIZE.X, Cell.SIZE.Y * i));
+            // var ver_right_button = new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i));
+
+            this._buttons[0, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, -Cell.SIZE.Y), 0);
+            this._buttons[1, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, Cell.SIZE.Y * 4), 180);
+            this._buttons[2, i]= new Button(startPos + new Vector2(-Cell.SIZE.X, Cell.SIZE.Y * i), -90);
+            this._buttons[3, i]= new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i), 90);
         }
     }
 
@@ -86,7 +129,6 @@ public class Game {
         while(!rl.WindowShouldClose()) {
             rl.BeginDrawing();
 
-                // this.Update();
                 this.Draw();
 
             rl.EndDrawing();
@@ -103,6 +145,13 @@ public class Game {
         }
         foreach (var circle in this._circles) {
             circle.Draw();
+        }
+        // foreach (var button in this._buttons[0]) {
+        //     button.Draw();
+        // }
+
+        foreach (var button in this._buttons) {
+            button.Draw();
         }
     }
 
