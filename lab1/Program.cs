@@ -35,11 +35,22 @@ public class Cell(Vector2 Pos) {
     }
 }
 
+public enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+}
+
 public class Button {
     private static readonly Texture2D _texture;
 
-    public Vector2 Pos;
+    public Rectangle Rect;
     public float Rotation;
+    public int Index;
+    public Direction Dir;
+
+    private Vector2 _offset_pos;
 
     static Button() {
         var image = rl.LoadImage("arrow.png");
@@ -48,8 +59,8 @@ public class Button {
         _texture = rl.LoadTextureFromImage(image);
     }
 
-    public Button(Vector2 Pos, float Rotation) {
-        this.Pos = Pos;
+    public Button(Vector2 Pos, float Rotation, int Index, Direction Dir) {
+        this.Rect = new Rectangle(Pos, new Vector2(100));
         this.Rotation = Rotation;
 
         Vector2 offset = Vector2.Zero;
@@ -67,22 +78,20 @@ public class Button {
                 offset = new Vector2(0, 1);
                 break;
         }
+
         offset *= 100;
-        this.Pos += offset;
+        this._offset_pos = this.Rect.Position + offset;
+
+        this.Index = Index;
+        this.Dir = Dir;
     }
 
     public void Draw() {
-
-
-        // rl.DrawTextureRec(_texture, _drawRect, Pos, Color.White);
-        rl.DrawTextureEx(_texture, this.Pos, this.Rotation, 1, Color.White);
+        rl.DrawTextureEx(_texture, this._offset_pos, this.Rotation, 1, Color.White);
     }
 }
 
-public enum Direction {
-    FORWARD,
-    BACK,
-}
+
 
 public class Game {
     private readonly Vector2 WINDOW_SIZE = new Vector2(1080, 840);
@@ -118,10 +127,10 @@ public class Game {
             // var ver_left_button = new Button(startPos + new Vector2(-Cell.SIZE.X, Cell.SIZE.Y * i));
             // var ver_right_button = new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i));
 
-            this._buttons[0, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, -Cell.SIZE.Y), 0);
-            this._buttons[1, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, Cell.SIZE.Y * 4), 180);
-            this._buttons[2, i]= new Button(startPos + new Vector2(-Cell.SIZE.X, Cell.SIZE.Y * i), -90);
-            this._buttons[3, i]= new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i), 90);
+            this._buttons[0, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, -Cell.SIZE.Y), 0, i, Direction.UP);
+            this._buttons[1, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, Cell.SIZE.Y * 4), 180, i, Direction.DOWN);
+            this._buttons[2, i]= new Button(startPos + new Vector2(-Cell.SIZE.X, Cell.SIZE.Y * i), -90, i, Direction.LEFT);
+            this._buttons[3, i]= new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i), 90, i, Direction.RIGHT);
         }
     }
 
@@ -129,6 +138,7 @@ public class Game {
         while(!rl.WindowShouldClose()) {
             rl.BeginDrawing();
 
+                this._update();
                 this.Draw();
 
             rl.EndDrawing();
@@ -146,12 +156,29 @@ public class Game {
         foreach (var circle in this._circles) {
             circle.Draw();
         }
-        // foreach (var button in this._buttons[0]) {
-        //     button.Draw();
-        // }
-
         foreach (var button in this._buttons) {
             button.Draw();
+        }
+    }
+
+    private void _update() {
+        if (rl.IsMouseButtonPressed(MouseButton.Left)) {
+            var mousePos = rl.GetMousePosition();
+            foreach (var button in this._buttons) {
+                if (rl.CheckCollisionPointRec(mousePos, button.Rect)) {
+                    switch (button.Dir) {
+                        case Direction.UP:
+                        case Direction.DOWN:
+                            this.MoveCol(button.Index, button.Dir);
+                            break;
+                        case Direction.LEFT:
+                        case Direction.RIGHT:
+                            this.MoveRow(button.Index, button.Dir);
+                            break;
+                    }
+                    break;
+                }
+            }
         }
     }
 
@@ -168,35 +195,68 @@ public class Game {
             circles.AddLast(this._circles[Row, i]);
         }
 
-        if (Dir == Direction.FORWARD) {
-            var node = circles.Last;
-            circles.RemoveLast();
-            circles.AddFirst(node);
-        }
-        else {
-            var node = circles.First;
-            circles.RemoveFirst();
-            circles.AddLast(node);
+        switch (Dir) {
+            case Direction.RIGHT: {
+                var node = circles.Last;
+                circles.RemoveLast();
+                circles.AddFirst(node);
+                break;
+            }
+
+            case Direction.LEFT: {
+                var node = circles.First;
+                circles.RemoveFirst();
+                circles.AddLast(node);
+                break;
+            }
+
+            default:
+                throw new Exception("wrong dir");
         }
 
         for (var i = 0; i < 4; i++) {
-            this._circles[Row, i] = circles.Last.Value;
+            this._circles[Row, i] = circles.First.Value;
             this._circles[Row, i].Pos = pos[i];
+            circles.RemoveFirst();
         }
     }
 
     public void MoveCol(int Col, Direction Dir) {
-        var cells = new Cell[4];
         var pos = new Vector2[4] {
-            this._cells[0, Col].Rect.Position,
-            this._cells[1, Col].Rect.Position,
-            this._cells[2, Col].Rect.Position,
-            this._cells[3, Col].Rect.Position,
+            this._circles[0, Col].Pos,
+            this._circles[1, Col].Pos,
+            this._circles[2, Col].Pos,
+            this._circles[3, Col].Pos,
         };
+        var circles = new LinkedList<Circle>();
+        for (var i = 0; i < 4; i++) {
+            circles.AddLast(this._circles[i, Col]);
+        }
+
+        switch (Dir) {
+            case Direction.DOWN: {
+                var node = circles.Last;
+                circles.RemoveLast();
+                circles.AddFirst(node);
+                break;
+            }
+
+            case Direction.UP: {
+                var node = circles.First;
+                circles.RemoveFirst();
+                circles.AddLast(node);
+                break;
+            }
+
+            default:
+                throw new Exception("wrong dir");
+        }
 
         for (var i = 0; i < 4; i++) {
-            this._cells[i, Col] = cells[i];
-            this._cells[i, Col].Rect.Position = pos[i];
+            this._circles[i, Col] = circles.First.Value;
+            this._circles[i, Col].Pos = pos[i];
+
+            circles.RemoveFirst();
         }
     }
 
