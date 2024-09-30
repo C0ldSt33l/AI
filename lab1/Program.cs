@@ -3,12 +3,14 @@
 using Raylib_cs;
 using rl = Raylib_cs.Raylib;
 using System.Security.Cryptography;
+using System.Data;
 
 namespace Game;
 
 // Available colors: `Red`, `Green`, `Yellow`, `Blue`
 public class Circle(Color Color) {
     public static readonly float RADIUS = 50;
+    public  Color Color = Color;
     public Vector2 Pos = Vector2.Zero;
 
     public void Draw() {
@@ -63,23 +65,12 @@ public class Button {
         this.Rect = new Rectangle(Pos, new Vector2(100));
         this.Rotation = Rotation;
 
-        Vector2 offset = Vector2.Zero;
-        switch (Rotation) {
-            case 0:
-                offset = Vector2.Zero;
-                break;
-            case 90:
-                offset = new Vector2(1, 0);
-                break;
-            case 180:
-                offset = new Vector2(1, 1);
-                break;
-            case -90:
-                offset = new Vector2(0, 1);
-                break;
-        }
-
-        offset *= 100;
+        Vector2 offset = Rotation switch {
+            0   => Vector2.Zero,
+            90  => new Vector2(1, 0),
+            180 => new Vector2(1, 1),
+            -90 => new Vector2(0, 1),
+        } * 100;
         this._offset_pos = this.Rect.Position + offset;
 
         this.Index = Index;
@@ -104,34 +95,18 @@ public class Game {
     public Game() {
         rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
 
-        var startPos = new Vector2(1080 / 2 - Cell.SIZE.X * 4 / 2, 840 / 2 - Cell.SIZE.Y * 4 / 2);
-        var curPos = startPos;
+        this._oneStepFromWinningInit();
 
-        for (var y = 0; y < this._cells.GetLength(0); y++) {
-            for (var x = 0; x < this._cells.GetLength(1); x++) {
-                var cell = new Cell(curPos);
-                this._cells[y, x] = cell;
-                curPos.X += Cell.SIZE.X;
+        var state = new State(this._circles);
+        Console.WriteLine(state);
+        var widthSearch = new WidthFirstSearch(state);
+        var depthSerch = new DepthFirstSearch(state);
 
-                var circle = new Circle(this._getColor());
-                cell.AttachCircle(circle);
-                this._circles[y, x] = circle;
-            }
-            curPos = new Vector2(startPos.X, curPos.Y + Cell.SIZE.Y);
-        }
+        var goalState = widthSearch.Search();
+        if (goalState != null) Console.WriteLine(goalState);
 
-        for (var i = 0; i < 4; i++) {
-            // var hor_up_button = new Button(startPos + new Vector2(Cell.SIZE.X * i, -Cell.SIZE.Y));
-            // var hor_down_button = new Button(startPos + new Vector2(Cell.SIZE.X * i, Cell.SIZE.Y * 4));
-
-            // var ver_left_button = new Button(startPos + new Vector2(-Cell.SIZE.X, Cell.SIZE.Y * i));
-            // var ver_right_button = new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i));
-
-            this._buttons[0, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, -Cell.SIZE.Y), 0, i, Direction.UP);
-            this._buttons[1, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, Cell.SIZE.Y * 4), 180, i, Direction.DOWN);
-            this._buttons[2, i]= new Button(startPos + new Vector2(-Cell.SIZE.X, Cell.SIZE.Y * i), -90, i, Direction.LEFT);
-            this._buttons[3, i]= new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i), 90, i, Direction.RIGHT);
-        }
+        var goalState2 = depthSerch.Search();
+        if (goalState2 != null) Console.WriteLine(goalState2);
     }
 
     public void Update() {
@@ -140,6 +115,8 @@ public class Game {
 
                 this._update();
                 this.Draw();
+
+                // Console.WriteLine(_circles[0, 0].Color.ToString());
 
             rl.EndDrawing();
         }
@@ -158,6 +135,69 @@ public class Game {
         }
         foreach (var button in this._buttons) {
             button.Draw();
+        }
+    }
+
+    private void _normalInit() {
+        this._setCells();
+        this._setCircles();
+        this._setButtons();
+    }
+
+    private void _oneStepFromWinningInit() {
+        this._setCells();
+        this._setCirclesInWinState();
+        this.MoveCol(0, Direction.UP);
+        this._setButtons();
+    }
+
+
+    private void _setCells() {
+        var startPos = new Vector2(1080 / 2 - Cell.SIZE.X * 4 / 2, 840 / 2 - Cell.SIZE.Y * 4 / 2);
+        var curPos = startPos;
+
+        for (var y = 0; y < this._cells.GetLength(0); y++) {
+            for (var x = 0; x < this._cells.GetLength(1); x++) {
+                var cell = new Cell(curPos);
+                this._cells[y, x] = cell;
+                curPos.X += Cell.SIZE.X;
+            }
+            curPos = new Vector2(startPos.X, curPos.Y + Cell.SIZE.Y);
+        }
+    }
+
+    private void _setCircles() {
+        for (var row = 0; row < this._cells.GetLength(0); row++) {
+            for (var col = 0; col < this._cells.GetLength(1); col++) {
+                var circle = new Circle(this._getRandomColor());
+                this._cells[row, col].AttachCircle(circle);
+                this._circles[row, col] = circle;
+            }
+        }
+    }
+    
+    private void _setCirclesInWinState() {
+        var colors = new Color[] { Color.Red, Color.Green, Color.Yellow, Color.Blue };
+        for (var row = 0; row < this._cells.GetLength(0); row++) {
+            for (var col = 0; col < this._cells.GetLength(1); col++) {
+                var circle = new Circle(colors[row]);
+                this._cells[row, col].AttachCircle(circle);
+                this._circles[row, col] = circle;
+            }
+        }
+    }
+
+    private void _setButtons() {
+        var startPos = new Vector2(1080 / 2 - Cell.SIZE.X * 4 / 2, 840 / 2 - Cell.SIZE.Y * 4 / 2);
+        for (var i = 0; i < 4; i++) {
+            // hor up buttons
+            this._buttons[0, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, -Cell.SIZE.Y), 0, i, Direction.UP);
+            // hor down buttons
+            this._buttons[1, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, Cell.SIZE.Y * 4), 180, i, Direction.DOWN);
+            // ver left buttons
+            this._buttons[2, i]= new Button(startPos + new Vector2(-Cell.SIZE.X, Cell.SIZE.Y * i), -90, i, Direction.LEFT);
+            // ver right buttons
+            this._buttons[3, i]= new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i), 90, i, Direction.RIGHT);
         }
     }
 
@@ -255,28 +295,27 @@ public class Game {
         for (var i = 0; i < 4; i++) {
             this._circles[i, Col] = circles.First.Value;
             this._circles[i, Col].Pos = pos[i];
-
             circles.RemoveFirst();
         }
     }
 
 
     private static int[] _colorRest = new int[4] { 4, 4, 4, 4 };
-    private Color _getColor() {
+    private Color _getRandomColor() {
+        if (_colorRest.All(el => el == 0)) throw new Exception("Rest colors are empty");
+
         int i;
         do {
             i = RandomNumberGenerator.GetInt32(0, 4);
         } while (_colorRest[i] == 0);
         _colorRest[i]--;
 
-        switch (i) {
-            case 0: return Color.Red;
-            case 1: return Color.Green;
-            case 2: return Color.Yellow;
-            case 3: return Color.Blue;
-
-            default: return Color.Black;
-        }
+        return i switch {
+            0 => Color.Red,
+            1 => Color.Green,
+            2 => Color.Yellow,
+            3 => Color.Blue,
+        };
     }
 }
 
