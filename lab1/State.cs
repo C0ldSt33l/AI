@@ -1,14 +1,16 @@
+using System.Collections;
 using Raylib_cs;
 
 namespace Game;
 
 public class State {
-    public static readonly State TARGET_STATE = new State(new char[4,4] {
+    public static readonly State TARGET_STATE = new(new char[4,4] {
         {'R', 'R', 'R', 'R'},
         {'G', 'G', 'G', 'G'},
         {'Y', 'Y', 'Y', 'Y'},
         {'B', 'B', 'B', 'B'},
     });
+    public readonly State? Parent = null;
     public readonly Color[,] Colors = new Color[4, 4];
 
     public State(Circle[,] circles) {
@@ -18,8 +20,9 @@ public class State {
             }
         }
     }
-    public State(Color[,] colors) {
+    public State(Color[,] colors, State? parent) {
         this.Colors = colors;
+        this.Parent = parent;
     }
     
     public State(char[,] chars) {
@@ -38,13 +41,25 @@ public class State {
     public List<State> Discovery() {
         var states = new List<State>();
         for (var i = 0; i < 4; i++) {
-            states.Add(this.moveCol(i, Direction.UP));
-            states.Add(this.moveCol(i, Direction.DOWN));
             states.Add(this.moveRow(i, Direction.LEFT));
             states.Add(this.moveRow(i, Direction.RIGHT));
+            states.Add(this.moveCol(i, Direction.UP));
+            states.Add(this.moveCol(i, Direction.DOWN));
         }
 
         return states;
+    }
+
+    public List<State> GetPath() {
+        var path = new List<State>();
+        var node = this;
+        while (node.Parent != null) {
+            path.Add(node);
+            node = node.Parent;
+        }
+        path.Add(node);
+        path.Reverse();
+        return path;
     }
 
     public bool IsTargetState() {
@@ -78,7 +93,7 @@ public class State {
             rowColors.RemoveFirst();
         }
 
-        return new State(colors);
+        return new State(colors, this);
     }
 
     private State moveCol(int col, Direction dir) {
@@ -108,7 +123,7 @@ public class State {
             colColors.RemoveFirst();
         }
 
-        return new State(colors);
+        return new State(colors, this);
     }
     public override string ToString() {
         var str = "";
@@ -141,22 +156,23 @@ public class State {
 }
 
 public class WidthFirstSearch(State StartState) {
-    public List<State> OpenNodes = new() { StartState };
+    public Queue<State> OpenNodes = new(new State[] { StartState });
     public HashSet<State> CloseNodes = new();
 
     public State? Search() {
         while (this.OpenNodes.Count > 0) {
-            var node = this.OpenNodes.First();
-            this.OpenNodes.RemoveAt(0);
+            var node = this.OpenNodes.Dequeue();
 
             if (node.IsTargetState()) return node;
             this.CloseNodes.Add(node);
+
             foreach (var state in node.Discovery()) {
                 if (this.OpenNodes.Contains(state)) continue;
                 if (this.CloseNodes.Contains(state)) continue;
-                this.OpenNodes.Add(state);
+                this.OpenNodes.Enqueue(state);
             }
         }
+
         return null;
     }
 }

@@ -97,16 +97,26 @@ public class Game {
 
         this._oneStepFromWinningInit();
 
-        var state = new State(this._circles);
-        Console.WriteLine(state);
-        var widthSearch = new WidthFirstSearch(state);
-        var depthSerch = new DepthFirstSearch(state);
+        var startState = new State(this._circles);
+        if (startState.Parent == null) Console.WriteLine("Parent = `null`");
+        Console.WriteLine(startState);
+        Console.WriteLine("-----------------");
 
+
+        Console.WriteLine("Width first search");
+        var widthSearch = new WidthFirstSearch(startState);
         var goalState = widthSearch.Search();
         if (goalState != null) Console.WriteLine(goalState);
+        Console.WriteLine("-----------------");
 
+        Console.WriteLine("Depth first search");
+        var depthSerch = new DepthFirstSearch(startState);
         var goalState2 = depthSerch.Search();
         if (goalState2 != null) Console.WriteLine(goalState2);
+
+        Console.WriteLine("Search finished");
+
+        goalState.GetPath().ForEach(el => Console.WriteLine(el));
     }
 
     public void Update() {
@@ -147,7 +157,7 @@ public class Game {
     private void _oneStepFromWinningInit() {
         this._setCells();
         this._setCirclesInWinState();
-        this.MoveCol(0, Direction.UP);
+        this.MoveCol(3, Direction.UP);
         this._setButtons();
     }
 
