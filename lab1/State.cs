@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Data;
+using System.Text;
 using Raylib_cs;
 
 namespace Game;
@@ -144,14 +146,15 @@ public class State {
         return new State(colors, this);
     }
     public override string ToString() {
-        var str = "";
+        var builder = new StringBuilder(4 * 4 * 2 + 4);
         for (var row = 0; row < 4; row++) {
             for (var col = 0; col < 4; col++) {
-                str += this.ColorToChar(this.Colors[row, col])  + ",";
+                builder.Append(this.ColorToChar(this.Colors[row, col])).Append(',');
             }
-            str += "\n";
+            builder.Append('\n');
         }
-        return str;
+
+        return builder.ToString();
     }
 
     public char ColorToChar(Color? color) {
@@ -178,20 +181,62 @@ public class State {
     }
 }
 
-public class WidthFirstSearch(State StartState) {
+public struct SearchInfo {
+    public int Iters;
+    public int CurOpenNodeCount;
+    public int MaxOpenNodeCount;
+    public int MaxNodeCount;
+    
+    public SearchInfo() {
+        this.Iters = 0;
+        this.CurOpenNodeCount = 0;
+        this.MaxOpenNodeCount = 0;
+        this.MaxNodeCount = 0;
+    }
+
+    public void Update(int curOpenNodeCount, int maxNodeCount) {
+        this.Iters++;
+        this.CurOpenNodeCount = curOpenNodeCount;
+        if (curOpenNodeCount > this.MaxOpenNodeCount) {
+            this.MaxOpenNodeCount = curOpenNodeCount;
+        }
+        if (maxNodeCount > this.MaxNodeCount) {
+            this.MaxNodeCount = maxNodeCount;
+        }
+    }
+
+    public override string ToString() {
+        return 
+        $@"Iter count: {this.Iters}
+        O node count: {this.CurOpenNodeCount}
+        O max node count: {this.MaxOpenNodeCount}
+        O + C max node count: {this.MaxNodeCount}
+        ";
+    }
+}
+
+public interface ISearch {
+    public List<State>? Search();
+}
+
+public class WidthFirstSearch(State StartState): ISearch {
     public Queue<State> OpenNodes = new(new State[] { StartState });
     public HashSet<State> CloseNodes = new();
 
-    public State? Search() {
-        var iter = 0;
+    public SearchInfo info = new();
+
+    public List<State>? Search() {
         while (this.OpenNodes.Count > 0) {
-            Console.WriteLine(iter++);
+            this.info.Update(
+                this.OpenNodes.Count(), 
+                this.OpenNodes.Count() + this.CloseNodes.Count()
+            );
             var node = this.OpenNodes.Dequeue();
-            // Console.WriteLine(node);
 
             if (node.IsTargetState()) {
+                Console.WriteLine(this.info);
                 Console.WriteLine("Search finished");
-                return node;
+                return node.GetPath();
             }
             this.CloseNodes.Add(node);
 
@@ -207,19 +252,24 @@ public class WidthFirstSearch(State StartState) {
     }
 }
 
-public class DepthFirstSearch(State StartState) {
+public class DepthFirstSearch(State StartState): ISearch {
     public Stack<State> OpenNodes = new (new State[] { StartState });
     public HashSet<State> CloseNodes = new();
 
-    public State? Search() {
-        var iter = 0;
+    public SearchInfo info;
+
+    public List<State>? Search() {
         while (this.OpenNodes.Count > 0) {
-            Console.WriteLine(iter++);
+            this.info.Update(
+                this.OpenNodes.Count(), 
+                this.OpenNodes.Count() + this.CloseNodes.Count()
+            );
+ 
             var node = this.OpenNodes.Pop();
 
             if (node.IsTargetState()) {
                 Console.WriteLine("Search finished");
-                return node;
+                return node.GetPath();
             }
             this.CloseNodes.Add(node);
 
@@ -231,6 +281,31 @@ public class DepthFirstSearch(State StartState) {
         }
 
         Console.WriteLine("Search finished");
+        return null;
+    }
+}
+
+public class BiDirectionalSearch(State start): ISearch {
+    public Queue<State> startOpenNodes = new(new State[] { start });
+    public HashSet<State> startCloseNodes = new();
+    public Queue<State> endOpenNodes = new(new State[] { State.TARGET_STATE });
+    public HashSet<State> endCloseNodes = new();
+
+    public List<State>? Search() {
+        while(this.startCloseNodes.Count() > 0 || this.endCloseNodes.Count() > 0) {
+            var startNode = this.startOpenNodes.Dequeue();
+            var endNode = this.endOpenNodes.Dequeue();
+
+            if (startNode.Equals(endNode)) {
+                var startPath = startNode.GetPath();
+                var endPath = endNode.GetPath();
+                startPath.Reverse();
+                endPath.RemoveAt(0);
+
+                return startPath.Concat(endPath) as List<State>;
+            }
+        }
+
         return null;
     }
 }

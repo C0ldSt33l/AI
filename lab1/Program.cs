@@ -1,8 +1,6 @@
 ﻿using System.Numerics;
 using System.Security.Cryptography;
-using System;
-using System.Timers;
-
+using Microsoft.VisualBasic;
 using Raylib_cs;
 using rl = Raylib_cs.Raylib;
 
@@ -50,8 +48,7 @@ public class Button {
 
     public Rectangle Rect;
     public float Rotation;
-    public int Index;
-    public Direction Dir;
+    public Action Action;
 
     private Vector2 _offset_pos;
 
@@ -62,7 +59,7 @@ public class Button {
         _texture = rl.LoadTextureFromImage(image);
     }
 
-    public Button(Vector2 Pos, float Rotation, int Index, Direction Dir) {
+    public Button(Vector2 Pos, float Rotation, Action action) {
         this.Rect = new Rectangle(Pos, new Vector2(100));
         this.Rotation = Rotation;
 
@@ -74,8 +71,7 @@ public class Button {
         } * 100;
         this._offset_pos = this.Rect.Position + offset;
 
-        this.Index = Index;
-        this.Dir = Dir;
+        this.Action = action;
     }
 
     public void Draw() {
@@ -87,12 +83,16 @@ public class UIButton {
     public static readonly int FONT_SIZE = 30;
     public string Text;
     public Rectangle Rect;
+    public Action Action;
+
     private Vector2 _textPos;
 
-    public UIButton(string text, Vector2 pos, Vector2 textPosOffset) {
+    public UIButton(string text, Vector2 pos, Vector2 textPosOffset, Action action) {
         this.Text = text;
         this.Rect = new(pos, new Vector2(150, 75));
         this._textPos = pos + textPosOffset;
+
+        this.Action = action;
     }
 
     public void Draw() {
@@ -109,11 +109,16 @@ public class Game {
     private Circle[,] _circles = new Circle[4, 4];
     private Cell[,] _cells = new Cell[4, 4];
     private Button[,] _moveButtons = new Button[4, 4];
-    private UIButton[] _uiButtons = new UIButton[] {
-        new UIButton("Search", Vector2.Zero, new Vector2(15, 20)),
-        new UIButton("Next", new Vector2(0, 100), new Vector2 (30, 20)),
-        new UIButton("Prev", new Vector2(0, 200), new Vector2 (30, 20)),
-    };
+
+    private UIButton[] _searchButtons = new UIButton[4];
+    private UIButton[] _actionButtons = new UIButton[3];
+
+    private State _startState;
+
+    // 0 - Width
+    // 1 - Depth
+    // 2 - Depth with limitation
+    // 3 - DiDirectional
 
     private List<State>? _pathToWin = null;
     private int _curState = 0;
@@ -122,17 +127,10 @@ public class Game {
         rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
         rl.SetTargetFPS(60);
 
-        // this._oneStepFromWinningInit();
         this._normalInit();
     }
 
     public void Update() {
-        rl.BeginDrawing();
-            this.Draw();
-        rl.EndDrawing();
-
-        // this.Search();
-
         while(!rl.WindowShouldClose()) {
             rl.BeginDrawing();
 
@@ -145,33 +143,14 @@ public class Game {
         rl.CloseWindow();
     }
 
-    public void Search() {
-        var startState = new State(this._circles);
-
-        Console.WriteLine("Start state");
-        Console.WriteLine(startState);
-        Console.WriteLine("-----------------");
-
-        // Console.WriteLine("Width first search");
-        // var widthSearch = new WidthFirstSearch(startState);
-        // var goalState = widthSearch.Search();
-        // Console.WriteLine("-----------------");
-
-        // this._pathToWin = goalState.GetPath();
-        // this._curState = 0;
-
-        Console.WriteLine("Depth first search");
-        var depthSerch = new DepthFirstSearch(startState);
-        var goalState2 = depthSerch.Search();
-        Console.WriteLine("-----------------");
-
-        this._pathToWin = goalState2.GetPath();
-        this._curState = 0;
-
-        Console.WriteLine("Iter times: ", this._pathToWin.Count());
+    public void Search(string name, ISearch searcher) {
+    Console.WriteLine(name);
+    var path = searcher.Search();
+    this._pathToWin = path;
+    this._curState = 0;
 }
 
-public void PlayNextState() {
+    public void PlayNextState() {
         if (this._curState == this._pathToWin.Count() - 1) return;
         this._curState++;
         this.ChangeColors(this._pathToWin[this._curState].Colors);
@@ -195,7 +174,7 @@ public void PlayNextState() {
         foreach (var button in this._moveButtons) {
             button.Draw();
         }
-        foreach (var button in this._uiButtons) {
+        foreach (var button in this._searchButtons) {
             button.Draw();
         }
     }
@@ -208,28 +187,23 @@ public void PlayNextState() {
         this._addSomeChaous(5);
     }
 
-    private void _oneStepFromWinningInit() {
+    private void _threeStepsFromWinningInit() {
         this._setCells();
         this._setCirclesInWinState();
-        this.MoveCol(3, Direction.UP);
+        for (var i = 0; i < 3; i++)
+            this.MoveCol(3, Direction.UP);
         this._setButtons();
     }
 
     private void _addSomeChaous(int times) {
         var rand = () => RandomNumberGenerator.GetInt32(0, 4);
         for (; times > 0; times--) {
-            var dir = (Direction)rand();
-            switch (dir) {
-                case Direction.UP:
-                case Direction.DOWN:
-                    this.MoveCol(rand(), dir);
-                    break;    
-                case Direction.LEFT:
-                case Direction.RIGHT:
-                    this.MoveRow(rand(), dir);
-                    break;
-            }
+            Console.WriteLine("time: " + times);
+            int row = rand(), col = rand();
+            this._moveButtons[row, col].Action();
         }
+
+        this._startState = new State(this._circles);
     }
 
     private void _setCells() {
@@ -245,16 +219,6 @@ public void PlayNextState() {
             curPos = new Vector2(startPos.X, curPos.Y + Cell.SIZE.Y);
         }
     }
-
-    // private void _setCircles() {
-    //     for (var row = 0; row < this._cells.GetLength(0); row++) {
-    //         for (var col = 0; col < this._cells.GetLength(1); col++) {
-    //             var circle = new Circle(this._getRandomColor());
-    //             this._cells[row, col].AttachCircle(circle);
-    //             this._circles[row, col] = circle;
-    //         }
-    //     }
-    // }
     
     private void _setCirclesInWinState() {
         var colors = new Color[] { Color.Red, Color.Green, Color.Yellow, Color.Blue };
@@ -270,52 +234,48 @@ public void PlayNextState() {
     private void _setButtons() {
         var startPos = new Vector2(1080 / 2 - Cell.SIZE.X * 4 / 2, 840 / 2 - Cell.SIZE.Y * 4 / 2);
         for (var i = 0; i < 4; i++) {
+            var index = i;
             // hor up buttons
-            this._moveButtons[0, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, -Cell.SIZE.Y), 0, i, Direction.UP);
+            this._moveButtons[0, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, -Cell.SIZE.Y), 0, () => this.MoveCol(index, Direction.UP));
             // hor down buttons
-            this._moveButtons[1, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, Cell.SIZE.Y * 4), 180, i, Direction.DOWN);
+            this._moveButtons[1, i]= new Button(startPos + new Vector2(Cell.SIZE.X * i, Cell.SIZE.Y * 4), 180, () => this.MoveCol(index, Direction.DOWN));
             // ver left buttons
-            this._moveButtons[2, i]= new Button(startPos + new Vector2(-Cell.SIZE.X, Cell.SIZE.Y * i), -90, i, Direction.LEFT);
+            this._moveButtons[2, i]= new Button(startPos + new Vector2(-Cell.SIZE.X, Cell.SIZE.Y * i), -90, () => this.MoveRow(index, Direction.LEFT));
             // ver right buttons
-            this._moveButtons[3, i]= new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i), 90, i, Direction.RIGHT);
+            this._moveButtons[3, i]= new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i), 90, () => this.MoveRow(index, Direction.RIGHT));
         }
+
+        this._searchButtons[0] = new UIButton("Width", Vector2.Zero, new Vector2(20, 20), () => this.Search("Width search", new WidthFirstSearch(this._startState)));
+        this._searchButtons[1] = new UIButton("Depth", Vector2.Zero, new Vector2(20, 20), () => this.Search("Depth search", new WidthFirstSearch(this._startState)));
+        this._searchButtons[2] = new UIButton("Depth with limitation", Vector2.Zero, new Vector2(20, 20), () => this.Search("Depth with limitation search", null));
+        this._searchButtons[3] = new UIButton("BiDirectional", Vector2.Zero, new Vector2(20, 20), () => this.Search("BiDirectional search", new BiDirectionalSearch(this._startState)));
+        for (var i = 1; i < this._searchButtons.Length; i++) {
+            var prevButton = this._searchButtons[i - 1];
+            this._searchButtons[i].Rect.Position = new Vector2(prevButton.Rect.Position.X + prevButton.Rect.Size.X + 50, 0);
+        }
+
+        this._actionButtons[0] = new UIButton("Prev", Vector2.Zero, new Vector2(0, 75 * 1 + 25), this.PlayPrevState);
+        this._actionButtons[1] = new UIButton("Next", Vector2.Zero, new Vector2(0, 75 * 2 + 25), this.PlayNextState);
+        this._actionButtons[2] = new UIButton("Shuffle", Vector2.Zero, new Vector2(0, 75 * 3 + 25), () => this._addSomeChaous(10));
     }
 
     private void _update() {
         if (!rl.IsMouseButtonPressed(MouseButton.Left)) return;
 
-        const int SEARCH = 0;
-        const int NEXT = 1;
-        const int PREV = 2;
-
         var mousePos = rl.GetMousePosition();
         foreach (var button in this._moveButtons) {
             if (rl.CheckCollisionPointRec(mousePos, button.Rect)) {
-                switch (button.Dir) {
-                    case Direction.UP:
-                    case Direction.DOWN:
-                        this.MoveCol(button.Index, button.Dir);
-                        break;
-                    case Direction.LEFT:
-                    case Direction.RIGHT:
-                        this.MoveRow(button.Index, button.Dir);
-                        break;
-                }
+                button.Action();
                 return;
             }
         }
 
-        if (rl.CheckCollisionPointRec(mousePos, this._uiButtons[SEARCH].Rect)) {
-            this.Search();
-            return;
-        }
-        if (rl.CheckCollisionPointRec(mousePos, this._uiButtons[NEXT].Rect)) {
-            this.PlayNextState();
-            return;
-        }
-        if (rl.CheckCollisionPointRec(mousePos, this._uiButtons[PREV].Rect)) {
-            this.PlayPrevState();
-            return;
+        var otherButtons = this._actionButtons.Concat(this._searchButtons);
+        foreach (var button in otherButtons) {
+            if (rl.CheckCollisionPointRec(mousePos, button.Rect)) {
+                button.Action();
+                return;
+            }
         }
     }
 
@@ -353,6 +313,7 @@ public void PlayNextState() {
     }
 
     public void MoveCol(int Col, Direction Dir) {
+        Console.WriteLine("col:" + Col);
         var colors = new LinkedList<Color>(
         new Color[4] {
             this._circles[0, Col].Color,
@@ -393,24 +354,6 @@ public void PlayNextState() {
             }
         }
     }
-
-    // private static int[] _colorRest = new int[4] { 4, 4, 4, 4 };
-    // private Color _getRandomColor() {
-    //     if (_colorRest.All(el => el == 0)) throw new Exception("Rest colors are empty");
-
-    //     int i;
-    //     do {
-    //         i = RandomNumberGenerator.GetInt32(0, 4);
-    //     } while (_colorRest[i] == 0);
-    //     _colorRest[i]--;
-
-    //     return i switch {
-    //         0 => Color.Red,
-    //         1 => Color.Green,
-    //         2 => Color.Yellow,
-    //         3 => Color.Blue,
-    //     };
-    // }
 }
 
 class Program {
