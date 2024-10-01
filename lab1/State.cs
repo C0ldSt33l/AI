@@ -66,6 +66,24 @@ public class State {
         return this.Equals(TARGET_STATE);
     }
 
+    public Color?[,] GetDiff(State other) {
+        var diff = this.Colors.Clone() as Color?[,];
+        for (var row = 0; row < this.Colors.GetLength(0); row++) {
+            for (var col = 0; col < this.Colors.GetLength(1); col++) {
+                if (!this.Colors[row, col].Equals(other.Colors[row, col]))
+                    diff[row, col] = null;
+                else
+                    diff[row, col] = this.Colors[row, col];
+            }
+        }
+
+        return diff;
+    }
+
+    public Color?[,] GetDiffFromTargetState() {
+        return this.GetDiff(TARGET_STATE);
+    }
+
     private State moveRow(int row, Direction dir) {
         var rowColors = new LinkedList<Color>();
         for (var i = 0; i < 4; i++) {
@@ -129,16 +147,21 @@ public class State {
         var str = "";
         for (var row = 0; row < 4; row++) {
             for (var col = 0; col < 4; col++) {
-                str += this.Colors[row, col] switch {
-                    Color c when c.Equals(Color.Red) => 'R',
-                    Color c when c.Equals(Color.Green) => 'G',
-                    Color c when c.Equals(Color.Yellow) => 'Y',
-                    Color c when c.Equals(Color.Blue) => 'B',
-                } + ",";
+                str += this.ColorToChar(this.Colors[row, col])  + ",";
             }
             str += "\n";
         }
         return str;
+    }
+
+    public char ColorToChar(Color? color) {
+        return color switch {
+            null => '_',
+            Color c when c.Equals(Color.Red) => 'R',
+            Color c when c.Equals(Color.Green) => 'G',
+            Color c when c.Equals(Color.Yellow) => 'Y',
+            Color c when c.Equals(Color.Blue) => 'B',
+        };
     }
 
     public override bool Equals(object? obj) {
@@ -162,8 +185,12 @@ public class WidthFirstSearch(State StartState) {
     public State? Search() {
         while (this.OpenNodes.Count > 0) {
             var node = this.OpenNodes.Dequeue();
+            // Console.WriteLine(node);
 
-            if (node.IsTargetState()) return node;
+            if (node.IsTargetState()) {
+                Console.WriteLine("Search finished");
+                return node;
+            }
             this.CloseNodes.Add(node);
 
             foreach (var state in node.Discovery()) {
@@ -173,6 +200,7 @@ public class WidthFirstSearch(State StartState) {
             }
         }
 
+        Console.WriteLine("Search finished");
         return null;
     }
 }
@@ -184,14 +212,21 @@ public class DepthFirstSearch(State StartState) {
     public State? Search() {
         while (this.OpenNodes.Count > 0) {
             var node = this.OpenNodes.Pop();
-            if (node.IsTargetState()) return node;
+
+            if (node.IsTargetState()) {
+                Console.WriteLine("Search finished");
+                return node;
+            }
             this.CloseNodes.Add(node);
+
             foreach (var state in node.Discovery()) {
                 if (this.OpenNodes.Contains(state)) continue;
                 if (this.CloseNodes.Contains(state)) continue;
                 this.OpenNodes.Push(state);
             }
         }
+
+        Console.WriteLine("Search finished");
         return null;
     }
 }
