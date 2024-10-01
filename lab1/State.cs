@@ -183,7 +183,9 @@ public class WidthFirstSearch(State StartState) {
     public HashSet<State> CloseNodes = new();
 
     public State? Search() {
+        var iter = 0;
         while (this.OpenNodes.Count > 0) {
+            Console.WriteLine(iter++);
             var node = this.OpenNodes.Dequeue();
             // Console.WriteLine(node);
 
@@ -210,7 +212,9 @@ public class DepthFirstSearch(State StartState) {
     public HashSet<State> CloseNodes = new();
 
     public State? Search() {
+        var iter = 0;
         while (this.OpenNodes.Count > 0) {
+            Console.WriteLine(iter++);
             var node = this.OpenNodes.Pop();
 
             if (node.IsTargetState()) {

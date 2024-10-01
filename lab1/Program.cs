@@ -167,9 +167,11 @@ public class Game {
 
         this._pathToWin = goalState2.GetPath();
         this._curState = 0;
-    }
 
-    public void PlayNextState() {
+        Console.WriteLine("Iter times: ", this._pathToWin.Count());
+}
+
+public void PlayNextState() {
         if (this._curState == this._pathToWin.Count() - 1) return;
         this._curState++;
         this.ChangeColors(this._pathToWin[this._curState].Colors);
@@ -203,7 +205,7 @@ public class Game {
         this._setCirclesInWinState();
         this._setButtons();
 
-        this._addSomeChaous(RandomNumberGenerator.GetInt32(1, 5));
+        this._addSomeChaous(5);
     }
 
     private void _oneStepFromWinningInit() {
