@@ -82,15 +82,24 @@ public class Button {
 public class UIButton {
     public static readonly int FONT_SIZE = 30;
     public string Text;
+    public Vector2 Pos {
+        set {
+            this.Rect.Position = value;
+            this._textPos = value + _textOffset;
+        }
+        get => this.Rect.Position;
+    }
     public Rectangle Rect;
     public Action Action;
 
+    private readonly Vector2 _textOffset;
     private Vector2 _textPos;
 
-    public UIButton(string text, Vector2 pos, Vector2 textPosOffset, Action action) {
+    public UIButton(string text, Vector2 size, Vector2 textPosOffset, Action action) {
+        this._textOffset = textPosOffset;
         this.Text = text;
-        this.Rect = new(pos, new Vector2(150, 75));
-        this._textPos = pos + textPosOffset;
+        this.Rect = new(Vector2.Zero, size);
+        this.Pos = Vector2.Zero;
 
         this.Action = action;
     }
@@ -177,6 +186,9 @@ public class Game {
         foreach (var button in this._searchButtons) {
             button.Draw();
         }
+        foreach (var button in this._actionButtons) {
+            button.Draw();
+        }
     }
 
     private void _normalInit() {
@@ -198,7 +210,6 @@ public class Game {
     private void _addSomeChaous(int times) {
         var rand = () => RandomNumberGenerator.GetInt32(0, 4);
         for (; times > 0; times--) {
-            Console.WriteLine("time: " + times);
             int row = rand(), col = rand();
             this._moveButtons[row, col].Action();
         }
@@ -245,18 +256,23 @@ public class Game {
             this._moveButtons[3, i]= new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i), 90, () => this.MoveRow(index, Direction.RIGHT));
         }
 
-        this._searchButtons[0] = new UIButton("Width", Vector2.Zero, new Vector2(20, 20), () => this.Search("Width search", new WidthFirstSearch(this._startState)));
-        this._searchButtons[1] = new UIButton("Depth", Vector2.Zero, new Vector2(20, 20), () => this.Search("Depth search", new WidthFirstSearch(this._startState)));
-        this._searchButtons[2] = new UIButton("Depth with limitation", Vector2.Zero, new Vector2(20, 20), () => this.Search("Depth with limitation search", null));
-        this._searchButtons[3] = new UIButton("BiDirectional", Vector2.Zero, new Vector2(20, 20), () => this.Search("BiDirectional search", new BiDirectionalSearch(this._startState)));
+        this._searchButtons[0] = new UIButton("Width", new Vector2(130, 75), new Vector2(20, 20), () => this.Search("Width search", new WidthFirstSearch(this._startState)));
+        this._searchButtons[1] = new UIButton("Depth", new Vector2(130, 75), new Vector2(20, 20), () => this.Search("Depth search", new WidthFirstSearch(this._startState)));
+        this._searchButtons[2] = new UIButton("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), () => this.Search("Depth with limitation search", null));
+        this._searchButtons[3] = new UIButton("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), () => this.Search("BiDirectional search", new BiDirectionalSearch(this._startState)));
         for (var i = 1; i < this._searchButtons.Length; i++) {
             var prevButton = this._searchButtons[i - 1];
-            this._searchButtons[i].Rect.Position = new Vector2(prevButton.Rect.Position.X + prevButton.Rect.Size.X + 50, 0);
+            this._searchButtons[i].Pos = new Vector2(prevButton.Rect.Position.X + prevButton.Rect.Size.X + 50, 0);
         }
 
-        this._actionButtons[0] = new UIButton("Prev", Vector2.Zero, new Vector2(0, 75 * 1 + 25), this.PlayPrevState);
-        this._actionButtons[1] = new UIButton("Next", Vector2.Zero, new Vector2(0, 75 * 2 + 25), this.PlayNextState);
-        this._actionButtons[2] = new UIButton("Shuffle", Vector2.Zero, new Vector2(0, 75 * 3 + 25), () => this._addSomeChaous(10));
+        this._actionButtons[0] = new UIButton("Prev", new Vector2(150, 75), new Vector2(20, 20), this.PlayPrevState);
+        this._actionButtons[1] = new UIButton("Next", new Vector2(150, 75), new Vector2(20, 20), this.PlayNextState);
+        this._actionButtons[2] = new UIButton("Shuffle", new Vector2(150, 75), new Vector2(20, 20), () => this._addSomeChaous(10));
+        for (var i = 0; i < this._actionButtons.Length; i++) {
+            this._actionButtons[i].Pos = new Vector2(0, (75 + 50) * (i + 1));
+        }
+
+        // this._actionButtons[0].Pos = new Vector2(0, 500);
     }
 
     private void _update() {
@@ -313,7 +329,6 @@ public class Game {
     }
 
     public void MoveCol(int Col, Direction Dir) {
-        Console.WriteLine("col:" + Col);
         var colors = new LinkedList<Color>(
         new Color[4] {
             this._circles[0, Col].Color,
