@@ -136,7 +136,8 @@ public class Game {
         rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
         rl.SetTargetFPS(60);
 
-        this._normalInit();
+        // this._normalInit();
+        this._threeStepsFromWinningInit();
     }
 
     public void Update() {
@@ -202,9 +203,15 @@ public class Game {
     private void _threeStepsFromWinningInit() {
         this._setCells();
         this._setCirclesInWinState();
-        for (var i = 0; i < 3; i++)
-            this.MoveCol(3, Direction.UP);
         this._setButtons();
+
+        this.MoveCol(3, Direction.UP);
+        this.MoveCol(3, Direction.UP);
+        // this.MoveCol(3, Direction.UP);
+        // this.MoveRow(3, Direction.LEFT);
+
+        this._startState = new State(this._circles);
+        this._curState = 0;
     }
 
     private void _addSomeChaous(int times) {
@@ -215,6 +222,7 @@ public class Game {
         }
 
         this._startState = new State(this._circles);
+        this._curState = 0;
     }
 
     private void _setCells() {
@@ -257,7 +265,7 @@ public class Game {
         }
 
         this._searchButtons[0] = new UIButton("Width", new Vector2(130, 75), new Vector2(20, 20), () => this.Search("Width search", new WidthFirstSearch(this._startState)));
-        this._searchButtons[1] = new UIButton("Depth", new Vector2(130, 75), new Vector2(20, 20), () => this.Search("Depth search", new WidthFirstSearch(this._startState)));
+        this._searchButtons[1] = new UIButton("Depth", new Vector2(130, 75), new Vector2(20, 20), () => this.Search("Depth search", new DepthFirstSearch(this._startState)));
         this._searchButtons[2] = new UIButton("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), () => this.Search("Depth with limitation search", null));
         this._searchButtons[3] = new UIButton("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), () => this.Search("BiDirectional search", new BiDirectionalSearch(this._startState)));
         for (var i = 1; i < this._searchButtons.Length; i++) {

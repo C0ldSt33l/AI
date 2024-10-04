@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Data;
 using System.Text;
 using Raylib_cs;
 
@@ -44,8 +42,8 @@ public class State {
         var states = new List<State>();
         for (var i = 0; i < 4; i++) {
             states.Add(this.moveRow(i, Direction.LEFT));
-            states.Add(this.moveRow(i, Direction.RIGHT));
             states.Add(this.moveCol(i, Direction.UP));
+            states.Add(this.moveRow(i, Direction.RIGHT));
             states.Add(this.moveCol(i, Direction.DOWN));
         }
 
@@ -268,6 +266,7 @@ public class DepthFirstSearch(State StartState): ISearch {
             var node = this.OpenNodes.Pop();
 
             if (node.IsTargetState()) {
+                Console.WriteLine(this.info);
                 Console.WriteLine("Search finished");
                 return node.GetPath();
             }
@@ -288,21 +287,46 @@ public class DepthFirstSearch(State StartState): ISearch {
 public class BiDirectionalSearch(State start): ISearch {
     public Queue<State> startOpenNodes = new(new State[] { start });
     public HashSet<State> startCloseNodes = new();
+    public SearchInfo startInfo;
+
     public Queue<State> endOpenNodes = new(new State[] { State.TARGET_STATE });
     public HashSet<State> endCloseNodes = new();
+    public SearchInfo endInfo;
 
     public List<State>? Search() {
         while(this.startCloseNodes.Count() > 0 || this.endCloseNodes.Count() > 0) {
+            this.startInfo.Update(this.startOpenNodes.Count, this.startOpenNodes.Count + this.startCloseNodes.Count);
+            this.endInfo.Update(this.endOpenNodes.Count, this.endOpenNodes.Count + this.startCloseNodes.Count);
+
             var startNode = this.startOpenNodes.Dequeue();
             var endNode = this.endOpenNodes.Dequeue();
 
             if (startNode.Equals(endNode)) {
+                Console.WriteLine("Start:");
+                Console.WriteLine(this.startInfo);
+                Console.WriteLine("End:");
+                Console.WriteLine(this.endInfo);
+                Console.WriteLine("Search finished");
+
                 var startPath = startNode.GetPath();
                 var endPath = endNode.GetPath();
                 startPath.Reverse();
                 endPath.RemoveAt(0);
 
                 return startPath.Concat(endPath) as List<State>;
+            }
+            this.startCloseNodes.Add(startNode);
+            this.endCloseNodes.Add(endNode);
+
+            foreach(var state in startNode.Discovery()) {
+                if (this.startOpenNodes.Contains(state)) continue;
+                if (this.startCloseNodes.Contains(state)) continue;
+                this.startOpenNodes.Enqueue(state);
+            }
+            foreach(var state in endNode.Discovery()) {
+                if (this.endOpenNodes.Contains(state)) continue;
+                if (this.endCloseNodes.Contains(state)) continue;
+                this.endOpenNodes.Enqueue(state);
             }
         }
 
