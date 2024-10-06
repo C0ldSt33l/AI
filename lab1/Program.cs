@@ -136,8 +136,8 @@ public class Game {
         rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
         rl.SetTargetFPS(60);
 
-        // this._normalInit();
-        this._threeStepsFromWinningInit();
+        this._normalInit();
+        // this._threeStepsFromWinningInit();
     }
 
     public void Update() {
@@ -156,6 +156,7 @@ public class Game {
     public void Search(string name, ISearch searcher) {
     Console.WriteLine(name);
     var path = searcher.Search();
+    if (path == null) Console.WriteLine("path is null");
     this._pathToWin = path;
     this._curState = 0;
 }
@@ -275,7 +276,7 @@ public class Game {
 
         this._actionButtons[0] = new UIButton("Prev", new Vector2(150, 75), new Vector2(20, 20), this.PlayPrevState);
         this._actionButtons[1] = new UIButton("Next", new Vector2(150, 75), new Vector2(20, 20), this.PlayNextState);
-        this._actionButtons[2] = new UIButton("Shuffle", new Vector2(150, 75), new Vector2(20, 20), () => this._addSomeChaous(10));
+        this._actionButtons[2] = new UIButton("Shuffle", new Vector2(150, 75), new Vector2(20, 20), () => this._addSomeChaous(3));
         for (var i = 0; i < this._actionButtons.Length; i++) {
             this._actionButtons[i].Pos = new Vector2(0, (75 + 50) * (i + 1));
         }
