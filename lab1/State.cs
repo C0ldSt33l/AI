@@ -315,13 +315,16 @@ public class BiDirectionalSearch(State start): ISearch {
             this.startInfo.Update(this.startOpenNodes.Count, this.startOpenNodes.Count + this.startCloseNodes.Count);
             this.endInfo.Update(this.endOpenNodes.Count, this.endOpenNodes.Count + this.startCloseNodes.Count);
 
-            if (this.endOpenNodes.Contains(startNode)) {
-                endNode = this.endOpenNodes.First(el => el.Equals(startNode));
+            var sameNode = this.endOpenNodes.First(el => el.Equals(startNode));
+            if (sameNode != null) {
+                endNode = sameNode;
                 var path = this._printInfoAndGetPath(startNode, endNode);
                 return path;
             }
-            if (this.startOpenNodes.Contains(endNode)) {
-                startNode = this.startOpenNodes.First(el => el.Equals(endNode));
+
+            sameNode = this.startOpenNodes.First(el => el.Equals(endNode));
+            if (sameNode != null) {
+                startNode = sameNode;
                 var path = this._printInfoAndGetPath(startNode, endNode);
                 return path;
             }
@@ -383,11 +386,6 @@ public class DepthLimitedSearch(State StartState): ISearch {
             currentDepth = 0;
                 while (currentDepth < maxDepth && this.OpenNodes.Count > 0)
                 {
-                    this.info.Update(
-                    this.OpenNodes.Count(),
-                    this.OpenNodes.Count() + this.CloseNodes.Count()
-                    );
-
                     var node = this.OpenNodes.Pop();
 
                     if (node.IsTargetState())
@@ -407,6 +405,10 @@ public class DepthLimitedSearch(State StartState): ISearch {
                     }
                 }
                 currentDepth++;
+                this.info.Update(
+                    this.OpenNodes.Count(),
+                    this.OpenNodes.Count() + this.CloseNodes.Count()
+                );
             }
             maxDepth++;
             this.CloseNodes.Clear();

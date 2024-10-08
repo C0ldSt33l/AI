@@ -136,8 +136,8 @@ public class Game {
         rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
         rl.SetTargetFPS(60);
 
-        this._normalInit();
-        // this._threeStepsFromWinningInit();
+        // this._normalInit();
+        this._threeStepsFromWinningInit();
     }
 
     public void Update() {
