@@ -136,8 +136,8 @@ public class Game {
         rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
         rl.SetTargetFPS(60);
 
-        // this._normalInit();
-        this._threeStepsFromWinningInit();
+        this._normalInit();
+        // this._threeStepsFromWinningInit();
     }
 
     public void Update() {
@@ -156,13 +156,15 @@ public class Game {
     public void Search(string name, ISearch searcher) {
     Console.WriteLine(name);
     var path = searcher.Search();
-    if (path == null) Console.WriteLine("path is null");
+
+    if (path == null) Console.WriteLine("Path is not found");
+    Console.WriteLine("Path length: " + (path.Count - 1));
     this._pathToWin = path;
     this._curState = 0;
 }
 
     public void PlayNextState() {
-        if (this._curState == this._pathToWin.Count() - 1) return;
+        if (this._curState == this._pathToWin.Count - 1) return;
         this._curState++;
         this.ChangeColors(this._pathToWin[this._curState].Colors);
     }
@@ -208,7 +210,7 @@ public class Game {
 
         this.MoveCol(3, Direction.UP);
         this.MoveCol(3, Direction.UP);
-        // this.MoveCol(3, Direction.UP);
+        this.MoveCol(3, Direction.UP);
         // this.MoveRow(3, Direction.LEFT);
 
         this._startState = new State(this._circles);

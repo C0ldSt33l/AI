@@ -206,10 +206,10 @@ public struct SearchInfo {
     public override string ToString() {
         return 
         $@"Iter count: {this.Iters}
-        O node count: {this.CurOpenNodeCount}
-        O max node count: {this.MaxOpenNodeCount}
-        O + C max node count: {this.MaxNodeCount}
-        ";
+O node count: {this.CurOpenNodeCount}
+O max node count: {this.MaxOpenNodeCount}
+O + C max node count: {this.MaxNodeCount}
+";
     }
 }
 
@@ -226,8 +226,8 @@ public class WidthFirstSearch(State StartState): ISearch {
     public List<State>? Search() {
         while (this.OpenNodes.Count > 0) {
             this.info.Update(
-                this.OpenNodes.Count(), 
-                this.OpenNodes.Count() + this.CloseNodes.Count()
+                this.OpenNodes.Count,
+                this.OpenNodes.Count + this.CloseNodes.Count
             );
             var node = this.OpenNodes.Dequeue();
 
@@ -259,10 +259,10 @@ public class DepthFirstSearch(State StartState): ISearch {
     public List<State>? Search() {
         while (this.OpenNodes.Count > 0) {
             this.info.Update(
-                this.OpenNodes.Count(), 
-                this.OpenNodes.Count() + this.CloseNodes.Count()
+            this.OpenNodes.Count,
+            this.OpenNodes.Count + this.CloseNodes.Count
             );
- 
+
             var node = this.OpenNodes.Pop();
 
             if (node.IsTargetState()) {
@@ -273,7 +273,7 @@ public class DepthFirstSearch(State StartState): ISearch {
             this.CloseNodes.Add(node);
 
             foreach (var state in node.Discovery()) {
-                if (this.OpenNodes.Contains(state)) continue;
+                if (this.OpenNodes.Any(n => node.Equals(state))) continue;
                 if (this.CloseNodes.Contains(state)) continue;
                 this.OpenNodes.Push(state);
             }
@@ -283,6 +283,41 @@ public class DepthFirstSearch(State StartState): ISearch {
         return null;
     }
 }
+
+
+// public class DepthFirstSearch(State StartState): ISearch {
+//     public Stack<State> OpenNodes = new (new State[] { StartState });
+//     public HashSet<State> CloseNodes = new();
+
+//     public SearchInfo info;
+
+//     public List<State>? Search() {
+//         while (this.OpenNodes.Count > 0) {
+//             this.info.Update(
+//                 this.OpenNodes.Count(), 
+//                 this.OpenNodes.Count() + this.CloseNodes.Count()
+//             );
+ 
+//             var node = this.OpenNodes.Pop();
+
+//             if (node.IsTargetState()) {
+//                 Console.WriteLine(this.info);
+//                 Console.WriteLine("Search finished");
+//                 return node.GetPath();
+//             }
+//             this.CloseNodes.Add(node);
+
+//             foreach (var state in node.Discovery()) {
+//                 if (this.OpenNodes.Contains(state)) continue;
+//                 if (this.CloseNodes.Contains(state)) continue;
+//                 this.OpenNodes.Push(state);
+//             }
+//         }
+
+//         Console.WriteLine("Search finished");
+//         return null;
+//     }
+// }
 
 public class BiDirectionalSearch(State start): ISearch {
     public Queue<State> startOpenNodes = new(new State[] { start });
@@ -315,21 +350,20 @@ public class BiDirectionalSearch(State start): ISearch {
             this.startInfo.Update(this.startOpenNodes.Count, this.startOpenNodes.Count + this.startCloseNodes.Count);
             this.endInfo.Update(this.endOpenNodes.Count, this.endOpenNodes.Count + this.startCloseNodes.Count);
 
-            var sameNode = this.endOpenNodes.First(el => el.Equals(startNode));
-            if (sameNode != null) {
-                endNode = sameNode;
+            if (this.endOpenNodes.Contains(startNode)) {
+                endNode = this.endOpenNodes.First(el => el.Equals(startNode));
                 var path = this._printInfoAndGetPath(startNode, endNode);
                 return path;
             }
 
-            sameNode = this.startOpenNodes.First(el => el.Equals(endNode));
-            if (sameNode != null) {
-                startNode = sameNode;
+            if (this.startOpenNodes.Contains(endNode)) {
+                startNode = this.startOpenNodes.First(el => el.Equals(endNode));
                 var path = this._printInfoAndGetPath(startNode, endNode);
                 return path;
             }
         }
 
+        Console.WriteLine("Search finished");
         return null;
     }
 
@@ -372,47 +406,52 @@ public class BiDirectionalSearch(State start): ISearch {
     }
 }
 
-public class DepthLimitedSearch(State StartState): ISearch {
-    public Stack<State> OpenNodes = new (new State[] { StartState });
+public class DepthLimitedSearch : ISearch {
+    public Stack<(State node, int depth)> OpenNodes = new();
     public HashSet<State> CloseNodes = new();
-    private int maxDepth = 1; 
-    private int currentDepth = 0;
+    private int maxDepth = 1;
 
     public SearchInfo info;
 
-    public List<State>? Search() {
-            while (this.OpenNodes.Count > 0)
-            {
-            currentDepth = 0;
-                while (currentDepth < maxDepth && this.OpenNodes.Count > 0)
-                {
-                    var node = this.OpenNodes.Pop();
+    public DepthLimitedSearch(State startState) {
+        OpenNodes.Push((startState, 0));
+    }
 
-                    if (node.IsTargetState())
-                    {
-                    Console.WriteLine(this.info);
-                    Console.WriteLine("Search finished");
-                    return node.GetPath();
-                    }
-                    this.CloseNodes.Add(node);
-                if (currentDepth < maxDepth)
-                {
-                    foreach (var state in node.Discovery())
-                    {
-                        if (this.OpenNodes.Contains(state)) continue;
-                        if (this.CloseNodes.Contains(state)) continue;
-                        this.OpenNodes.Push(state);
-                    }
-                }
-                currentDepth++;
+    public List<State>? Search() {
+        while (this.OpenNodes.Count > 0) {
+            var (node, depth) = this.OpenNodes.Pop();
+
+            if (node.IsTargetState()) {
                 this.info.Update(
-                    this.OpenNodes.Count(),
-                    this.OpenNodes.Count() + this.CloseNodes.Count()
+                this.OpenNodes.Count(),
+                this.OpenNodes.Count() + this.CloseNodes.Count()
                 );
+                Console.WriteLine(this.info);
+                Console.WriteLine("Search finished");
+                return node.GetPath();
             }
-            maxDepth++;
-            this.CloseNodes.Clear();
-        };
+
+            this.CloseNodes.Add(node);
+
+            if (depth < maxDepth) {
+                foreach (var state in node.Discovery()) {
+                    if (this.OpenNodes.Any(n => n.node.Equals(state))) continue;
+                    if (this.CloseNodes.Contains(state)) continue;
+                    this.OpenNodes.Push((state, depth + 1));
+                }
+            }
+
+            if (this.OpenNodes.Count == 0) {
+                maxDepth++;
+                CloseNodes.Clear();
+                OpenNodes.Push((node, 0));
+            }
+            this.info.Update(
+            this.OpenNodes.Count(),
+            this.OpenNodes.Count() + this.CloseNodes.Count()
+            );
+        }
+
         Console.WriteLine("Search finished");
         return null;
     }
