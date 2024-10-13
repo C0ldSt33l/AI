@@ -66,22 +66,15 @@ public class State {
         return this.Equals(TARGET_STATE);
     }
 
-    public Color?[,] GetDiff(State other) {
-        var diff = this.Colors.Clone() as Color?[,];
+    public uint Heuristics(State target) {
+        uint value = 0;
         for (var row = 0; row < this.Colors.GetLength(0); row++) {
             for (var col = 0; col < this.Colors.GetLength(1); col++) {
-                if (!this.Colors[row, col].Equals(other.Colors[row, col]))
-                    diff[row, col] = null;
-                else
-                    diff[row, col] = this.Colors[row, col];
+                if (!this.Colors[row, col].Equals(target.Colors[row, col])) value++;
             }
         }
 
-        return diff;
-    }
-
-    public Color?[,] GetDiffFromTargetState() {
-        return this.GetDiff(TARGET_STATE);
+        return value;
     }
 
     private State moveRow(int row, Direction dir) {
@@ -217,6 +210,7 @@ public interface ISearch {
     public List<State>? Search();
 }
 
+// LAB №1
 public class WidthFirstSearch(State StartState): ISearch {
     public Queue<State> OpenNodes = new(new State[] { StartState });
     public HashSet<State> CloseNodes = new();
@@ -319,6 +313,7 @@ public class DepthFirstSearch(State StartState): ISearch {
 //     }
 // }
 
+// LAB №2
 public class BiDirectionalSearch(State start): ISearch {
     public Queue<State> startOpenNodes = new(new State[] { start });
     public HashSet<State> startCloseNodes = new();
@@ -450,6 +445,24 @@ public class DepthLimitedSearch : ISearch {
             this.OpenNodes.Count(),
             this.OpenNodes.Count() + this.CloseNodes.Count()
             );
+        }
+
+        Console.WriteLine("Search finished");
+        return null;
+    }
+}
+
+
+// LAB №3
+public class AAsterisk(State start): ISearch {
+    public List<State> OpenNodes = new(new State[] { start });
+    public HashSet<State> CloseNodes = new();
+
+    public SearchInfo info;
+
+    public List<State>? Search() {
+        while(this.OpenNodes.Count > 0) {
+
         }
 
         Console.WriteLine("Search finished");

@@ -127,7 +127,8 @@ public class Game {
     // 0 - Width
     // 1 - Depth
     // 2 - Depth with limitation
-    // 3 - DiDirectional
+    // 3 - BiDirectional
+    // 4 - A*
 
     private List<State>? _pathToWin = null;
     private int _curState = 0;
