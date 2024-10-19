@@ -1,5 +1,6 @@
 using System.Text;
 using Raylib_cs;
+using rl = Raylib_cs.Raylib;
 
 namespace Game;
 
@@ -19,6 +20,7 @@ public class State {
                 this.Colors[row, col] = circles[row, col].Color;
             }
         }
+        this.Parent = null;
     }
     public State(Color[,] colors, State? parent) {
         this.Colors = colors;
@@ -36,6 +38,7 @@ public class State {
                 };
             }
         }
+        this.Parent = null;
     }
 
     public List<State> Discovery() {
@@ -455,17 +458,86 @@ public class DepthLimitedSearch : ISearch {
 
 // LAB №3
 public class AAsterisk(State start): ISearch {
-    public List<State> OpenNodes = new(new State[] { start });
-    public HashSet<State> CloseNodes = new();
+    public List<(State, uint)> OpenNodes = new(
+        new (State, uint)[] { 
+                (start, start.Heuristics(State.TARGET_STATE)),
+            }
+        );
+    public HashSet<(State, uint)> CloseNodes = new();
 
-    public SearchInfo info;
+    public SearchInfo info = new();
 
     public List<State>? Search() {
-        while(this.OpenNodes.Count > 0) {
-
+        while (this.OpenNodes.Count > 0) {
+            if (rl.IsKeyPressed(KeyboardKey.Enter)) {
+                this._nextIter();
+            }
         }
 
         Console.WriteLine("Search finished");
         return null;
+    }
+
+    private void _sortOpenNodes() {
+        this.OpenNodes.Sort(comparison: (first, second) => (int)first.Item2 - (int)second.Item2 );
+    }
+
+    private void _nextIter() {
+            this._sortOpenNodes();
+
+            Console.WriteLine("Sorted list:");
+            foreach (var (node, val) in this.OpenNodes) {
+                Console.WriteLine(node);
+                Console.WriteLine("priority: " + val);
+            }
+            Console.WriteLine();
+
+            this.info.Update(
+                this.OpenNodes.Count,
+                this.OpenNodes.Count + this.CloseNodes.Count
+            );
+            var item = this.OpenNodes.First();
+
+            if (item.Item1.IsTargetState()) {
+                Console.WriteLine(this.info);
+                Console.WriteLine("Search finished");
+                return;
+                // return item.Item1.GetPath();
+            }
+            this.CloseNodes.Add(item);
+
+            foreach (var state in item.Item1.Discovery()) {
+                var newValue = (uint)(item.Item1.GetPath().Count - 1) + state.Heuristics(State.TARGET_STATE);
+
+                var openNodeIndex = this.OpenNodes.FindIndex(((State, uint) item) => item.Item1.Equals(state));
+                if (openNodeIndex > -1 && newValue < this.OpenNodes[openNodeIndex].Item2) {
+                    this.OpenNodes[openNodeIndex] = (state, newValue);
+                    continue;
+                }
+                
+                var inCloseNode = this.CloseNodes.FirstOrDefault(item => item.Item1.Equals(state), (null, 0));
+                if (inCloseNode.Item1 != null && newValue < inCloseNode.Item2) {
+                    this.CloseNodes.Remove(inCloseNode);
+                    this.OpenNodes.Add((state, newValue));
+                    continue;
+                }
+
+                this.OpenNodes.Add((state, newValue));
+            }
+
+            Console.WriteLine("list after update:");
+            foreach (var (node, val) in this.OpenNodes) {
+                Console.WriteLine(node);
+                Console.WriteLine("priority: " + val);
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("set:");
+            foreach (var (node, val) in this.CloseNodes) {
+                Console.WriteLine(node);
+                Console.WriteLine("priority: " + val);
+            }
+
+            Console.WriteLine("-----------------------------------");
     }
 }
