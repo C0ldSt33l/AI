@@ -457,7 +457,7 @@ public class DepthLimitedSearch : ISearch {
 
 
 // LAB №3
-public class AAsterisk(State start): ISearch {
+public class AStar(State start): ISearch {
     public List<(State, uint)> OpenNodes = new(
         new (State, uint)[] { 
                 (start, start.Heuristics(State.TARGET_STATE)),

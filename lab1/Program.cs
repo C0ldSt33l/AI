@@ -281,7 +281,7 @@ public class Game {
             new UIButton("Depth", new Vector2(130, 75), new Vector2(20, 20), () => this.Search("Depth search", new DepthFirstSearch(this._startState))),
             new UIButton("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), () => this.Search("Depth with limitation search", new DepthLimitedSearch(this._startState))),
             new UIButton("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), () => this.Search("BiDirectional search", new BiDirectionalSearch(this._startState))),
-            new UIButton("A*", new Vector2(100, 75), new Vector2(35, 20), () => this.Search("A* search", new AAsterisk(this._startState))),
+            new UIButton("A*", new Vector2(100, 75), new Vector2(35, 20), () => this.Search("A* search", new AStar(this._startState))),
         };
         for (var i = 1; i < this._searchButtons.Length; i++) {
             var prevButton = this._searchButtons[i - 1];
