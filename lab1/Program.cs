@@ -111,6 +111,7 @@ public class UIButton {
 }
 
 public class Game {
+    private const int CHAOS_TIMES = 5;
     private readonly Vector2 WINDOW_SIZE = new Vector2(1080, 840);
     private readonly string TITLE = "Move balls";
     public Color Background = Color.Gray;
@@ -206,7 +207,7 @@ public class Game {
         this._setCirclesInWinState();
         this._setButtons();
 
-        this._addSomeChaous(5);
+        this._addSomeChaous(CHAOS_TIMES);
     }
 
     private void _threeStepsFromWinningInit() {
@@ -223,10 +224,14 @@ public class Game {
         this._curState = 0;
     }
 
-    private void _addSomeChaous(int times) {
-        var rand = () => RandomNumberGenerator.GetInt32(0, 4);
-        for (; times > 0; times--) {
-            int row = rand(), col = rand();
+    private void _addSomeChaous(int times = 1) {
+        var rand = (int min, int max) => RandomNumberGenerator.GetInt32(min, max + 1);
+
+        this._moveButtons[rand(0, 1), rand(0, 3)].Action();
+        for (var time = times - 1; time > 0; time--) {
+            int
+                row = rand(0, 3),
+                col = rand(0, 3);
             this._moveButtons[row, col].Action();
         }
 
@@ -291,7 +296,7 @@ public class Game {
         this._actionButtons = new UIButton[] {
             new UIButton("Prev", new Vector2(150, 75), new Vector2(20, 20), this.PlayPrevState),
             new UIButton("Next", new Vector2(150, 75), new Vector2(20, 20), this.PlayNextState),
-            new UIButton("Shuffle", new Vector2(150, 75), new Vector2(20, 20), () => this._addSomeChaous(3)),
+            new UIButton("Shuffle", new Vector2(150, 75), new Vector2(20, 20), () => this._addSomeChaous(CHAOS_TIMES)),
         };
         for (var i = 0; i < this._actionButtons.Length; i++) {
             this._actionButtons[i].Pos = new Vector2(0, (75 + 50) * (i + 1));
