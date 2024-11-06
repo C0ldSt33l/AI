@@ -81,6 +81,35 @@ public class State {
         return value;
     }
 
+    // Mosouny
+    public uint Heuristics2(State target) {
+        uint value = 0;
+
+        for (var row = 0; row < this.Colors.GetLength(0); row++) {
+            for (var col = 0; col < this.Colors.GetLength(1); col++) {
+                var color = this.Colors[row, col];
+
+                if (!color.Equals(target.Colors[row, col])) {
+                    for (var targetRow = 0; targetRow < TARGET_STATE.Colors.GetLength(0); targetRow++) {
+                        for (var targetCol = 0; targetCol < TARGET_STATE.Colors.GetLength(1); targetCol++) {
+                            if (color.Equals(TARGET_STATE.Colors[targetRow, targetCol])) {
+                                uint distance = (uint)(Math.Abs(row - targetRow) + Math.Abs(col - targetCol));
+                                if (distance <= 2) {
+                                    value += distance;
+                                }
+                                else value += 1;
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return value;
+    }
+
     // how many rows in right color?
     // 
     public uint TheMostFoolishnessHeuristics(State target) {
@@ -526,7 +555,7 @@ public class DepthLimitedSearch : ISearch {
 public class AStar(State start): ISearch {
     public List<(State state, uint val)> OpenNodes = new(
         new (State, uint)[] { 
-                (start, start.TheMostFoolishnessHeuristics(State.TARGET_STATE)),
+                (start, start.Heuristics2(State.TARGET_STATE)),
             }
         );
     public HashSet<(State state, uint val)> CloseNodes = new();
@@ -536,30 +565,12 @@ public class AStar(State start): ISearch {
     public List<State>? Search() {
         var iter = 0;
         while (this.OpenNodes.Count > 0) {
-
-            // Console.WriteLine("Sorted list:");
-            // foreach (var (node, val) in this.OpenNodes) {
-            //     Console.WriteLine(node);
-            //     Console.WriteLine("priority: " + val);
-            //     Console.WriteLine();
-            // }
-            // Console.WriteLine();
-
-            this.info.Update(
+           this.info.Update(
                 this.OpenNodes.Count,
                 this.OpenNodes.Count + this.CloseNodes.Count
             );
             var item = this.OpenNodes.First();
-            // Console.WriteLine("start pos value: " + item.val);
             this.OpenNodes.RemoveAt(0);
-
-            // break;
-
-            // Console.WriteLine("iter: " + (++iter));
-            // Console.WriteLine(item.Item1);
-            // Console.WriteLine("priority: " + item.Item2);
-            // Console.WriteLine();
-
             if (item.Item1.IsTargetState()) {
                 Console.WriteLine(this.info);
                 Console.WriteLine("Search finished");
@@ -568,7 +579,7 @@ public class AStar(State start): ISearch {
             this.CloseNodes.Add(item);
 
             foreach (var state in item.state.Discovery()) {
-                var newVal = (uint)item.state.GetPath().Count + state.TheMostFoolishnessHeuristics(State.TARGET_STATE);
+                var newVal = (uint)item.state.GetPath().Count + state.Heuristics2(State.TARGET_STATE);
 
                 var openNodeIndex = this.OpenNodes.FindIndex(((State, uint) item) => item.Item1.Equals(state));
                 if (openNodeIndex > -1 && newVal < this.OpenNodes[openNodeIndex].val) {
@@ -585,37 +596,6 @@ public class AStar(State start): ISearch {
 
                 this.OpenNodes.Add((state, newVal));
             }
-
-            // Console.WriteLine("before deleting");
-            // foreach (var it in this.CloseNodes) {
-            //     Console.WriteLine(it);
-            // }
-            // this.CloseNodes.Remove((start, start.Heuristics1(State.TARGET_STATE)));
-            // Console.WriteLine("after deleting");
-            // foreach (var it in this.CloseNodes) {
-            //     Console.WriteLine(it);
-            // }
-
-            this._sortOpenNodes();
-
-            // Console.WriteLine("list after update:");
-            // foreach (var (node, val) in this.OpenNodes) {
-            //     Console.WriteLine(node);
-            //     Console.WriteLine("priority: " + val);
-            //     Console.WriteLine();
-            // }
-            // Console.WriteLine();
-
-            // Console.WriteLine("set:");
-            // foreach (var (node, val) in this.CloseNodes) {
-            //     Console.WriteLine(node);
-            //     Console.WriteLine("priority: " + val);
-            //     Console.WriteLine();
-            // }
-
-            // Console.ReadLine();
-            
-            // if (iter == 3) break;
         }
 
         Console.WriteLine("Search finished");
