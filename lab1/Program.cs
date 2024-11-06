@@ -159,12 +159,12 @@ public class Game {
     var path = searcher.Search();
 
     if (path == null) {
-        Console.WriteLine("Path is not found");
+        Console.WriteLine("Path is not found\n");
         this._pathToWin = null;
         this._curState = 0;
     }
     else {
-        Console.WriteLine("Path length: " + (path.Count - 1));
+        Console.WriteLine("Path length: " + (path.Count - 1) + "\n");
         this._pathToWin = path;
         this._curState = 0;
     }

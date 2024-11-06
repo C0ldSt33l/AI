@@ -81,19 +81,83 @@ public class State {
         return value;
     }
 
-    // Equevivalents to `Heuristics1` but see 2 steps ahead
-    public uint Heuristics2(State target) {
-        var first_step_heuristics = this.Heuristics1(State.TARGET_STATE);
-        var children = this.Discovery();
-        uint min_heuristics_on_second_step = 17;
-        foreach (var child in children) {
-            var heuristics = child.Heuristics1(State.TARGET_STATE);
-            if (min_heuristics_on_second_step > heuristics)
-                min_heuristics_on_second_step = heuristics;
+    // how many rows in right color?
+    // 
+    public uint TheMostFoolishnessHeuristics(State target) {
+        uint
+            rowsNotInPlace = 0,
+            colsNotInPlace = 0;
+
+        var rows = this._getRows();
+        var cols = this._getCols();
+        var targetRows = target._getRows();
+        var targetCols = target._getCols();
+
+        for (var i = 0; i < 4; i++) {
+            for (var j = 0; j < 4; j++) {
+                if (!rows[i][j].Equals(targetRows[i][j])) {
+                    rowsNotInPlace++;
+                    break;
+                }
+            }
         }
 
-        return first_step_heuristics + min_heuristics_on_second_step;
+        for (var i = 0; i < 4; i++) {
+            for (var j = 0; j < 4; j++) {
+                if (!cols[i][j].Equals(targetCols[i][j])) {
+                    colsNotInPlace++;
+                    break;
+                }
+            }
+        }
+
+        return rowsNotInPlace + colsNotInPlace;
     }
+
+    private Color[][] _getRows() {
+        var rows = new Color[4][] {
+            new Color[4] { Color.White, Color.White, Color.White, Color.White },
+            new Color[4] { Color.White, Color.White, Color.White, Color.White },
+            new Color[4] { Color.White, Color.White, Color.White, Color.White },
+            new Color[4] { Color.White, Color.White, Color.White, Color.White },
+        };
+        for (var row = 0; row < this.Colors.GetLength(0); row++) {
+            for (var col = 0; col < this.Colors.GetLength(1); col++) {
+                rows[row][col] = this.Colors[row, col];
+            }
+        }
+
+        return rows;
+    }
+
+    private Color[][] _getCols() {
+        var cols = new Color[4][] {
+            new Color[4] { Color.White, Color.White, Color.White, Color.White },
+            new Color[4] { Color.White, Color.White, Color.White, Color.White },
+            new Color[4] { Color.White, Color.White, Color.White, Color.White },
+            new Color[4] { Color.White, Color.White, Color.White, Color.White },
+        };
+        for (var col = 0; col < this.Colors.GetLength(0); col++) {
+            for (var row = 0; row < this.Colors.GetLength(1); row++) {
+                cols[row][col] = this.Colors[col, row];
+            }
+        }
+
+        return cols;
+    }
+    // // Equevivalents to `Heuristics1` but see 2 steps ahead
+    // public uint Heuristics2(State target) {
+    //     var first_step_heuristics = this.Heuristics1(State.TARGET_STATE);
+    //     var children = this.Discovery();
+    //     uint min_heuristics_on_second_step = 17;
+    //     foreach (var child in children) {
+    //         var heuristics = child.Heuristics1(State.TARGET_STATE);
+    //         if (min_heuristics_on_second_step > heuristics)
+    //             min_heuristics_on_second_step = heuristics;
+    //     }
+
+    //     return first_step_heuristics + min_heuristics_on_second_step;
+    // }
 
     private State moveRow(int row, Direction dir) {
         var rowColors = new LinkedList<Color>();
@@ -364,14 +428,18 @@ public class BiDirectionalSearch(State start): ISearch {
             this.endInfo.Update(this.endOpenNodes.Count, this.endOpenNodes.Count + this.startCloseNodes.Count);
 
             if (this.endOpenNodes.Contains(startNode)) {
+                this._printInfo();
+
                 endNode = this.endOpenNodes.First(el => el.Equals(startNode));
-                var path = this._printInfoAndGetPath(startNode, endNode);
+                var path = this._getPath(startNode, endNode);
                 return path;
             }
 
             if (this.startOpenNodes.Contains(endNode)) {
+                this._printInfo();
+
                 startNode = this.startOpenNodes.First(el => el.Equals(endNode));
-                var path = this._printInfoAndGetPath(startNode, endNode);
+                var path = this._getPath(startNode, endNode);
                 return path;
             }
         }
@@ -380,7 +448,18 @@ public class BiDirectionalSearch(State start): ISearch {
         return null;
     }
 
-    private List<State> _printInfoAndGetPath(State start, State end) {
+    private List<State>? _getPath(State start, State end) {
+                List<State>
+                    startPath = start.GetPath(),
+                    endPath = end.GetPath();
+
+                endPath.Reverse();
+                endPath.RemoveAt(0);
+
+                return startPath.Concat(endPath).ToList();
+    }
+
+    private void _printInfo() {
                 Console.WriteLine("Start:");
                 Console.WriteLine(this.startInfo);
 
@@ -388,34 +467,6 @@ public class BiDirectionalSearch(State start): ISearch {
                 Console.WriteLine(this.endInfo);
 
                 Console.WriteLine("Search finished");
-
-                Console.WriteLine("-----------------");
-
-                var startPath = start.GetPath();
-                Console.WriteLine("start path");
-                this._printPath(startPath);
-
-                var endPath = end.GetPath();
-                endPath.Reverse();
-                Console.WriteLine("end path");
-                this._printPath(endPath);
-
-                if (startPath == null) Console.WriteLine("start path is null");
-                if (endPath == null) Console.WriteLine("end path is null");
-
-                endPath.RemoveAt(0);
-                if (endPath == null) Console.WriteLine("end path is null after change");
-
-                var finalPath = startPath.Concat(endPath).ToList();
-                if (finalPath == null) Console.WriteLine("final path is null");
-                return finalPath;
-    }
-
-    private void _printPath(List<State> path) {
-        foreach(var item in path.Select((node, i) => new { i, node })) {
-            Console.WriteLine("index: " + item.i);
-            Console.WriteLine(item.node);
-        }
     }
 }
 
@@ -473,19 +524,18 @@ public class DepthLimitedSearch : ISearch {
 
 // LAB №3
 public class AStar(State start): ISearch {
-    public List<(State, uint)> OpenNodes = new(
+    public List<(State state, uint val)> OpenNodes = new(
         new (State, uint)[] { 
-                (start, start.Heuristics1(State.TARGET_STATE)),
+                (start, start.TheMostFoolishnessHeuristics(State.TARGET_STATE)),
             }
         );
-    public HashSet<(State, uint)> CloseNodes = new();
+    public HashSet<(State state, uint val)> CloseNodes = new();
 
     public SearchInfo info = new();
 
     public List<State>? Search() {
         var iter = 0;
         while (this.OpenNodes.Count > 0) {
-            Console.WriteLine("iter: " + (++iter));
 
             // Console.WriteLine("Sorted list:");
             // foreach (var (node, val) in this.OpenNodes) {
@@ -500,10 +550,15 @@ public class AStar(State start): ISearch {
                 this.OpenNodes.Count + this.CloseNodes.Count
             );
             var item = this.OpenNodes.First();
+            // Console.WriteLine("start pos value: " + item.val);
             this.OpenNodes.RemoveAt(0);
-            Console.WriteLine(item.Item1);
-            Console.WriteLine("priority: " + item.Item2);
-            Console.WriteLine();
+
+            // break;
+
+            // Console.WriteLine("iter: " + (++iter));
+            // Console.WriteLine(item.Item1);
+            // Console.WriteLine("priority: " + item.Item2);
+            // Console.WriteLine();
 
             if (item.Item1.IsTargetState()) {
                 Console.WriteLine(this.info);
@@ -512,25 +567,35 @@ public class AStar(State start): ISearch {
             }
             this.CloseNodes.Add(item);
 
-            foreach (var state in item.Item1.Discovery()) {
-                var newValue = (uint)item.Item1.GetPath().Count + state.Heuristics1(State.TARGET_STATE);
-                // Console.WriteLine("new val: " + newValue);
+            foreach (var state in item.state.Discovery()) {
+                var newVal = (uint)item.state.GetPath().Count + state.TheMostFoolishnessHeuristics(State.TARGET_STATE);
 
                 var openNodeIndex = this.OpenNodes.FindIndex(((State, uint) item) => item.Item1.Equals(state));
-                if (openNodeIndex > -1 && newValue < this.OpenNodes[openNodeIndex].Item2) {
-                    this.OpenNodes[openNodeIndex] = (state, newValue);
+                if (openNodeIndex > -1 && newVal < this.OpenNodes[openNodeIndex].val) {
+                    this.OpenNodes[openNodeIndex] = (state, newVal);
                     continue;
                 }
                 
-                var inCloseNode = this.CloseNodes.FirstOrDefault(item => item.Item1.Equals(state), (null, 0));
-                if (inCloseNode.Item1 != null && newValue < inCloseNode.Item2) {
+                var inCloseNode = this.CloseNodes.FirstOrDefault(item => item.state.Equals(state), (null, 0));
+                if (inCloseNode.Item1 != null && newVal < inCloseNode.Item2) {
                     this.CloseNodes.Remove(inCloseNode);
-                    this.OpenNodes.Add((state, newValue));
+                    this.OpenNodes.Add((state, newVal));
                     continue;
                 }
 
-                this.OpenNodes.Add((state, newValue));
+                this.OpenNodes.Add((state, newVal));
             }
+
+            // Console.WriteLine("before deleting");
+            // foreach (var it in this.CloseNodes) {
+            //     Console.WriteLine(it);
+            // }
+            // this.CloseNodes.Remove((start, start.Heuristics1(State.TARGET_STATE)));
+            // Console.WriteLine("after deleting");
+            // foreach (var it in this.CloseNodes) {
+            //     Console.WriteLine(it);
+            // }
+
             this._sortOpenNodes();
 
             // Console.WriteLine("list after update:");
@@ -559,9 +624,5 @@ public class AStar(State start): ISearch {
 
     private void _sortOpenNodes() {
         this.OpenNodes.Sort(comparison: (first, second) => (int)first.Item2 - (int)second.Item2 );
-    }
-
-    private void _nextIter() {
-
     }
 }
