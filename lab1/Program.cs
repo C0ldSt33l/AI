@@ -111,7 +111,7 @@ public class UIButton {
 }
 
 public class Game {
-    private const int CHAOS_TIMES = 5;
+    private const int CHAOS_TIMES = 3;
     private readonly Vector2 WINDOW_SIZE = new Vector2(1080, 840);
     private readonly string TITLE = "Move balls";
     public Color Background = Color.Gray;
@@ -286,12 +286,19 @@ public class Game {
             new UIButton("Depth", new Vector2(130, 75), new Vector2(20, 20), () => this.Search("Depth search", new DepthFirstSearch(this._startState))),
             new UIButton("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), () => this.Search("Depth with limitation search", new DepthLimitedSearch(this._startState))),
             new UIButton("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), () => this.Search("BiDirectional search", new BiDirectionalSearch(this._startState))),
-            new UIButton("A*", new Vector2(100, 75), new Vector2(35, 20), () => this.Search("A* search", new AStar(this._startState))),
+
+            new UIButton("A*1", new Vector2(100, 75), new Vector2(35, 20), () => this.Search("A*1 search", new AStar(this._startState, State.Heuristics1))),
+            new UIButton("A*2", new Vector2(100, 75), new Vector2(35, 20), () => this.Search("A*2 search", new AStar(this._startState, State.Heuristics2))),
+            new UIButton("A*3", new Vector2(100, 75), new Vector2(35, 20), () => this.Search("A*3 search", new AStar(this._startState, State.TheMostFoolishHeuristics))),
         };
-        for (var i = 1; i < this._searchButtons.Length; i++) {
+        for (var i = 1; i < 5; i++) {
             var prevButton = this._searchButtons[i - 1];
             this._searchButtons[i].Pos = new Vector2(prevButton.Rect.Position.X + prevButton.Rect.Size.X + 50, 0);
         }
+
+        this._searchButtons[5].Pos = new Vector2(980 - 30, 100);
+        this._searchButtons[6].Pos = new Vector2(980 - 30, 200);
+
 
         this._actionButtons = new UIButton[] {
             new UIButton("Prev", new Vector2(150, 75), new Vector2(20, 20), this.PlayPrevState),

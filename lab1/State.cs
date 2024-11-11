@@ -26,6 +26,8 @@ public class State {
         this.Colors = colors;
         this.Parent = parent;
     }
+
+    static void get() {}
     
     public State(char[,] chars) {
         for (var row = 0; row < 4; row++) {
@@ -70,24 +72,27 @@ public class State {
     }
 
     // Search how many colors not on its own places
-    public uint Heuristics1(State target) {
-        uint value = 0;
-        for (var row = 0; row < this.Colors.GetLength(0); row++) {
-            for (var col = 0; col < this.Colors.GetLength(1); col++) {
-                if (!this.Colors[row, col].Equals(target.Colors[row, col])) value++;
+    public static uint Heuristics1(State state, State target) {
+        float value = 0;
+        for (var row = 0; row < state.Colors.GetLength(0); row++) {
+            for (var col = 0; col < state.Colors.GetLength(1); col++) {
+                if (!state.Colors[row, col].Equals(target.Colors[row, col])) value++;
             }
         }
 
-        return value;
+        value /= 4;
+        if (value < 1.0) return 1;
+        return (uint)value;
     }
 
-    // Mosouny
-    public uint Heuristics2(State target) {
-        uint value = 0;
+    // Mosany
+    public static uint Heuristics2(State state, State target) {
+        // Console.WriteLine("secod");
+        float value = 0;
 
-        for (var row = 0; row < this.Colors.GetLength(0); row++) {
-            for (var col = 0; col < this.Colors.GetLength(1); col++) {
-                var color = this.Colors[row, col];
+        for (var row = 0; row < state.Colors.GetLength(0); row++) {
+            for (var col = 0; col < state.Colors.GetLength(1); col++) {
+                var color = state.Colors[row, col];
 
                 if (!color.Equals(target.Colors[row, col])) {
                     for (var targetRow = 0; targetRow < TARGET_STATE.Colors.GetLength(0); targetRow++) {
@@ -107,18 +112,19 @@ public class State {
             }
         }
 
-        return value;
+        value /= 4;
+        if (value < 1.0) return 1;
+        return (uint)value;
     }
 
-    // how many rows in right color?
-    // 
-    public uint TheMostFoolishnessHeuristics(State target) {
+    // how many rows and cols in right color?
+    public static uint TheMostFoolishHeuristics(State state, State target) {
         uint
             rowsNotInPlace = 0,
             colsNotInPlace = 0;
 
-        var rows = this._getRows();
-        var cols = this._getCols();
+        var rows = state._getRows();
+        var cols = state._getCols();
         var targetRows = target._getRows();
         var targetCols = target._getCols();
 
@@ -552,10 +558,10 @@ public class DepthLimitedSearch : ISearch {
 
 
 // LAB №3
-public class AStar(State start): ISearch {
+public class AStar(State start, Func<State, State, uint> heuristics): ISearch {
     public List<(State state, uint val)> OpenNodes = new(
         new (State, uint)[] { 
-                (start, start.Heuristics2(State.TARGET_STATE)),
+                (start, heuristics(start, State.TARGET_STATE)),
             }
         );
     public HashSet<(State state, uint val)> CloseNodes = new();
@@ -565,7 +571,8 @@ public class AStar(State start): ISearch {
     public List<State>? Search() {
         var iter = 0;
         while (this.OpenNodes.Count > 0) {
-           this.info.Update(
+            iter++;
+            this.info.Update(
                 this.OpenNodes.Count,
                 this.OpenNodes.Count + this.CloseNodes.Count
             );
@@ -579,7 +586,7 @@ public class AStar(State start): ISearch {
             this.CloseNodes.Add(item);
 
             foreach (var state in item.state.Discovery()) {
-                var newVal = (uint)item.state.GetPath().Count + state.Heuristics2(State.TARGET_STATE);
+                var newVal = (uint)iter + heuristics(state, State.TARGET_STATE);
 
                 var openNodeIndex = this.OpenNodes.FindIndex(((State, uint) item) => item.Item1.Equals(state));
                 if (openNodeIndex > -1 && newVal < this.OpenNodes[openNodeIndex].val) {
@@ -596,6 +603,8 @@ public class AStar(State start): ISearch {
 
                 this.OpenNodes.Add((state, newVal));
             }
+        
+            this._sortOpenNodes();
         }
 
         Console.WriteLine("Search finished");
@@ -603,6 +612,6 @@ public class AStar(State start): ISearch {
     }
 
     private void _sortOpenNodes() {
-        this.OpenNodes.Sort(comparison: (first, second) => (int)first.Item2 - (int)second.Item2 );
+        this.OpenNodes.Sort(comparison: (first, second) => (int)first.val - (int)second.val );
     }
 }
