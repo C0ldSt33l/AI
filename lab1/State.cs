@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Text;
 using Raylib_cs;
 using rl = Raylib_cs.Raylib;
@@ -26,8 +27,6 @@ public class State {
         this.Colors = colors;
         this.Parent = parent;
     }
-
-    static void get() {}
     
     public State(char[,] chars) {
         for (var row = 0; row < 4; row++) {
@@ -71,6 +70,19 @@ public class State {
         return this.Equals(TARGET_STATE);
     }
 
+    public uint[] GetColorPositions(Color c) {
+        var pos = new uint[4] { 0, 0, 0, 0 };
+
+        for (int count = 0, i = 0; count < 4; i++) {
+            int row = i / 4, col = i % 4; 
+            if (this.Colors[row, col].Equals(c)) {
+                pos[count++] = (uint)(i + 1);
+            }
+        }
+
+        return pos;
+    }
+
     // Search how many colors not on its own places
     public static uint Heuristics1(State state, State target) {
         float value = 0;
@@ -80,8 +92,8 @@ public class State {
             }
         }
 
-        value /= 4;
-        if (value < 1.0) return 1;
+        value /= 4.0f;
+        if (value < 1.0f) return 1;
         return (uint)value;
     }
 
@@ -112,9 +124,9 @@ public class State {
             }
         }
 
-        value /= 4;
-        if (value < 1.0) return 1;
-        return (uint)value;
+        value /= 4.0f;
+        if (value < 1.0f) return 1;
+        return (uint) value;
     }
 
     // how many rows and cols in right color?
@@ -146,7 +158,9 @@ public class State {
             }
         }
 
-        return rowsNotInPlace + colsNotInPlace;
+        float val = (rowsNotInPlace + colsNotInPlace) / 2.0f;
+        if (val < 1.0f) return 1;
+        return (uint)val;
     }
 
     private Color[][] _getRows() {
@@ -180,19 +194,6 @@ public class State {
 
         return cols;
     }
-    // // Equevivalents to `Heuristics1` but see 2 steps ahead
-    // public uint Heuristics2(State target) {
-    //     var first_step_heuristics = this.Heuristics1(State.TARGET_STATE);
-    //     var children = this.Discovery();
-    //     uint min_heuristics_on_second_step = 17;
-    //     foreach (var child in children) {
-    //         var heuristics = child.Heuristics1(State.TARGET_STATE);
-    //         if (min_heuristics_on_second_step > heuristics)
-    //             min_heuristics_on_second_step = heuristics;
-    //     }
-
-    //     return first_step_heuristics + min_heuristics_on_second_step;
-    // }
 
     private State moveRow(int row, Direction dir) {
         var rowColors = new LinkedList<Color>();
@@ -253,6 +254,19 @@ public class State {
 
         return new State(colors, this);
     }
+
+    public int getHashCodeByColor(Color c) {
+        var hash = 0;
+        var i = 0;
+
+        foreach (var _ in this.Colors) {
+            int row = i / 4, col = i % 4;
+            hash += i + 1 + row + 1 + col + 1;
+            i++;
+        }
+        return hash;
+    }
+
     public override string ToString() {
         var builder = new StringBuilder(4 * 4 * 2 + 4);
         for (var row = 0; row < 4; row++) {
@@ -282,6 +296,23 @@ public class State {
         for (var row = 0; row < 4; row++) {
             for (var col = 0; col < 4; col++) {
                 if (!this.Colors[row, col].Equals(state.Colors[row, col]))  return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool EqualsByColor(State other, Color c) {
+        var col_count = 0;
+        for (var row = 0; row < this.Colors.GetLength(0); row++) {
+            for (var col = 0; col < this.Colors.GetLength(1); col++) {
+                if (col_count == 4) break;
+                if (this.Colors[row, col].Equals(c)) {
+                    if (other.Colors[row, col].Equals(c))
+                        col_count++;
+                    else
+                        return false;
+                }
             }
         }
 
@@ -569,6 +600,7 @@ public class AStar(State start, Func<State, State, uint> heuristics): ISearch {
     public SearchInfo info = new();
 
     public List<State>? Search() {
+        // Console.WriteLine("hash: " + start.GetHashCode());
         var iter = 0;
         while (this.OpenNodes.Count > 0) {
             iter++;
