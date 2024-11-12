@@ -97,9 +97,8 @@ public class State {
         return (uint)value;
     }
 
-    // Mosany
+    // Manhattan distance (Mosany)
     public static uint Heuristics2(State state, State target) {
-        // Console.WriteLine("secod");
         float value = 0;
 
         for (var row = 0; row < state.Colors.GetLength(0); row++) {
@@ -129,7 +128,7 @@ public class State {
         return (uint) value;
     }
 
-    // how many rows and cols in right color?
+    // Count how many rows and cols in right color?
     public static uint TheMostFoolishHeuristics(State state, State target) {
         uint
             rowsNotInPlace = 0,
