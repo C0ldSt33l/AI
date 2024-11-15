@@ -14,11 +14,12 @@ class StateDB: Hashtable {
 
 class StateGen(Color selectedColor) {
     public Queue<State?> OpenNodes = new(new State[]{ State.TARGET_STATE });
-    public HashSet<State?> CloseNodes;
+    public HashSet<State?> CloseNodes = new();
 
     public void genDBStates() {
         while (this.OpenNodes.Count > 0) {
             var curState = this.OpenNodes.Dequeue();
+            this.CloseNodes.Add(curState);
             foreach (var state in curState.Discovery()) {
                 State? find; 
 
@@ -27,7 +28,7 @@ class StateGen(Color selectedColor) {
                 find = this.CloseNodes.FirstOrDefault(el => state.EqualsByColor(el, selectedColor), null);
                 if (find != null) continue;
 
-                this.OpenNodes.Append(state);
+                this.OpenNodes.Enqueue(state);
             }
         }
 

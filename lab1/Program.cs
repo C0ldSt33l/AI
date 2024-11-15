@@ -134,11 +134,14 @@ public class Game {
     private int _curState = 0;
 
     public Game() {
+
         rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
         rl.SetTargetFPS(60);
 
         this._normalInit();
         // this._threeStepsFromWinningInit();
+        var gen = new StateGen(Color.Red);
+        gen.genDBStates();
     }
 
     public void Update() {
