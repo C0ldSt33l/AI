@@ -92,9 +92,7 @@ public class State {
             }
         }
 
-        value /= 4.0f;
-        if (value < 1.0f) return 1;
-        return (uint)value;
+        return (uint)Math.Floor(value / 4.0f);
     }
 
     // Manhattan distance (Mosany)
@@ -123,10 +121,9 @@ public class State {
             }
         }
 
-        value /= 4.0f;
-        if (value < 1.0f) return 1;
-        return (uint) value;
+        return (uint)Math.Floor(value / 4.0f);
     }
+        
 
     // Count how many rows and cols in right color?
     public static uint TheMostFoolishHeuristics(State state, State target) {
@@ -157,9 +154,7 @@ public class State {
             }
         }
 
-        float val = (rowsNotInPlace + colsNotInPlace) / 2.0f;
-        if (val < 1.0f) return 1;
-        return (uint)val;
+        return (uint)Math.Floor((rowsNotInPlace + colsNotInPlace) / 2.0f);
     }
 
     private Color[][] _getRows() {
@@ -600,24 +595,23 @@ public class AStar(State start, Func<State, State, uint> heuristics): ISearch {
 
     public List<State>? Search() {
         // Console.WriteLine("hash: " + start.GetHashCode());
-        var iter = 0;
         while (this.OpenNodes.Count > 0) {
-            iter++;
             this.info.Update(
                 this.OpenNodes.Count,
                 this.OpenNodes.Count + this.CloseNodes.Count
             );
             var item = this.OpenNodes.First();
             this.OpenNodes.RemoveAt(0);
-            if (item.Item1.IsTargetState()) {
+            if (item.state.IsTargetState()) {
                 Console.WriteLine(this.info);
                 Console.WriteLine("Search finished");
-                return item.Item1.GetPath();
+                return item.state.GetPath();
             }
             this.CloseNodes.Add(item);
 
+            var traveledPath = (uint)item.state.GetPath().Count;
             foreach (var state in item.state.Discovery()) {
-                var newVal = (uint)iter + heuristics(state, State.TARGET_STATE);
+                var newVal = traveledPath + heuristics(state, State.TARGET_STATE);
 
                 var openNodeIndex = this.OpenNodes.FindIndex(((State, uint) item) => item.Item1.Equals(state));
                 if (openNodeIndex > -1 && newVal < this.OpenNodes[openNodeIndex].val) {
@@ -625,8 +619,8 @@ public class AStar(State start, Func<State, State, uint> heuristics): ISearch {
                     continue;
                 }
                 
-                var inCloseNode = this.CloseNodes.FirstOrDefault(item => item.state.Equals(state), (null, 0));
-                if (inCloseNode.Item1 != null && newVal < inCloseNode.Item2) {
+                (State? state, uint val) inCloseNode = this.CloseNodes.FirstOrDefault(item => item.state.Equals(state), (null, 0));
+                if (inCloseNode.state != null && newVal < inCloseNode.val) {
                     this.CloseNodes.Remove(inCloseNode);
                     this.OpenNodes.Add((state, newVal));
                     continue;

@@ -111,7 +111,7 @@ public class UIButton {
 }
 
 public class Game {
-    private const int CHAOS_TIMES = 3;
+    private const int CHAOS_TIMES = 5;
     private readonly Vector2 WINDOW_SIZE = new Vector2(1080, 840);
     private readonly string TITLE = "Move balls";
     public Color Background = Color.Gray;
@@ -141,7 +141,7 @@ public class Game {
         this._normalInit();
         // this._threeStepsFromWinningInit();
         var gen = new StateGen(Color.Red);
-        gen.genDBStates();
+        // gen.genDBStates();
     }
 
     public void Update() {
