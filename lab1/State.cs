@@ -1,6 +1,5 @@
 using System.Text;
 using Raylib_cs;
-using rl = Raylib_cs.Raylib;
 
 namespace Game;
 
@@ -154,6 +153,13 @@ public class State {
         }
 
         return (uint)Math.Floor((rowsNotInPlace + colsNotInPlace) / 2.0f);
+    }
+
+    // Extra task
+    // Using subtask DB to evaluate approximated rest of path
+    public static uint DBHeuristics(State state, State target) {
+        uint val = 0;
+        return val;
     }
 
     private Color[][] _getRows() {

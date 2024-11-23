@@ -1,5 +1,4 @@
-using Raylib_cs;
-using rl = Raylib_cs.Raylib;
+using System.Runtime.CompilerServices;
 
 namespace Game;
 
@@ -46,19 +45,23 @@ public class WidthFirstSearch(State StartState): ISearch {
     public Queue<State> OpenNodes = new(new State[] { StartState });
     public HashSet<State> CloseNodes = new();
 
-    public SearchInfo info = new();
+    public SearchInfo Info = new();
+
+    public string SaveFile = "report//width_search.txt";
 
     public List<State>? Search() {
         while (this.OpenNodes.Count > 0) {
-            this.info.Update(
+            this.Info.Update(
                 this.OpenNodes.Count,
                 this.OpenNodes.Count + this.CloseNodes.Count
             );
             var node = this.OpenNodes.Dequeue();
 
             if (node.IsTargetState()) {
-                Console.WriteLine(this.info);
+                Console.WriteLine(this.Info);
                 Console.WriteLine("Search finished");
+                this._writeStatistic();
+
                 return node.GetPath();
             }
             this.CloseNodes.Add(node);
@@ -71,7 +74,14 @@ public class WidthFirstSearch(State StartState): ISearch {
         }
 
         Console.WriteLine("Search finished");
+        this._writeStatistic();
         return null;
+    }
+
+    private void _writeStatistic() {
+        using (var sw = new StreamWriter(this.SaveFile)) {
+            sw.WriteLine(this.Info.ToString());
+        }
     }
 }
 

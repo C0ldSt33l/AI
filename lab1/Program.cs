@@ -78,7 +78,7 @@ public class Button {
     }
 }
 
-public class UIButton {
+public class UIButton<T> {
     public static readonly int FONT_SIZE = 30;
     public string Text;
     public Vector2 Pos {
@@ -89,12 +89,12 @@ public class UIButton {
         get => this.Rect.Position;
     }
     public Rectangle Rect;
-    public Action Action;
+    public T Action;
 
     private readonly Vector2 _textOffset;
     private Vector2 _textPos;
 
-    public UIButton(string text, Vector2 size, Vector2 textPosOffset, Action action) {
+    public UIButton(string text, Vector2 size, Vector2 textPosOffset, T action) {
         this._textOffset = textPosOffset;
         this.Text = text;
         this.Rect = new(Vector2.Zero, size);
@@ -111,7 +111,7 @@ public class UIButton {
 }
 
 public class Game {
-    private const int CHAOS_TIMES = 5;
+    private const int CHAOS_TIMES = 3;
     private readonly Vector2 WINDOW_SIZE = new Vector2(1080, 840);
     private readonly string TITLE = "Move balls";
     public Color Background = Color.Gray;
@@ -119,8 +119,8 @@ public class Game {
     private Cell[,] _cells;
     private Button[,] _moveButtons;
 
-    private UIButton[] _searchButtons;
-    private UIButton[] _actionButtons;
+    private UIButton<Action<State>>[] _searchButtons;
+    private UIButton<Action>[] _actionButtons;
 
     private State _startState;
 
@@ -223,7 +223,6 @@ public class Game {
         this.MoveCol(3, Direction.UP);
         // this.MoveRow(3, Direction.LEFT);
 
-        this._startState = new State(this._circles);
         this._curState = 0;
     }
 
@@ -238,7 +237,6 @@ public class Game {
             this._moveButtons[row, col].Action();
         }
 
-        this._startState = new State(this._circles);
         this._curState = 0;
     }
 
@@ -284,15 +282,15 @@ public class Game {
             this._moveButtons[3, i]= new Button(startPos + new Vector2(Cell.SIZE.X * 4, Cell.SIZE.Y * i), 90, () => this.MoveRow(index, Direction.RIGHT));
         }
 
-        this._searchButtons = new UIButton[] {
-            new UIButton("Width", new Vector2(130, 75), new Vector2(20, 20), () => this.Search("Width search", new WidthFirstSearch(this._startState))),
-            new UIButton("Depth", new Vector2(130, 75), new Vector2(20, 20), () => this.Search("Depth search", new DepthFirstSearch(this._startState))),
-            new UIButton("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), () => this.Search("Depth with limitation search", new DepthLimitedSearch(this._startState))),
-            new UIButton("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), () => this.Search("BiDirectional search", new BiDirectionalSearch(this._startState))),
+        this._searchButtons = new UIButton<Action<State>>[] {
+            new ("Width", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Width search", new WidthFirstSearch(start))),
+            new ("Depth", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Depth search", new DepthFirstSearch(start))),
+            new ("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), (State start) => this.Search("Depth with limitation search", new DepthLimitedSearch(start))),
+            new ("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), (State start) => this.Search("BiDirectional search", new BiDirectionalSearch(start))),
 
-            new UIButton("A*1", new Vector2(100, 75), new Vector2(35, 20), () => this.Search("A*1 search", new AStar(this._startState, State.Heuristics1))),
-            new UIButton("A*2", new Vector2(100, 75), new Vector2(35, 20), () => this.Search("A*2 search", new AStar(this._startState, State.Heuristics2))),
-            new UIButton("A*3", new Vector2(100, 75), new Vector2(35, 20), () => this.Search("A*3 search", new AStar(this._startState, State.TheMostFoolishHeuristics))),
+            new ("A*1", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*1 search", new AStar(start, State.Heuristics1))),
+            new ("A*2", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*2 search", new AStar(start, State.Heuristics2))),
+            new ("A*3", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*3 search", new AStar(start, State.TheMostFoolishHeuristics))),
         };
         for (var i = 1; i < 5; i++) {
             var prevButton = this._searchButtons[i - 1];
@@ -303,10 +301,10 @@ public class Game {
         this._searchButtons[6].Pos = new Vector2(980 - 30, 200);
 
 
-        this._actionButtons = new UIButton[] {
-            new UIButton("Prev", new Vector2(150, 75), new Vector2(20, 20), this.PlayPrevState),
-            new UIButton("Next", new Vector2(150, 75), new Vector2(20, 20), this.PlayNextState),
-            new UIButton("Shuffle", new Vector2(150, 75), new Vector2(20, 20), () => this._addSomeChaous(CHAOS_TIMES)),
+        this._actionButtons = new UIButton<Action>[] {
+            new ("Prev", new Vector2(150, 75), new Vector2(20, 20), this.PlayPrevState),
+            new ("Next", new Vector2(150, 75), new Vector2(20, 20), this.PlayNextState),
+            new ("Shuffle", new Vector2(150, 75), new Vector2(20, 20), () => this._addSomeChaous(CHAOS_TIMES)),
         };
         for (var i = 0; i < this._actionButtons.Length; i++) {
             this._actionButtons[i].Pos = new Vector2(0, (75 + 50) * (i + 1));
@@ -326,10 +324,15 @@ public class Game {
             }
         }
 
-        var otherButtons = this._actionButtons.Concat(this._searchButtons);
-        foreach (var button in otherButtons) {
+        foreach (var button in this._actionButtons) {
             if (rl.CheckCollisionPointRec(mousePos, button.Rect)) {
                 button.Action();
+                return;
+            }
+        }
+        foreach (var button in this._searchButtons) {
+            if (rl.CheckCollisionPointRec(mousePos, button.Rect)) {
+                button.Action(this._startState);
                 return;
             }
         }
@@ -366,6 +369,8 @@ public class Game {
             this._circles[Row, i].Color = circles.First.Value;
             circles.RemoveFirst();
         }
+
+        this._startState = new State(this._circles);
     }
 
     public void MoveCol(int Col, Direction Dir) {
@@ -400,6 +405,8 @@ public class Game {
             this._circles[i, Col].Color = colors.First.Value;
             colors.RemoveFirst();
         }
+
+        this._startState = new State(this._circles);
     }
 
     public void ChangeColors(Color[,] colors) {
