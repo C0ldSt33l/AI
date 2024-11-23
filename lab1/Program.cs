@@ -171,6 +171,9 @@ public class Game {
         this._pathToWin = path;
         this._curState = 0;
     }
+
+    var statistic = searcher.GetStatistic() + "Path length: " + path.Count + "\n\n";
+    File.AppendAllText("report//" + name + ".txt", statistic);
 }
 
     public void PlayNextState() {

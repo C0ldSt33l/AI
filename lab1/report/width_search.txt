@@ -1,5 +1,0 @@
-Iter count: 11
-O node count: 123
-O max node count: 123
-O + C max node count: 133
-
