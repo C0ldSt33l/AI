@@ -3,7 +3,7 @@ namespace Game;
 public class Test {
     static public void GenStarStates() {
         using (var file = File.AppendText("report//start_states.txt")) {
-            for (int step = 2, depth = 2, i = 0; i < 5; i++, depth += step) {
+            for (int step = 2, depth = 2, i = 0; i < 1; i++, depth += step) {
                 var states = new List<State>();
                 while (states.Count < 10) {
                     var state = State.AddSomeChaosTo(State.TARGET_STATE, (uint)depth);

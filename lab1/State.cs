@@ -11,24 +11,25 @@ public class State {
         {'G', 'G', 'G', 'G'},
         {'Y', 'Y', 'Y', 'Y'},
         {'B', 'B', 'B', 'B'},
-    });
-    public readonly State? Parent = null;
+    }, null);
     public readonly Color[,] Colors = new Color[4, 4];
+    public readonly State? Parent = null;
 
-    public State(Circle[,] circles) {
+    public State() {}
+    public State(Circle[,] circles, State? parent = null) {
         for (var row = 0; row < circles.GetLength(0); row++) {
             for (var col = 0; col < circles.GetLength(1); col++) {
                 this.Colors[row, col] = circles[row, col].Color;
             }
         }
-        this.Parent = null;
+        this.Parent = parent;
     }
-    public State(Color[,] colors, State? parent) {
+    public State(Color[,] colors, State? parent = null) {
         this.Colors = colors;
         this.Parent = parent;
     }
     
-    public State(char[,] chars) {
+    public State(char[,] chars, State? parent = null) {
         for (var row = 0; row < 4; row++) {
             for (var col = 0; col < 4; col++) {
                 this.Colors[row, col] = chars[row, col] switch {
@@ -39,14 +40,15 @@ public class State {
                 };
             }
         }
-        this.Parent = null;
+        this.Parent = parent;
     }
 
     public static State AddSomeChaosTo(State target, uint depth) {
         var rand = (int min, int max) => RandomNumberGenerator.GetInt32(min, max + 1);
 
         State chaos;
-        int pathLength;
+        int pathLength = 0;
+        List<State>? path;
         do {
             chaos = target;
             for (var i = 0; i < depth; i++) {
@@ -59,8 +61,22 @@ public class State {
                     3 => chaos.moveCol(idx, Direction.DOWN),
                 };
             }
-            pathLength = new BiDirectionalSearch(chaos).Search().Count - 1;
+
+            path = new BiDirectionalSearch(chaos).Search();
+            pathLength = path.Count - 1;
+ 
         } while (pathLength < depth);
+
+        // if (chaos.Equals(State.TARGET_STATE)) {
+        //         Console.WriteLine(chaos);
+        //         Console.WriteLine(pathLength);
+        //         Console.WriteLine("-----------------");
+        //         path.ForEach(it => {
+        //             Console.WriteLine(it);
+        //             Console.WriteLine();
+        //         });
+        //        Console.WriteLine("-----------------");
+        // }
 
         return chaos;
     }
@@ -78,14 +94,29 @@ public class State {
     }
 
     public List<State> GetPath() {
+        if (this == null) Console.WriteLine("state is null");
+        if (this.Parent == null) Console.WriteLine("parent is null");
         var path = new List<State>();
         var node = this;
+
+        // if (this.IsTargetState()) {
+        //     Console.WriteLine("tartget paretn");
+        //     Console.WriteLine(this.Parent);
+        // }
         while (node.Parent != null) {
             path.Add(node);
             node = node.Parent;
         }
         path.Add(node);
         path.Reverse();
+
+        // if (this.Equals(State.TARGET_STATE)) {
+        //     Console.WriteLine("path if state is target");
+        //     path.ForEach(it => {
+        //         Console.WriteLine(it);
+        //         Console.WriteLine();
+        //     });
+        // }
         return path;
     }
 

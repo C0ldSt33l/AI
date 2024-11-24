@@ -111,7 +111,7 @@ public class UIButton<T> {
 }
 
 public class Game {
-    private const int CHAOS_TIMES = 5;
+    private const int CHAOS_TIMES = 1;
     private readonly Vector2 WINDOW_SIZE = new Vector2(1080, 840);
     private readonly string TITLE = "Move balls";
     public Color Background = Color.Gray;
@@ -136,10 +136,10 @@ public class Game {
     public Game() {
         Test.GenStarStates();
 
-        rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
-        rl.SetTargetFPS(60);
+        // rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
+        // rl.SetTargetFPS(60);
 
-        this._normalInit();
+        // this._normalInit();
     }
 
     public void Update() {
@@ -212,7 +212,7 @@ public class Game {
         this._setCirclesInWinState();
         this._setButtons();
 
-        this._addSomeChaos(CHAOS_TIMES);
+        // this._addSomeChaos(CHAOS_TIMES);
 
         Console.WriteLine("Start state");
         Console.WriteLine(this._startState);
@@ -270,6 +270,7 @@ public class Game {
                 this._circles[row, col] = circle;
             }
         }
+        this._startState = new State(this._circles);
     }
 
     private void _setButtons() {
