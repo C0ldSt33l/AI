@@ -111,7 +111,7 @@ public class UIButton<T> {
 }
 
 public class Game {
-    private const int CHAOS_TIMES = 3;
+    private const int CHAOS_TIMES = 5;
     private readonly Vector2 WINDOW_SIZE = new Vector2(1080, 840);
     private readonly string TITLE = "Move balls";
     public Color Background = Color.Gray;
@@ -157,9 +157,9 @@ public class Game {
         rl.CloseWindow();
     }
 
-    public void Search(string name, ISearch searcher) {
+    public void Search(string name, ISearch search) {
     Console.WriteLine(name);
-    var path = searcher.Search();
+    var path = search.Search();
 
     if (path == null) {
         Console.WriteLine("Path is not found\n");
@@ -172,7 +172,8 @@ public class Game {
         this._curState = 0;
     }
 
-    var statistic = searcher.GetStatistic() + "Path length: " + path.Count + "\n\n";
+    var pathLength = path.Count - 1;
+    var statistic = search.GetStatistic() + "Path length: " + pathLength + "\n\n";
     File.AppendAllText("report//" + name + ".txt", statistic);
 }
 

@@ -126,8 +126,14 @@ public class BiDirectionalSearch(State start): ISearch {
     public HashSet<State> EndCloseNodes = new();
     public SearchInfo EndInfo;
 
+    public SearchInfo Info;
+
     public List<State>? Search() {
         while(this.StartOpenNodes.Count() > 0 || this.EndOpenNodes.Count() > 0) {
+            this.Info.Update(
+                this.StartOpenNodes.Count + this.EndOpenNodes.Count,
+                this.StartOpenNodes.Count + this.StartCloseNodes.Count + this.EndOpenNodes.Count + this.EndCloseNodes.Count
+            );
             var startNode = this.StartOpenNodes.Dequeue();
             var endNode = this.EndOpenNodes.Dequeue();
 
@@ -169,7 +175,10 @@ public class BiDirectionalSearch(State start): ISearch {
         return null;
     }
 
-    public string GetStatistic() => "Start\n" + this.StartInfo.ToString() + "End\n" + this.EndInfo.ToString();
+    public string GetStatistic() => 
+        "Start\n" + this.StartInfo.ToString() +
+        "End\n" + this.EndInfo.ToString() +
+        "Common\n" + this.Info.ToString();
 
     private List<State>? _getPath(State start, State end) {
                 List<State>
@@ -193,54 +202,109 @@ public class BiDirectionalSearch(State start): ISearch {
     }
 }
 
-public class DepthLimitedSearch : ISearch {
-    public Stack<(State node, int depth)> OpenNodes = new();
+// public class DepthLimitedSearch : ISearch {
+//     public Stack<(State node, int depth)> OpenNodes = new();
+//     public HashSet<State> CloseNodes = new();
+//     private int maxDepth = 1;
+
+//     public SearchInfo Info;
+
+//     public DepthLimitedSearch(State startState) {
+//         OpenNodes.Push((startState, 0));
+//     }
+
+//     public List<State>? Search() {
+//         while (this.OpenNodes.Count > 0) {
+//             var (node, depth) = this.OpenNodes.Pop();
+
+//             if (node.IsTargetState()) {
+//                 this.Info.Update(
+//                 this.OpenNodes.Count(),
+//                 this.OpenNodes.Count() + this.CloseNodes.Count()
+//                 );
+//                 Console.WriteLine(this.Info);
+//                 Console.WriteLine("Search finished");
+//                 return node.GetPath();
+//             }
+
+//             this.CloseNodes.Add(node);
+
+//             if (depth < maxDepth) {
+//                 foreach (var state in node.Discovery()) {
+//                     if (this.OpenNodes.Any(n => n.node.Equals(state))) continue;
+//                     if (this.CloseNodes.Contains(state)) continue;
+//                     this.OpenNodes.Push((state, depth + 1));
+//                 }
+//             }
+
+//             if (this.OpenNodes.Count == 0) {
+//                 maxDepth++;
+//                 CloseNodes.Clear();
+//                 OpenNodes.Push((node, 0));
+//             }
+//             this.Info.Update(
+//             this.OpenNodes.Count(),
+//             this.OpenNodes.Count() + this.CloseNodes.Count()
+//             );
+//         }
+
+//         Console.WriteLine("Search finished");
+//         return null;
+//     }
+
+// }
+public class DepthLimitedSearch(State start): ISearch {
+    public Stack<(State node, int depth)> OpenNodes = new(
+        new (State node, int depth)[] {
+            new(start, 0)
+    });
     public HashSet<State> CloseNodes = new();
     private int maxDepth = 1;
 
     public SearchInfo Info;
 
-    public DepthLimitedSearch(State startState) {
-        OpenNodes.Push((startState, 0));
-    }
+    // public DepthLimitedSearch(State startState) {
+    //     OpenNodes.Push((startState, 0));
+    // }
 
     public List<State>? Search() {
-        while (this.OpenNodes.Count > 0) {
-            var (node, depth) = this.OpenNodes.Pop();
+        State startState = OpenNodes.Peek().node;
 
-            if (node.IsTargetState()) {
-                this.Info.Update(
-                this.OpenNodes.Count(),
-                this.OpenNodes.Count() + this.CloseNodes.Count()
-                );
-                Console.WriteLine(this.Info);
-                Console.WriteLine("Search finished");
-                return node.GetPath();
-            }
+        while (true) {
+            while (this.OpenNodes.Count > 0) {
+                var (node, depth) = this.OpenNodes.Pop();
 
-            this.CloseNodes.Add(node);
-
-            if (depth < maxDepth) {
-                foreach (var state in node.Discovery()) {
-                    if (this.OpenNodes.Any(n => n.node.Equals(state))) continue;
-                    if (this.CloseNodes.Contains(state)) continue;
-                    this.OpenNodes.Push((state, depth + 1));
+                if (node.IsTargetState()) {
+                    this.Info.Update(
+                        this.OpenNodes.Count,
+                        this.OpenNodes.Count + this.CloseNodes.Count
+                    );
+                    Console.WriteLine(this.Info);
+                    Console.WriteLine("Search finished");
+                    return node.GetPath();
                 }
+
+                this.CloseNodes.Add(node);
+
+                if (depth < maxDepth) {
+                    foreach (var state in node.Discovery()) {
+                        if (this.OpenNodes.Any(n => n.node.Equals(state))) continue;
+                        if (this.CloseNodes.Contains(state)) continue;
+                        this.OpenNodes.Push((state, depth + 1));
+                    }
+                }
+
+                this.Info.Update(
+                    this.OpenNodes.Count,
+                    this.OpenNodes.Count + this.CloseNodes.Count
+                );
             }
 
-            if (this.OpenNodes.Count == 0) {
-                maxDepth++;
-                CloseNodes.Clear();
-                OpenNodes.Push((node, 0));
-            }
-            this.Info.Update(
-            this.OpenNodes.Count(),
-            this.OpenNodes.Count() + this.CloseNodes.Count()
-            );
+            maxDepth++;
+            CloseNodes.Clear();
+            OpenNodes.Clear();
+            OpenNodes.Push((startState, 0));
         }
-
-        Console.WriteLine("Search finished");
-        return null;
     }
 
     public string GetStatistic() => this.Info.ToString();
