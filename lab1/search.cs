@@ -202,57 +202,6 @@ public class BiDirectionalSearch(State start): ISearch {
     }
 }
 
-// public class DepthLimitedSearch : ISearch {
-//     public Stack<(State node, int depth)> OpenNodes = new();
-//     public HashSet<State> CloseNodes = new();
-//     private int maxDepth = 1;
-
-//     public SearchInfo Info;
-
-//     public DepthLimitedSearch(State startState) {
-//         OpenNodes.Push((startState, 0));
-//     }
-
-//     public List<State>? Search() {
-//         while (this.OpenNodes.Count > 0) {
-//             var (node, depth) = this.OpenNodes.Pop();
-
-//             if (node.IsTargetState()) {
-//                 this.Info.Update(
-//                 this.OpenNodes.Count(),
-//                 this.OpenNodes.Count() + this.CloseNodes.Count()
-//                 );
-//                 Console.WriteLine(this.Info);
-//                 Console.WriteLine("Search finished");
-//                 return node.GetPath();
-//             }
-
-//             this.CloseNodes.Add(node);
-
-//             if (depth < maxDepth) {
-//                 foreach (var state in node.Discovery()) {
-//                     if (this.OpenNodes.Any(n => n.node.Equals(state))) continue;
-//                     if (this.CloseNodes.Contains(state)) continue;
-//                     this.OpenNodes.Push((state, depth + 1));
-//                 }
-//             }
-
-//             if (this.OpenNodes.Count == 0) {
-//                 maxDepth++;
-//                 CloseNodes.Clear();
-//                 OpenNodes.Push((node, 0));
-//             }
-//             this.Info.Update(
-//             this.OpenNodes.Count(),
-//             this.OpenNodes.Count() + this.CloseNodes.Count()
-//             );
-//         }
-
-//         Console.WriteLine("Search finished");
-//         return null;
-//     }
-
-// }
 public class DepthLimitedSearch(State start): ISearch {
     public Stack<(State node, int depth)> OpenNodes = new(
         new (State node, int depth)[] {

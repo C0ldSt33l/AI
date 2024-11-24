@@ -134,14 +134,12 @@ public class Game {
     private int _curState = 0;
 
     public Game() {
+        Test.GenStarStates();
 
         rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
         rl.SetTargetFPS(60);
 
         this._normalInit();
-        // this._threeStepsFromWinningInit();
-        var gen = new StateGen(Color.Red);
-        // gen.genDBStates();
     }
 
     public void Update() {
@@ -214,7 +212,10 @@ public class Game {
         this._setCirclesInWinState();
         this._setButtons();
 
-        this._addSomeChaous(CHAOS_TIMES);
+        this._addSomeChaos(CHAOS_TIMES);
+
+        Console.WriteLine("Start state");
+        Console.WriteLine(this._startState);
     }
 
     private void _threeStepsFromWinningInit() {
@@ -230,7 +231,7 @@ public class Game {
         this._curState = 0;
     }
 
-    private void _addSomeChaous(int times = 1) {
+    private void _addSomeChaos(int times = 1) {
         var rand = (int min, int max) => RandomNumberGenerator.GetInt32(min, max + 1);
 
         this._moveButtons[rand(0, 1), rand(0, 3)].Action();
@@ -308,7 +309,7 @@ public class Game {
         this._actionButtons = new UIButton<Action>[] {
             new ("Prev", new Vector2(150, 75), new Vector2(20, 20), this.PlayPrevState),
             new ("Next", new Vector2(150, 75), new Vector2(20, 20), this.PlayNextState),
-            new ("Shuffle", new Vector2(150, 75), new Vector2(20, 20), () => this._addSomeChaous(CHAOS_TIMES)),
+            new ("Shuffle", new Vector2(150, 75), new Vector2(20, 20), () => this._addSomeChaos(CHAOS_TIMES)),
         };
         for (var i = 0; i < this._actionButtons.Length; i++) {
             this._actionButtons[i].Pos = new Vector2(0, (75 + 50) * (i + 1));

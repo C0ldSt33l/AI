@@ -1,3 +1,5 @@
+using System.Numerics;
+using System.Security.Cryptography;
 using System.Text;
 using Raylib_cs;
 
@@ -38,6 +40,29 @@ public class State {
             }
         }
         this.Parent = null;
+    }
+
+    public static State AddSomeChaosTo(State target, uint depth) {
+        var rand = (int min, int max) => RandomNumberGenerator.GetInt32(min, max + 1);
+
+        State chaos;
+        int pathLength;
+        do {
+            chaos = target;
+            for (var i = 0; i < depth; i++) {
+                var idx = rand(0, 3);
+                chaos = rand(0, 3) switch {
+                    0 => chaos.moveRow(idx, Direction.LEFT),
+                    1 => chaos.moveRow(idx, Direction.RIGHT),
+
+                    2 => chaos.moveCol(idx, Direction.UP),
+                    3 => chaos.moveCol(idx, Direction.DOWN),
+                };
+            }
+            pathLength = new BiDirectionalSearch(chaos).Search().Count - 1;
+        } while (pathLength < depth);
+
+        return chaos;
     }
 
     public List<State> Discovery() {
@@ -270,7 +295,7 @@ public class State {
         var builder = new StringBuilder(4 * 4 * 2 + 4);
         for (var row = 0; row < 4; row++) {
             for (var col = 0; col < 4; col++) {
-                builder.Append(this.ColorToChar(this.Colors[row, col])).Append(',');
+                builder.Append(this.ColorToChar(this.Colors[row, col])).Append(' ');
             }
             if (row < 3) builder.Append('\n');
         }
