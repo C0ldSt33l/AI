@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-
 namespace Game;
 
 public struct SearchInfo {
@@ -127,7 +125,12 @@ public class BiDirectionalSearch(State start): ISearch {
     //! FUCKING BLACK MAGIC: WHEN `start` IS TARGET, `TARGET_STATE` in `EndOpenNodes`
     //! CHANGE `Parent` FROM NULL TO HIMSELF WITH NULL PARENT
     public Queue<State> EndOpenNodes = new(
-        new State[] { State.TARGET_STATE }
+        new State[] { new State(new char[4, 4] {
+                        {'R', 'R', 'R', 'R'}, 
+                        {'G', 'G', 'G', 'G'}, 
+                        {'Y', 'Y', 'Y', 'Y'}, 
+                        {'B', 'B', 'B', 'B'}, 
+                    }) }
     );
     public HashSet<State> EndCloseNodes = new();
     public SearchInfo EndInfo;
@@ -135,6 +138,10 @@ public class BiDirectionalSearch(State start): ISearch {
     public SearchInfo Info;
 
     public List<State>? Search() {
+        // foreach (var state in this.StartOpenNodes) {
+        //     Console.WriteLine("state\n" + state);
+        //     Console.WriteLine("parent\n" + state.Parent);
+        // }
         while(this.StartOpenNodes.Count() > 0 || this.EndOpenNodes.Count() > 0) {
             this.Info.Update(
                 this.StartOpenNodes.Count + this.EndOpenNodes.Count,
@@ -146,36 +153,49 @@ public class BiDirectionalSearch(State start): ISearch {
             var startNode = this.StartOpenNodes.Dequeue();
             var endNode = this.EndOpenNodes.Dequeue();
 
-            this.StartCloseNodes.Add(startNode);
-            this.EndCloseNodes.Add(endNode);
-
-            if (startNode.IsTargetState()) {
+            if (endNode.IsTargetState() && endNode.Equals(startNode)) {
                 return new List<State>() { startNode };
             }
 
-            foreach(var state in startNode.Discovery()) {
-                if (this.StartOpenNodes.Contains(state)) continue;
-                if (this.StartCloseNodes.Contains(state)) continue;
-                this.StartOpenNodes.Enqueue(state);
-            }
-            foreach(var state in endNode.Discovery()) {
-                if (this.EndOpenNodes.Contains(state)) continue;
-                if (this.EndCloseNodes.Contains(state)) continue;
-                this.EndOpenNodes.Enqueue(state);
-            }
+            this.StartCloseNodes.Add(startNode);
+            this.EndCloseNodes.Add(endNode);
 
+            Func<List<State>?>
+                firstCheck = () => {
+                    foreach(var state in startNode.Discovery()) {
+                        if (this.StartOpenNodes.Contains(state)) continue;
+                        if (this.StartCloseNodes.Contains(state)) continue;
+                        this.StartOpenNodes.Enqueue(state);
+                    }
+                    if (this.StartOpenNodes.Contains(endNode)) {
+                        startNode = this.StartOpenNodes.First(el => el.Equals(endNode));
+                        var path = this._getPath(startNode, endNode);
+                        return path;
+                    }
+                    return null;
+                },
+                secondCheck = () => {
+                    foreach(var state in endNode.Discovery()) {
+                        if (this.EndOpenNodes.Contains(state)) continue;
+                        if (this.EndCloseNodes.Contains(state)) continue;
+                        this.EndOpenNodes.Enqueue(state);
+                    }
+                    if (this.EndOpenNodes.Contains(startNode)) {
+                        endNode = this.EndOpenNodes.First(el => el.Equals(startNode));
+                        var path = this._getPath(startNode, endNode);
+                        return path;
+                    }
 
-            if (this.EndOpenNodes.Contains(startNode)) {
-                endNode = this.EndOpenNodes.First(el => el.Equals(startNode));
-                var path = this._getPath(startNode, endNode);
-                return path;
-            }
+                    return null;
+                };
 
-            if (this.StartOpenNodes.Contains(endNode)) {
-                startNode = this.StartOpenNodes.First(el => el.Equals(endNode));
-                var path = this._getPath(startNode, endNode);
-                return path;
-            }
+            if (this.StartOpenNodes.Count > this.EndOpenNodes.Count)
+                (firstCheck, secondCheck) = (secondCheck, firstCheck);
+
+            var check = firstCheck();
+            if (check != null) return check;
+            check = secondCheck();
+            if (check != null) return check;
         }
 
         Console.WriteLine("Search finished");
@@ -188,8 +208,6 @@ public class BiDirectionalSearch(State start): ISearch {
         "Common\n" + this.Info.ToString();
 
     private List<State>? _getPath(State start, State end) {
-                if (start == null) Console.WriteLine("start is null");
-                if (end == null) Console.WriteLine("end is null");
                 List<State>
                     startPath = start.GetPath(),
                     endPath = end.GetPath();

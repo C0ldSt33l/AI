@@ -6,16 +6,24 @@ using Raylib_cs;
 namespace Game;
 
 public class State {
-    public static readonly State TARGET_STATE = new(new char[4,4] {
+    public static  State TARGET_STATE = new(new char[4,4] {
         {'R', 'R', 'R', 'R'},
         {'G', 'G', 'G', 'G'},
         {'Y', 'Y', 'Y', 'Y'},
         {'B', 'B', 'B', 'B'},
     }, null);
-    public readonly Color[,] Colors = new Color[4, 4];
-    public readonly State? Parent = null;
+    public  Color[,] Colors = new Color[4, 4];
+    public  State? Parent = null;
 
     public State() {}
+    public State(string[] colors, State? parent = null) {
+        for (var i = 0; i < 4; i++) {
+            var chars = colors[i].Trim().Replace(" ", "").ToCharArray();
+            for (int j = 0; j < 4; j++) {
+                this.Colors[i, j] = this.CharToColor(chars[j]);
+            }
+        }
+    }
     public State(Circle[,] circles, State? parent = null) {
         for (var row = 0; row < circles.GetLength(0); row++) {
             for (var col = 0; col < circles.GetLength(1); col++) {
@@ -43,14 +51,14 @@ public class State {
         this.Parent = parent;
     }
 
-    public static State AddSomeChaosTo(State target, uint depth) {
+    public State AddSomeChaos(uint depth) {
         var rand = (int min, int max) => RandomNumberGenerator.GetInt32(min, max + 1);
+        Console.WriteLine("depth: " + depth);
 
         State chaos;
         int pathLength = 0;
-        List<State>? path;
         do {
-            chaos = target;
+            chaos = this;
             for (var i = 0; i < depth; i++) {
                 var idx = rand(0, 3);
                 chaos = rand(0, 3) switch {
@@ -62,21 +70,10 @@ public class State {
                 };
             }
 
-            path = new BiDirectionalSearch(chaos).Search();
-            pathLength = path.Count - 1;
- 
-        } while (pathLength < depth);
-
-        // if (chaos.Equals(State.TARGET_STATE)) {
-        //         Console.WriteLine(chaos);
-        //         Console.WriteLine(pathLength);
-        //         Console.WriteLine("-----------------");
-        //         path.ForEach(it => {
-        //             Console.WriteLine(it);
-        //             Console.WriteLine();
-        //         });
-        //        Console.WriteLine("-----------------");
-        // }
+            chaos.Parent = null;
+            Console.WriteLine(chaos.Parent);
+            pathLength = new BiDirectionalSearch(chaos).Search().Count - 1;
+        } while (pathLength != depth);
 
         return chaos;
     }
@@ -94,15 +91,9 @@ public class State {
     }
 
     public List<State> GetPath() {
-        if (this == null) Console.WriteLine("state is null");
-        if (this.Parent == null) Console.WriteLine("parent is null");
         var path = new List<State>();
         var node = this;
-
-        // if (this.IsTargetState()) {
-        //     Console.WriteLine("tartget paretn");
-        //     Console.WriteLine(this.Parent);
-        // }
+        
         while (node.Parent != null) {
             path.Add(node);
             node = node.Parent;
@@ -110,13 +101,6 @@ public class State {
         path.Add(node);
         path.Reverse();
 
-        // if (this.Equals(State.TARGET_STATE)) {
-        //     Console.WriteLine("path if state is target");
-        //     path.ForEach(it => {
-        //         Console.WriteLine(it);
-        //         Console.WriteLine();
-        //     });
-        // }
         return path;
     }
 
@@ -334,13 +318,23 @@ public class State {
         return builder.ToString();
     }
 
-    public char ColorToChar(Color? color) {
+    public char ColorToChar(Color color) {
         return color switch {
-            null => '_',
             Color c when c.Equals(Color.Red) => 'R',
             Color c when c.Equals(Color.Green) => 'G',
             Color c when c.Equals(Color.Yellow) => 'Y',
             Color c when c.Equals(Color.Blue) => 'B',
+            _ => '?',
+        };
+    }
+
+    public Color CharToColor(char c) {
+        return c switch {
+            'R' => Color.Red,
+            'G' => Color.Green,
+            'Y' => Color.Yellow,
+            'B' => Color.Blue,
+            _ =>  Color.Black,
         };
     }
 

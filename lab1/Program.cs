@@ -134,12 +134,9 @@ public class Game {
     private int _curState = 0;
 
     public Game() {
-        Test.GenStarStates();
-
-        // rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
-        // rl.SetTargetFPS(60);
-
-        // this._normalInit();
+        rl.InitWindow((int)this.WINDOW_SIZE.X, (int)this.WINDOW_SIZE.Y, this.TITLE);
+        rl.SetTargetFPS(60);
+        this._normalInit();
     }
 
     public void Update() {
@@ -155,25 +152,45 @@ public class Game {
         rl.CloseWindow();
     }
 
+    static int curDepth = 2;
+    static List<State> startStates = new();
+
     public void Search(string name, ISearch search) {
-    Console.WriteLine(name);
-    var path = search.Search();
+        Console.WriteLine(name);
+        var path = search.Search();
 
-    if (path == null) {
-        Console.WriteLine("Path is not found\n");
-        this._pathToWin = null;
-        this._curState = 0;
-    }
-    else {
-        Console.WriteLine("Path length: " + (path.Count - 1) + "\n");
-        this._pathToWin = path;
-        this._curState = 0;
-    }
+        Console.WriteLine("path");
+        path.ForEach(it => {
+            Console.WriteLine(it);
+            Console.WriteLine();
+        });
 
-    var pathLength = path.Count - 1;
-    var statistic = search.GetStatistic() + "Path length: " + pathLength + "\n\n";
-    File.AppendAllText("report//" + name + ".txt", statistic);
-}
+        if (path == null) {
+            Console.WriteLine("Path is not found\n");
+            this._pathToWin = null;
+            this._curState = 0;
+        }
+        else {
+            Console.WriteLine("Path length: " + (path.Count - 1) + "\n");
+            this._pathToWin = path;
+            this._curState = 0;
+        }
+
+        var pathLength = path.Count - 1;
+        var statistic = search.GetStatistic() + "Path length: " + pathLength + "\n\n";
+        File.AppendAllText("report//" + name + ".txt", statistic);
+
+        var starStateFile = "report//start_states.txt";
+        if (startStates.Count == 10) { startStates.Clear(); curDepth += 2; }
+        if (startStates.Count == 0) {
+            File.AppendAllText(starStateFile, "Depth: " + curDepth + "\n");
+        }
+        var first = path.First();
+        if ((path.Count - 1) == curDepth && !startStates.Contains(first)) {
+            startStates.Add(first);
+            File.AppendAllText(starStateFile, first.ToString() + "\n\n");
+        }
+    }
 
     public void PlayNextState() {
         if (this._pathToWin == null || this._curState == this._pathToWin.Count - 1) return;
@@ -213,9 +230,6 @@ public class Game {
         this._setButtons();
 
         // this._addSomeChaos(CHAOS_TIMES);
-
-        Console.WriteLine("Start state");
-        Console.WriteLine(this._startState);
     }
 
     private void _threeStepsFromWinningInit() {
@@ -426,7 +440,8 @@ public class Game {
 
 class Program {
     public static void Main(String[] args) {
-        var game = new Game();
-        game.Update();
+        // var game = new Game();
+        // game.Update();
+        Test.GenStarStates();
     }
 }
