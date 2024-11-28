@@ -304,14 +304,14 @@ public class Game {
         }
 
         this._searchButtons = new UIButton<Action<State>>[] {
-            new ("Width", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Width search", new WidthFirstSearch(start, State.TARGET_STATE, State.Discovery))),
-            new ("Depth", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Depth search", new DepthFirstSearch(start, State.TARGET_STATE, State.Discovery))),
-            new ("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), (State start) => this.Search("Depth with limitation search", new DepthLimitedSearch(start, State.TARGET_STATE, State.Discovery))),
-            new ("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), (State start) => this.Search("BiDirectional search", new BiDirectionalSearch(start, State.TARGET_STATE, State.Discovery, State.ReverseDiscovery))),
+            new ("Width", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Width search", new WidthFirstSearch(start, State.TARGET_STATE, State.FullDiscovery))),
+            new ("Depth", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Depth search", new DepthFirstSearch(start, State.TARGET_STATE, State.FullDiscovery))),
+            new ("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), (State start) => this.Search("Depth with limitation search", new DepthLimitedSearch(start, State.TARGET_STATE, State.FullDiscovery))),
+            new ("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), (State start) => this.Search("BiDirectional search", new BiDirectionalSearch(start, State.TARGET_STATE, State.FullDiscovery, State.FullDiscovery))),
 
-            new ("A*1", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*1 search", new AStar(start, State.TARGET_STATE, State.Discovery, State.Heuristics1))),
-            new ("A*2", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*2 search", new AStar(start, State.TARGET_STATE, State.Discovery, State.Heuristics2))),
-            new ("A*3", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*3 search", new AStar(start, State.TARGET_STATE, State.Discovery, State.TheMostFoolishHeuristics))),
+            new ("A*1", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*1 search", new AStar(start, State.TARGET_STATE, State.FullDiscovery, State.Heuristics1))),
+            new ("A*2", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*2 search", new AStar(start, State.TARGET_STATE, State.FullDiscovery, State.Heuristics2))),
+            new ("A*3", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*3 search", new AStar(start, State.TARGET_STATE, State.FullDiscovery, State.TheMostFoolishHeuristics))),
         };
         for (var i = 1; i < 5; i++) {
             var prevButton = this._searchButtons[i - 1];
@@ -441,29 +441,9 @@ public class Game {
 
 class Program {
     public static void Main(String[] args) {
-        new Game().Update();
-        // Test.GenStarStates();
-        // Test.RunTests(new string[] { "AStar3" });
+        // new Game().Update();
+        Test.GenStarStates();
 
-        // var positions = File.ReadAllLines("db//red_subtask.txt");
-        // var states = new State[positions.Length];
-        // for (var i = 0; i < positions.Length; i++) {
-        //     states[i] = new State(Array.ConvertAll(positions[i].Trim().Split(" "), it => Int32.Parse(it)), Color.Red);
-        // }
-        // var dict = new Dictionary<string, int>();
-        // var target = new State(new char[4, 4] {
-        //         { 'R', 'R', 'R', 'R' },
-        //         { '?', '?', '?', '?' },
-        //         { '?', '?', '?', '?' },
-        //         { '?', '?', '?', '?' },
-        // });
-        // for (var i = 0; i < positions.Length; i++) {
-        //     Console.WriteLine(i);
-        //     dict[positions[i]] = new BiDirectionalSearch(states[i], target).Search().Count - 1;
-        // }
-        // foreach ((string pos, int len) in dict) {
-        //     File.AppendAllText("db//red_subtask_complite.txt", pos + ":" + len + "\n");
-        // }
-
+        // Test.RunTests(new string[] { "BiDirectional", "Depth Limited", "AStar1", "AStar2", "Width" });
     }
 }

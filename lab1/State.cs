@@ -75,9 +75,8 @@ public class State {
                 };
                 odd = !odd;
             }
-
             chaos.Parent = null;
-            // Console.WriteLine(chaos.Parent);
+
             pathLength = new BiDirectionalSearch(
                 chaos, State.TARGET_STATE,
                 State.FullDiscovery, State.FullDiscovery

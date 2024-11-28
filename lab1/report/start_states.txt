@@ -1,260 +1,260 @@
 Depth: 2
 R B R R 
-G G R G 
-Y Y G Y 
-B B Y B 
-
-R R G R 
-G G Y G 
-Y Y B Y 
-B R B B 
-
-R G R R 
-G Y G G 
-Y Y B Y 
-B R B B 
-
-R R B R 
-G G G R 
-Y Y G Y 
+G R G G 
+Y G Y Y 
 B B Y B 
 
 R R R G 
 G G G Y 
 Y Y Y B 
-R B B B 
+B B R B 
 
 R R R B 
-G G R G 
+G G G R 
 Y Y Y G 
-B B B Y 
-
-R R R G 
-Y G G G 
-B Y Y Y 
-R B B B 
-
-R R R G 
-G G Y G 
-Y Y Y B 
-B B B R 
-
-R B R R 
-R G G G 
-G Y Y Y 
 Y B B B 
 
-R B R R 
-R G G G 
+B R R R 
+G R G G 
 Y G Y Y 
 B Y B B 
 
-----------------------------
-Depth: 3
-G R R R 
-Y G G R 
-B Y Y G 
-B B B Y 
-
-R B G R 
-G R G Y 
-Y G B Y 
-B Y R B 
-
-G G R R 
-Y Y G G 
-Y B Y B 
-R R B B 
-
-R G R G 
-G Y G Y 
-Y B Y B 
-R R B B 
-
-R B Y R 
-G R R G 
-Y G G Y 
-B B Y B 
-
-G G R R 
-G Y G Y 
-Y B Y B 
-B R B R 
-
-B B R R 
-R R G G 
-Y G Y Y 
-Y G B B 
-
-R R R Y 
-G G G B 
-Y Y Y B 
-B B R G 
-
-R B R B 
-G R R G 
-Y G G Y 
-B Y Y B 
-
-R R R R 
-G G G G 
-Y Y Y B 
+B R R R 
+G R G G 
+G Y Y Y 
 Y B B B 
 
-----------------------------
-Depth: 4
-R R G G 
+R R B R 
+G G R G 
+Y Y G Y 
+B B B Y 
+
+R R R G 
+G G G Y 
+B Y Y Y 
+B B B R 
+
+R R R G 
+Y G G G 
+Y Y Y B 
+B B B R 
+
+R R R B 
+G G G R 
+Y Y G Y 
+B B B Y 
+
+R R R B 
+R G G G 
+Y Y Y G 
+B B B Y 
+
+--------------------
+Depth: 3
+R R B B 
+G G G R 
+Y Y G R 
+B B Y Y 
+
+R R R G 
 Y G G Y 
 B Y Y B 
-B R B R 
+R B B G 
 
-B R R R 
-G G Y G 
-Y Y B G 
+R G R B 
+G Y G R 
+Y B Y G 
 B B R Y 
 
-B G R R 
-Y G G R 
-Y Y Y G 
+R B B R 
+G R R G 
+Y G Y G 
+B Y Y B 
+
+R R G G 
+G G Y Y 
+Y Y B B 
+R B R B 
+
+B R B R 
+R R G G 
+G Y G Y 
+Y B Y B 
+
+R G G R 
+G Y Y G 
+Y B B Y 
+R B R B 
+
+B R R R 
+B G G R 
+G Y Y G 
+Y B B Y 
+
+R R R R 
+G G G Y 
+G Y Y Y 
+B B B B 
+
+G B R R 
+G R G G 
+B Y Y Y 
+R Y B B 
+
+--------------------
+Depth: 4
+R R B G 
+G G R G 
+Y Y Y B 
+B Y R B 
+
+R R B R 
+G R B G 
+Y Y G G 
+B Y Y B 
+
+B R R R 
+G G G G 
+Y Y Y Y 
 R B B B 
 
 R R R Y 
-G G G B 
-R Y Y G 
-B B B Y 
-
-R G R R 
-Y R G G 
-Y B G Y 
-B B Y B 
-
-G G R R 
-Y G Y G 
-Y B B Y 
-B R R B 
-
-R G G R 
-Y G Y G 
-Y B B Y 
-R R B B 
-
-R R B B 
-G R G G 
-Y Y R G 
-B B Y Y 
-
-B R G R 
-R G Y G 
-Y B Y G 
-B Y R B 
-
-Y R R B 
-G R G G 
-R Y Y Y 
-G B B B 
-
-----------------------------
-Depth: 5
-G R G R 
-G G Y R 
-Y B Y Y 
-B B R B 
-
-G G R G 
-G Y Y Y 
-B B Y R 
-B R B R 
-
-R R R B 
-G Y R G 
-Y Y Y G 
-B B B G 
-
-R R B R 
-G G B G 
-Y Y G Y 
-Y B B R 
-
-B R B R 
-R G B G 
-Y G R Y 
-B Y G Y 
-
-R R R G 
-G Y G G 
-Y B Y Y 
-B B B R 
-
-B R R R 
 G G G R 
 B Y Y G 
-B Y B Y 
-
-R R G B 
-G G Y R 
-R Y Y G 
 B B B Y 
 
-G B R G 
-Y Y R G 
-Y B G B 
-R R Y B 
-
-B B B R 
-G R R G 
-R G G Y 
-Y Y Y B 
-
-----------------------------
-Depth: 6
-Y B R R 
-R R G B 
-Y G Y G 
-G Y B B 
-
-R G B Y 
-G G R B 
-R B Y G 
-B R Y Y 
-
-B R G R 
-G G Y G 
-Y B Y Y 
-R B R B 
+B R R R 
+G G G Y 
+Y Y B G 
+Y B B R 
 
 B R R G 
 R G G Y 
-B Y Y R 
+Y G Y B 
+R Y B B 
+
+B R R B 
+G R G R 
+Y G Y G 
+Y B Y B 
+
+B R R B 
+R G G G 
+G Y Y Y 
+Y B R B 
+
+B G R R 
+R Y G G 
+G Y B Y 
+B Y R B 
+
+R G R Y 
+G G Y B 
+Y Y B R 
+B B R G 
+
+--------------------
+Depth: 5
+R R R G 
+G G G R 
+B Y Y Y 
+B B B Y 
+
+R R R G 
+G G G Y 
+B Y Y B 
+Y B B R 
+
+R R G R 
+G Y R G 
+Y B Y Y 
+B G B B 
+
+G R G Y 
+G G Y B 
+R Y B Y 
+B B R R 
+
+B Y R R 
+R B G R 
+G G G Y 
+Y Y B B 
+
+G B R G 
+G R Y Y 
+Y G Y B 
+R B B R 
+
+B R G R 
+G Y Y G 
+B Y B G 
+Y R R B 
+
+Y R B R 
+B R G R 
+G Y G Y 
 G Y B B 
 
-B G Y R 
-G Y G R 
-B B Y G 
-B R R Y 
+B B G R 
+G R G Y 
+G R Y B 
+Y Y R B 
+
+R R G R 
+R B G G 
+Y G Y Y 
+B Y B B 
+
+--------------------
+Depth: 6
+B R B G 
+Y R R G 
+B G Y G 
+B Y Y R 
 
 R R G B 
 G G Y G 
-Y Y R B 
-B B R Y 
-
-B B B R 
-G R G R 
-G Y G R 
-Y B Y Y 
-
-R R G G 
-B G Y Y 
-R Y B Y 
-B R B G 
-
-R Y G R 
-R G B G 
 Y Y Y B 
-B B G R 
+B B R R 
 
-Y B R R 
-G B G R 
-R G Y Y 
+R G B R 
+G G Y Y 
+Y Y B G 
+B R B R 
+
+B R B R 
+R Y G G 
+Y G B G 
+R B Y Y 
+
+G G G R 
+B B Y G 
+Y B Y Y 
+R R R B 
+
+Y R B R 
+Y R G G 
 B G Y B 
+R G Y B 
 
-----------------------------
+G R R B 
+G Y G R 
+B Y Y Y 
+R B B G 
+
+R R G Y 
+G Y B R 
+B G G Y 
+B R Y B 
+
+R B R R 
+G B G G 
+Y Y G Y 
+B Y B R 
+
+G R B B 
+R Y B R 
+B Y G G 
+Y R Y G 
+
+--------------------
