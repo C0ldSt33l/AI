@@ -6,12 +6,6 @@ using System.Collections;
 
 namespace Game;
 
-class StateDB: Hashtable {
-    public override int GetHashCode() {
-        return base.GetHashCode();
-    }
-}
-
 class StateGen(Color selectedColor) {
     public Queue<State?> OpenNodes = new(new State[]{ State.TARGET_STATE });
     public HashSet<State?> CloseNodes = new();
@@ -40,7 +34,7 @@ class StateGen(Color selectedColor) {
         var sw = new StreamWriter(file);
         {
             foreach (var state in this.CloseNodes) {
-                sw.WriteLine(string.Join(" ", state.GetColorPositions(selectedColor)));
+                sw.WriteLine(state.GetColorPositions(selectedColor));
             }
         }
         sw.Close();

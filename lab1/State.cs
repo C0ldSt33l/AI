@@ -1,4 +1,6 @@
+using System.Data;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using Raylib_cs;
@@ -15,7 +17,17 @@ public class State {
     public  Color[,] Colors = new Color[4, 4];
     public  State? Parent = null;
 
-    public State() {}
+    public State(int[] colorPos, Color c, State? parent = null) {
+        for (var row = 0; row < 4; row++) {
+            for (var col = 0; col < 4; col++) {
+                this.Colors[row, col] =
+                    colorPos.Contains(row * 4 + col + 1) ?
+                        c : Color.Black;
+            }
+        }
+        this.Parent = parent;
+    }
+
     public State(string[] colors, State? parent = null) {
         for (var i = 0; i < 4; i++) {
             var chars = colors[i].Trim().Replace(" ", "").ToCharArray();
@@ -40,12 +52,7 @@ public class State {
     public State(char[,] chars, State? parent = null) {
         for (var row = 0; row < 4; row++) {
             for (var col = 0; col < 4; col++) {
-                this.Colors[row, col] = chars[row, col] switch {
-                    'R' => Color.Red,
-                    'G' => Color.Green,
-                    'Y' => Color.Yellow,
-                    'B' => Color.Blue
-                };
+                this.Colors[row, col] = this.CharToColor(chars[row, col]);
             }
         }
         this.Parent = parent;
@@ -113,7 +120,7 @@ public class State {
         return this.Equals(TARGET_STATE);
     }
 
-    public uint[] GetColorPositions(Color c) {
+    public string GetColorPositions(Color c) {
         var pos = new uint[4] { 0, 0, 0, 0 };
 
         for (int count = 0, i = 0; count < 4; i++) {
@@ -123,7 +130,7 @@ public class State {
             }
         }
 
-        return pos;
+        return String.Join(" ",pos);
     }
 
     // Search how many colors not on its own places
@@ -142,25 +149,25 @@ public class State {
     public static uint Heuristics2(State state, State target) {
         float value = 0;
 
-        for (var row = 0; row < state.Colors.GetLength(0); row++) {
-            for (var col = 0; col < state.Colors.GetLength(1); col++) {
-                var color = state.Colors[row, col];
-
-                if (!color.Equals(target.Colors[row, col])) {
-                    for (var targetRow = 0; targetRow < TARGET_STATE.Colors.GetLength(0); targetRow++) {
-                        for (var targetCol = 0; targetCol < TARGET_STATE.Colors.GetLength(1); targetCol++) {
-                            if (color.Equals(TARGET_STATE.Colors[targetRow, targetCol])) {
-                                uint distance = (uint)(Math.Abs(row - targetRow) + Math.Abs(col - targetCol));
-                                if (distance <= 2) {
-                                    value += distance;
-                                }
-                                else value += 1;
-
-                                break;
-                            }
+        for (var targetRow = 0; targetRow < 4; targetRow++) {
+            for (var targetCol = 0; targetCol < 4; targetCol++) {
+                var targetColor = target.Colors[targetRow, targetCol];
+                var pos = new int[4];
+                var curPos = 0;
+                for (var row = 0; row < 4; row++) {
+                    for (var col = 0; col < 4; col++) {
+                        if (curPos == 4) {
+                            value += pos.Min();
+                            goto Skip;
+                        }
+                        if (state.Colors[row, col].Equals(targetColor)) {
+                            (int x, int y) = (Math.Abs(targetRow - row), Math.Abs(targetCol - col));
+                            pos[curPos] = (x == 3 ? 1 : x) + (y == 3 ? 1 : y);
+                            curPos++;
                         }
                     }
                 }
+                Skip: {}
             }
         }
 
@@ -197,14 +204,24 @@ public class State {
             }
         }
 
-        return (uint)Math.Floor((rowsNotInPlace + colsNotInPlace) / 2.0f);
+        return (uint)Math.Floor((rowsNotInPlace + colsNotInPlace) / 4.0f);
     }
 
     // Extra task
     // Using subtask DB to evaluate approximated rest of path
+    public static Dictionary<string, uint> _pathDB = _createPathDB("db//red_subtask_complite.txt");
+    private static Dictionary<string, uint> _createPathDB(string path) {
+        var db = new Dictionary<string, uint>();
+        foreach (var line in File.ReadAllLines(path)) {
+            var tmp = line.Trim().Split(":");
+            db[tmp[0]] = UInt32.Parse(tmp[1]);
+        }
+
+        return db;
+    }
     public static uint DBHeuristics(State state, State target) {
-        uint val = 0;
-        return val;
+        uint valByDB = State._pathDB[state.GetColorPositions(Color.Red)];
+        return valByDB;
     }
 
     private Color[][] _getRows() {
@@ -299,18 +316,6 @@ public class State {
         return new State(colors, this);
     }
 
-    public int getHashCodeByColor(Color c) {
-        var hash = 0;
-        var i = 0;
-
-        foreach (var _ in this.Colors) {
-            int row = i / 4, col = i % 4;
-            hash += i + 1 + row + 1 + col + 1;
-            i++;
-        }
-        return hash;
-    }
-
     public override string ToString() {
         var builder = new StringBuilder(4 * 4 * 2 + 4);
         for (var row = 0; row < 4; row++) {
@@ -329,6 +334,7 @@ public class State {
             Color c when c.Equals(Color.Green) => 'G',
             Color c when c.Equals(Color.Yellow) => 'Y',
             Color c when c.Equals(Color.Blue) => 'B',
+
             _ => '?',
         };
     }
@@ -339,6 +345,7 @@ public class State {
             'G' => Color.Green,
             'Y' => Color.Yellow,
             'B' => Color.Blue,
+
             _ =>  Color.Black,
         };
     }

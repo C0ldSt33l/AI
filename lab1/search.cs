@@ -148,7 +148,7 @@ public class BiDirectionalSearch(State start, State target): ISearch {
             var startNode = this.StartOpenNodes.Dequeue();
             var endNode = this.EndOpenNodes.Dequeue();
 
-            if (endNode.IsTargetState() && endNode.Equals(startNode)) {
+            if (endNode.Equals(target) && endNode.Equals(startNode)) {
                 return new List<State>() { startNode };
             }
 
@@ -163,7 +163,7 @@ public class BiDirectionalSearch(State start, State target): ISearch {
                         this.StartOpenNodes.Enqueue(state);
                     }
                     if (this.StartOpenNodes.Contains(endNode)) {
-                        this._printInfo();
+                        // this._printInfo();
                         startNode = this.StartOpenNodes.First(el => el.Equals(endNode));
                         var path = this._getPath(startNode, endNode);
                         return path;
@@ -177,7 +177,7 @@ public class BiDirectionalSearch(State start, State target): ISearch {
                         this.EndOpenNodes.Enqueue(state);
                     }
                     if (this.EndOpenNodes.Contains(startNode)) {
-                        this._printInfo();
+                        // this._printInfo();
                         endNode = this.EndOpenNodes.First(el => el.Equals(startNode));
                         var path = this._getPath(startNode, endNode);
                         return path;

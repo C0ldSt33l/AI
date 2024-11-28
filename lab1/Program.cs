@@ -275,13 +275,8 @@ public class Game {
     }
     
     private void _setCirclesInWinState() {
-        var state = new State(new char[4, 4] {
-            { 'Y', 'B', 'R', 'R' },
-            { 'R', 'R', 'G', 'B' },
-            { 'Y', 'G', 'Y', 'G' },
-            { 'G', 'Y', 'B', 'B' },
-        });
-        var colors = new Color[] { Color.Red, Color.Green, Color.Yellow, Color.Blue };
+        var state = State.TARGET_STATE;
+        // var colors = new Color[] { Color.Red, Color.Green, Color.Yellow, Color.Blue };
         this._circles = new Circle[4, 4];
         for (var row = 0; row < this._cells.GetLength(0); row++) {
             for (var col = 0; col < this._cells.GetLength(1); col++) {
@@ -448,6 +443,27 @@ class Program {
     public static void Main(String[] args) {
         // new Game().Update();
         // Test.GenStarStates();
-        Test.RunTests(new string[] { "BiDirectional", "AStar1", "AStar3", "Width" });
+        // Test.RunTests(new string[] { "AStar3" });
+
+        // var positions = File.ReadAllLines("db//red_subtask.txt");
+        // var states = new State[positions.Length];
+        // for (var i = 0; i < positions.Length; i++) {
+        //     states[i] = new State(Array.ConvertAll(positions[i].Trim().Split(" "), it => Int32.Parse(it)), Color.Red);
+        // }
+        // var dict = new Dictionary<string, int>();
+        // var target = new State(new char[4, 4] {
+        //         { 'R', 'R', 'R', 'R' },
+        //         { '?', '?', '?', '?' },
+        //         { '?', '?', '?', '?' },
+        //         { '?', '?', '?', '?' },
+        // });
+        // for (var i = 0; i < positions.Length; i++) {
+        //     Console.WriteLine(i);
+        //     dict[positions[i]] = new BiDirectionalSearch(states[i], target).Search().Count - 1;
+        // }
+        // foreach ((string pos, int len) in dict) {
+        //     File.AppendAllText("db//red_subtask_complite.txt", pos + ":" + len + "\n");
+        // }
+
     }
 }
