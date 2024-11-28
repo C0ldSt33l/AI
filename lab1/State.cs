@@ -78,7 +78,10 @@ public class State {
 
             chaos.Parent = null;
             // Console.WriteLine(chaos.Parent);
-            pathLength = new BiDirectionalSearch(chaos, State.TARGET_STATE).Search().Count - 1;
+            pathLength = new BiDirectionalSearch(
+                chaos, State.TARGET_STATE,
+                State.FullDiscovery, State.FullDiscovery
+            ).Search().Count - 1;
             Console.WriteLine("path length: " + pathLength);
             Console.WriteLine("diff :" + (depth - pathLength));
             if (pathLength > depth) {
@@ -90,13 +93,31 @@ public class State {
         return chaos;
     }
 
-    public List<State> Discovery() {
+    public static List<State> FullDiscovery(State state) {
         var states = new List<State>();
         for (var i = 0; i < 4; i++) {
-            states.Add(this.moveRow(i, Direction.LEFT));
-            states.Add(this.moveCol(i, Direction.UP));
-            states.Add(this.moveRow(i, Direction.RIGHT));
-            states.Add(this.moveCol(i, Direction.DOWN));
+            states.Add(state.moveRow(i, Direction.LEFT));
+            states.Add(state.moveCol(i, Direction.UP));
+            states.Add(state.moveRow(i, Direction.RIGHT));
+            states.Add(state.moveCol(i, Direction.DOWN));
+        }
+
+        return states;
+    }
+    public static List<State> Discovery(State state) {
+        var states = new List<State>();
+        for (var i = 0; i < 4; i++) {
+            states.Add(state.moveRow(i, Direction.LEFT));
+            states.Add(state.moveCol(i, Direction.UP));
+        }
+
+        return states;
+    }
+    public static List<State> ReverseDiscovery(State state) {
+        var states = new List<State>();
+        for (var i = 0; i < 4; i++) {
+            states.Add(state.moveRow(i, Direction.RIGHT));
+            states.Add(state.moveCol(i, Direction.DOWN));
         }
 
         return states;

@@ -304,14 +304,14 @@ public class Game {
         }
 
         this._searchButtons = new UIButton<Action<State>>[] {
-            new ("Width", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Width search", new WidthFirstSearch(start))),
-            new ("Depth", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Depth search", new DepthFirstSearch(start))),
-            new ("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), (State start) => this.Search("Depth with limitation search", new DepthLimitedSearch(start))),
-            new ("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), (State start) => this.Search("BiDirectional search", new BiDirectionalSearch(start, State.TARGET_STATE))),
+            new ("Width", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Width search", new WidthFirstSearch(start, State.TARGET_STATE, State.Discovery))),
+            new ("Depth", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Depth search", new DepthFirstSearch(start, State.TARGET_STATE, State.Discovery))),
+            new ("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), (State start) => this.Search("Depth with limitation search", new DepthLimitedSearch(start, State.TARGET_STATE, State.Discovery))),
+            new ("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), (State start) => this.Search("BiDirectional search", new BiDirectionalSearch(start, State.TARGET_STATE, State.FullDiscovery, State.FullDiscovery))),
 
-            new ("A*1", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*1 search", new AStar(start, State.Heuristics1))),
-            new ("A*2", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*2 search", new AStar(start, State.Heuristics2))),
-            new ("A*3", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*3 search", new AStar(start, State.TheMostFoolishHeuristics))),
+            new ("A*1", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*1 search", new AStar(start, State.TARGET_STATE, State.Discovery, State.Heuristics1))),
+            new ("A*2", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*2 search", new AStar(start, State.TARGET_STATE, State.Discovery, State.Heuristics2))),
+            new ("A*3", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*3 search", new AStar(start, State.TARGET_STATE, State.Discovery, State.TheMostFoolishHeuristics))),
         };
         for (var i = 1; i < 5; i++) {
             var prevButton = this._searchButtons[i - 1];
@@ -441,7 +441,7 @@ public class Game {
 
 class Program {
     public static void Main(String[] args) {
-        // new Game().Update();
+        new Game().Update();
         // Test.GenStarStates();
         // Test.RunTests(new string[] { "AStar3" });
 

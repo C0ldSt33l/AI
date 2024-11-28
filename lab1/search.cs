@@ -40,8 +40,11 @@ public interface ISearch {
 }
 
 // LAB №1
-public class WidthFirstSearch(State StartState): ISearch {
-    public Queue<State> OpenNodes = new(new State[] { StartState });
+public class WidthFirstSearch(
+    State start, State target,
+    Func<State, List<State>> discovery
+): ISearch {
+    public Queue<State> OpenNodes = new(new State[] { start });
     public HashSet<State> CloseNodes = new();
 
     public SearchInfo Info = new();
@@ -56,7 +59,7 @@ public class WidthFirstSearch(State StartState): ISearch {
             );
             var node = this.OpenNodes.Dequeue();
 
-            if (node.IsTargetState()) {
+            if (node.Equals(target)) {
                 Console.WriteLine(this.Info);
                 Console.WriteLine("Search finished");
 
@@ -64,7 +67,7 @@ public class WidthFirstSearch(State StartState): ISearch {
             }
             this.CloseNodes.Add(node);
 
-            foreach (var state in node.Discovery()) {
+            foreach (var state in discovery(node)) {
                 if (this.OpenNodes.Contains(state)) continue;
                 if (this.CloseNodes.Contains(state)) continue;
                 this.OpenNodes.Enqueue(state);
@@ -77,9 +80,11 @@ public class WidthFirstSearch(State StartState): ISearch {
 
     public string GetStatistic() => this.Info.ToString();
 }
-
-public class DepthFirstSearch(State StartState): ISearch {
-    public Stack<State> OpenNodes = new (new State[] { StartState });
+public class DepthFirstSearch(
+    State start, State target,
+    Func<State, List<State>> discovery
+): ISearch {
+    public Stack<State> OpenNodes = new (new State[] { start });
     public HashSet<State> CloseNodes = new();
 
     public SearchInfo Info;
@@ -93,14 +98,14 @@ public class DepthFirstSearch(State StartState): ISearch {
 
             var node = this.OpenNodes.Pop();
 
-            if (node.IsTargetState()) {
+            if (node.Equals(target)) {
                 Console.WriteLine(this.Info);
                 Console.WriteLine("Search finished");
                 return node.GetPath();
             }
             this.CloseNodes.Add(node);
 
-            foreach (var state in node.Discovery()) {
+            foreach (var state in discovery(node)) {
                 if (this.OpenNodes.Any(n => node.Equals(state))) continue;
                 if (this.CloseNodes.Contains(state)) continue;
                 this.OpenNodes.Push(state);
@@ -115,15 +120,17 @@ public class DepthFirstSearch(State StartState): ISearch {
 }
 
 // LAB №2
-public class BiDirectionalSearch(State start, State target): ISearch {
+public class BiDirectionalSearch(
+    State start, State target,
+    Func<State, List<State>> discovery,
+    Func<State, List<State>> revDiscovery
+): ISearch {
     public Queue<State> StartOpenNodes = new(
         new State[] { start }
     );
     public HashSet<State> StartCloseNodes = new();
     public SearchInfo StartInfo;
 
-    //! FUCKING BLACK MAGIC: WHEN `start` IS TARGET, `TARGET_STATE` in `EndOpenNodes`
-    //! CHANGE `Parent` FROM NULL TO HIMSELF WITH NULL PARENT
     public Queue<State> EndOpenNodes = new(
         new State[] { target }
     );
@@ -137,62 +144,44 @@ public class BiDirectionalSearch(State start, State target): ISearch {
         //     Console.WriteLine("state\n" + state);
         //     Console.WriteLine("parent\n" + state.Parent);
         // }
+        if (start.Equals(target)) return new() { start };
         while(this.StartOpenNodes.Count() > 0 || this.EndOpenNodes.Count() > 0) {
             this.Info.Update(
                 this.StartOpenNodes.Count + this.EndOpenNodes.Count,
                 this.StartOpenNodes.Count + this.StartCloseNodes.Count + this.EndOpenNodes.Count + this.EndCloseNodes.Count
             );
-            this.StartInfo.Update(this.StartOpenNodes.Count, this.StartOpenNodes.Count + this.StartCloseNodes.Count);
-            this.EndInfo.Update(this.EndOpenNodes.Count, this.EndOpenNodes.Count + this.StartCloseNodes.Count);
 
             var startNode = this.StartOpenNodes.Dequeue();
-            var endNode = this.EndOpenNodes.Dequeue();
+            foreach(var state in discovery(startNode)) {
+                this.StartInfo.Update(this.StartOpenNodes.Count, this.StartOpenNodes.Count + this.StartCloseNodes.Count);
+                if (this.EndOpenNodes.Contains(state)) {
+                    // this._printInfo();
+                    var node = this.EndOpenNodes.First(el => el.Equals(state));
+                    var path = this._getPath(state, node);
+                    return path;
+                }
 
-            if (endNode.Equals(target) && endNode.Equals(startNode)) {
-                return new List<State>() { startNode };
+                if (this.StartOpenNodes.Contains(state)) continue;
+                if (this.StartCloseNodes.Contains(state)) continue;
+                this.StartOpenNodes.Enqueue(state);
             }
-
             this.StartCloseNodes.Add(startNode);
+
+            var endNode = this.EndOpenNodes.Dequeue();
+            foreach(var state in revDiscovery(endNode)) {
+                this.EndInfo.Update(this.EndOpenNodes.Count, this.EndOpenNodes.Count + this.StartCloseNodes.Count);
+                if (this.StartOpenNodes.Contains(state)) {
+                    // this._printInfo();
+                    var node = this.StartOpenNodes.First(el => el.Equals(state));
+                    var path = this._getPath(node, state);
+                    return path;
+                }
+
+                if (this.EndOpenNodes.Contains(state)) continue;
+                if (this.EndCloseNodes.Contains(state)) continue;
+                this.EndOpenNodes.Enqueue(state);
+            }
             this.EndCloseNodes.Add(endNode);
-
-            Func<List<State>?>
-                firstCheck = () => {
-                    foreach(var state in startNode.Discovery()) {
-                        if (this.StartOpenNodes.Contains(state)) continue;
-                        if (this.StartCloseNodes.Contains(state)) continue;
-                        this.StartOpenNodes.Enqueue(state);
-                    }
-                    if (this.StartOpenNodes.Contains(endNode)) {
-                        // this._printInfo();
-                        startNode = this.StartOpenNodes.First(el => el.Equals(endNode));
-                        var path = this._getPath(startNode, endNode);
-                        return path;
-                    }
-                    return null;
-                },
-                secondCheck = () => {
-                    foreach(var state in endNode.Discovery()) {
-                        if (this.EndOpenNodes.Contains(state)) continue;
-                        if (this.EndCloseNodes.Contains(state)) continue;
-                        this.EndOpenNodes.Enqueue(state);
-                    }
-                    if (this.EndOpenNodes.Contains(startNode)) {
-                        // this._printInfo();
-                        endNode = this.EndOpenNodes.First(el => el.Equals(startNode));
-                        var path = this._getPath(startNode, endNode);
-                        return path;
-                    }
-
-                    return null;
-                };
-
-            if (this.StartOpenNodes.Count > this.EndOpenNodes.Count)
-                (firstCheck, secondCheck) = (secondCheck, firstCheck);
-
-            var check = firstCheck();
-            if (check != null) return check;
-            check = secondCheck();
-            if (check != null) return check;
         }
 
         Console.WriteLine("Search finished");
@@ -226,7 +215,101 @@ public class BiDirectionalSearch(State start, State target): ISearch {
     }
 }
 
-public class DepthLimitedSearch(State start): ISearch {
+// public class BiDirectionalSearch(
+//     State start, State target,
+//     Func<State, List<State>> discovery,
+//     Func<State, List<State>> revDiscovery
+// ): ISearch {
+//     public Queue<State> StartOpenNodes = new(
+//         new State[] { start }
+//     );
+//     public HashSet<State> StartCloseNodes = new();
+//     public SearchInfo StartInfo;
+
+//     public Queue<State> EndOpenNodes = new(
+//         new State[] { target }
+//     );
+//     public HashSet<State> EndCloseNodes = new();
+//     public SearchInfo EndInfo;
+
+//     public SearchInfo Info;
+
+//     public List<State>? Search() {
+//         // foreach (var state in this.EndOpenNodes) {
+//         //     Console.WriteLine("state\n" + state);
+//         //     Console.WriteLine("parent\n" + state.Parent);
+//         // }
+//         while(this.StartOpenNodes.Count() > 0 || this.EndOpenNodes.Count() > 0) {
+//             this.Info.Update(
+//                 this.StartOpenNodes.Count + this.EndOpenNodes.Count,
+//                 this.StartOpenNodes.Count + this.StartCloseNodes.Count + this.EndOpenNodes.Count + this.EndCloseNodes.Count
+//             );
+//             this.StartInfo.Update(this.StartOpenNodes.Count, this.StartOpenNodes.Count + this.StartCloseNodes.Count);
+//             this.EndInfo.Update(this.EndOpenNodes.Count, this.EndOpenNodes.Count + this.StartCloseNodes.Count);
+
+//             var startNode = this.StartOpenNodes.First();
+//             var inEnd = this.EndOpenNodes.FirstOrDefault(it => it.Equals(startNode), null);
+//             if (inEnd != null) {
+//                 var path = this._getPath(startNode, inEnd);
+//                 return path;
+//             }
+//             foreach (var state in discovery(startNode)) {
+//                 if (this.StartOpenNodes.Contains(state) || this.StartCloseNodes.Contains(state)) continue;
+//                 this.StartOpenNodes.Enqueue(state);
+//             }
+
+//             var endNode = this.EndOpenNodes.First();
+//             var inStart = this.StartOpenNodes.FirstOrDefault(it => it.Equals(endNode), null);
+//             if (inStart != null) {
+//                 var path = this._getPath(inStart, endNode);
+//                 return path;
+//             }
+//             foreach (var state in revDiscovery(endNode)) {
+//                 if (this.EndOpenNodes.Contains(state) || this.EndCloseNodes.Contains(state)) continue;
+//                 this.EndOpenNodes.Enqueue(state);
+//             }            
+
+//             this.StartOpenNodes.Dequeue();
+//             this.EndOpenNodes.Dequeue();
+//             this.StartCloseNodes.Add(startNode);
+//             this.EndCloseNodes.Add(endNode);
+//         }
+
+//         Console.WriteLine("Search finished");
+//         return null;
+//     }
+
+//     public string GetStatistic() => 
+//         "Start\n" + this.StartInfo.ToString() +
+//         "End\n" + this.EndInfo.ToString() +
+//         "Common\n" + this.Info.ToString();
+
+//     private List<State>? _getPath(State start, State end) {
+//                 List<State>
+//                     startPath = start.GetPath(),
+//                     endPath = end.GetPath();
+
+//                 endPath.Reverse();
+//                 endPath.RemoveAt(0);
+
+//                 return startPath.Concat(endPath).ToList();
+//     }
+
+//     private void _printInfo() {
+//                 Console.WriteLine("Start:");
+//                 Console.WriteLine(this.StartInfo);
+
+//                 Console.WriteLine("End:");
+//                 Console.WriteLine(this.EndInfo);
+
+//                 Console.WriteLine("Search finished");
+//     }
+// }
+
+public class DepthLimitedSearch(
+    State start, State target,
+    Func<State, List<State>> discovery
+): ISearch {
     public Stack<(State node, int depth)> OpenNodes = new(
         new (State node, int depth)[] {
             new(start, 0)
@@ -260,7 +343,7 @@ public class DepthLimitedSearch(State start): ISearch {
                 this.CloseNodes.Add(node);
 
                 if (depth < maxDepth) {
-                    foreach (var state in node.Discovery()) {
+                    foreach (var state in discovery(node)) {
                         if (this.OpenNodes.Any(n => n.node.Equals(state))) continue;
                         if (this.CloseNodes.Contains(state)) continue;
                         this.OpenNodes.Push((state, depth + 1));
@@ -285,10 +368,14 @@ public class DepthLimitedSearch(State start): ISearch {
 
 
 // LAB №3
-public class AStar(State start, Func<State, State, uint> heuristics): ISearch {
+public class AStar(
+    State start, State target,
+    Func<State, List<State>> discovery,
+    Func<State, State, uint> heuristics
+): ISearch {
     public List<(State state, uint val)> OpenNodes = new(
         new (State, uint)[] { 
-                (start, heuristics(start, State.TARGET_STATE)),
+                (start, heuristics(start, target)),
             }
         );
     public HashSet<(State state, uint val)> CloseNodes = new();
@@ -312,8 +399,8 @@ public class AStar(State start, Func<State, State, uint> heuristics): ISearch {
             this.CloseNodes.Add(item);
 
             var traveledPath = (uint)item.state.GetPath().Count;
-            foreach (var state in item.state.Discovery()) {
-                var newVal = traveledPath + heuristics(state, State.TARGET_STATE);
+            foreach (var state in discovery(item.state)) {
+                var newVal = traveledPath + heuristics(state, target);
 
                 var openNodeIndex = this.OpenNodes.FindIndex(((State, uint) item) => item.Item1.Equals(state));
                 if (openNodeIndex > -1 && newVal < this.OpenNodes[openNodeIndex].val) {

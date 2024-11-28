@@ -30,13 +30,13 @@ public static class Test {
                 File.AppendAllText(file, "Depth: " + pair.Key + "\n");
                 foreach (var state in pair.Value) {
                     ISearch search = name.ToLower() switch {
-                        "width" => new WidthFirstSearch(state),
-                        "depth" => new DepthFirstSearch(state),
-                        "bidirectional" => new BiDirectionalSearch(state, State.TARGET_STATE),
-                        "depth limited" => new DepthLimitedSearch(state),
-                        "astar1" => new AStar(state, State.Heuristics1),
-                        "astar2" => new AStar(state, State.Heuristics2),
-                        "astar3" => new AStar(state, State.TheMostFoolishHeuristics),
+                        "width" => new WidthFirstSearch(state, State.TARGET_STATE, State.Discovery),
+                        "depth" => new DepthFirstSearch(state, State.TARGET_STATE, State.Discovery),
+                        "bidirectional" => new BiDirectionalSearch(state, State.TARGET_STATE, State.Discovery, State.ReverseDiscovery),
+                        "depth limited" => new DepthLimitedSearch(state, State.TARGET_STATE, State.Discovery),
+                        "astar1" => new AStar(state, State.TARGET_STATE, State.Discovery, State.Heuristics1),
+                        "astar2" => new AStar(state, State.TARGET_STATE, State.Discovery, State.Heuristics2),
+                        "astar3" => new AStar(state, State.TARGET_STATE, State.Discovery, State.TheMostFoolishHeuristics),
                         _ => throw new Exception("Such search is not exist"),
                     };
                     var path = search.Search();

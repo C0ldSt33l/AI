@@ -14,7 +14,7 @@ class StateGen(Color selectedColor) {
         while (this.OpenNodes.Count > 0) {
             var curState = this.OpenNodes.Dequeue();
             this.CloseNodes.Add(curState);
-            foreach (var state in curState.Discovery()) {
+            foreach (var state in State.FullDiscovery(curState)) {
                 State? find; 
 
                 find = this.OpenNodes.FirstOrDefault(el => state.EqualsByColor(el, selectedColor), null);
