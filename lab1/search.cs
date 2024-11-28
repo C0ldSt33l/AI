@@ -151,37 +151,35 @@ public class BiDirectionalSearch(
                 this.StartOpenNodes.Count + this.StartCloseNodes.Count + this.EndOpenNodes.Count + this.EndCloseNodes.Count
             );
 
-            var startNode = this.StartOpenNodes.Dequeue();
-            foreach(var state in discovery(startNode)) {
+            var newOpenNodes = new Queue<State>();
+            foreach (var node in this.StartOpenNodes) {
                 this.StartInfo.Update(this.StartOpenNodes.Count, this.StartOpenNodes.Count + this.StartCloseNodes.Count);
-                if (this.EndOpenNodes.Contains(state)) {
-                    // this._printInfo();
-                    var node = this.EndOpenNodes.First(el => el.Equals(state));
-                    var path = this._getPath(state, node);
-                    return path;
+                this.StartCloseNodes.Add(node);
+                
+                foreach(var state in discovery(node)) {
+                    var end = this.EndOpenNodes.FirstOrDefault(el => el.Equals(state), null);
+                    if (end != null) return this._getPath(state, end);
+
+                    if (this.StartOpenNodes.Contains(state) || this.StartCloseNodes.Contains(state)) continue;
+                    newOpenNodes.Enqueue(state);
                 }
-
-                if (this.StartOpenNodes.Contains(state)) continue;
-                if (this.StartCloseNodes.Contains(state)) continue;
-                this.StartOpenNodes.Enqueue(state);
             }
-            this.StartCloseNodes.Add(startNode);
+            this.StartOpenNodes = newOpenNodes;
 
-            var endNode = this.EndOpenNodes.Dequeue();
-            foreach(var state in revDiscovery(endNode)) {
-                this.EndInfo.Update(this.EndOpenNodes.Count, this.EndOpenNodes.Count + this.StartCloseNodes.Count);
-                if (this.StartOpenNodes.Contains(state)) {
-                    // this._printInfo();
-                    var node = this.StartOpenNodes.First(el => el.Equals(state));
-                    var path = this._getPath(node, state);
-                    return path;
+            newOpenNodes = new Queue<State>();
+            foreach (var node in this.EndOpenNodes) {
+                this.EndInfo.Update(this.EndOpenNodes.Count, this.EndOpenNodes.Count + this.EndCloseNodes.Count);
+                this.EndCloseNodes.Add(node);
+                
+                foreach(var state in revDiscovery(node)) {
+                    var start = this.StartOpenNodes.FirstOrDefault(el => el.Equals(state), null);
+                    if (start != null) return this._getPath(start, state);
+
+                    if (this.EndOpenNodes.Contains(state) || this.EndCloseNodes.Contains(state)) continue;
+                    newOpenNodes.Enqueue(state);
                 }
-
-                if (this.EndOpenNodes.Contains(state)) continue;
-                if (this.EndCloseNodes.Contains(state)) continue;
-                this.EndOpenNodes.Enqueue(state);
             }
-            this.EndCloseNodes.Add(endNode);
+            this.EndOpenNodes = newOpenNodes;
         }
 
         Console.WriteLine("Search finished");

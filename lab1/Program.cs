@@ -307,7 +307,7 @@ public class Game {
             new ("Width", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Width search", new WidthFirstSearch(start, State.TARGET_STATE, State.Discovery))),
             new ("Depth", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Depth search", new DepthFirstSearch(start, State.TARGET_STATE, State.Discovery))),
             new ("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), (State start) => this.Search("Depth with limitation search", new DepthLimitedSearch(start, State.TARGET_STATE, State.Discovery))),
-            new ("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), (State start) => this.Search("BiDirectional search", new BiDirectionalSearch(start, State.TARGET_STATE, State.FullDiscovery, State.FullDiscovery))),
+            new ("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), (State start) => this.Search("BiDirectional search", new BiDirectionalSearch(start, State.TARGET_STATE, State.Discovery, State.ReverseDiscovery))),
 
             new ("A*1", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*1 search", new AStar(start, State.TARGET_STATE, State.Discovery, State.Heuristics1))),
             new ("A*2", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*2 search", new AStar(start, State.TARGET_STATE, State.Discovery, State.Heuristics2))),
