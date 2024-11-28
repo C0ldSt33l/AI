@@ -53,26 +53,31 @@ public class State {
 
     public State AddSomeChaos(uint depth) {
         var rand = (int min, int max) => RandomNumberGenerator.GetInt32(min, max + 1);
-        Console.WriteLine("depth: " + depth);
 
-        State chaos;
+        State chaos = this;
         int pathLength = 0;
+        bool odd = true;
         do {
-            chaos = this;
-            for (var i = 0; i < depth; i++) {
+            Console.WriteLine("depth: " + depth);
+            var diff = depth - pathLength;
+            for (var i = 0; i < diff; i++) {
                 var idx = rand(0, 3);
-                chaos = rand(0, 3) switch {
-                    0 => chaos.moveRow(idx, Direction.LEFT),
-                    1 => chaos.moveRow(idx, Direction.RIGHT),
-
-                    2 => chaos.moveCol(idx, Direction.UP),
-                    3 => chaos.moveCol(idx, Direction.DOWN),
+                chaos = odd switch {
+                    true => chaos.moveCol(idx, (Direction)rand(0, 1)),
+                    false => chaos.moveRow(idx, (Direction)rand(2, 3)),
                 };
+                odd = !odd;
             }
 
             chaos.Parent = null;
-            Console.WriteLine(chaos.Parent);
-            pathLength = new BiDirectionalSearch(chaos).Search().Count - 1;
+            // Console.WriteLine(chaos.Parent);
+            pathLength = new BiDirectionalSearch(chaos, State.TARGET_STATE).Search().Count - 1;
+            Console.WriteLine("path length: " + pathLength);
+            Console.WriteLine("diff :" + (depth - pathLength));
+            if (pathLength > depth) {
+                chaos = this;
+                pathLength = 0;
+            }
         } while (pathLength != depth);
 
         return chaos;

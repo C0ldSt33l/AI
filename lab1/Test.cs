@@ -1,30 +1,25 @@
+using System.Runtime.Versioning;
 using Microsoft.Win32.SafeHandles;
 using Raylib_cs;
 
 namespace Game;
 
 public static class Test {
-    public  static void GenStarStates() {
-        using (var file = File.AppendText("report//start_states.txt")) {
-            for (int step = 2, depth = 2, i = 0; i < 1; i++, depth += step) {
+    public static void GenStarStates() {
+        var fileName = "report//start_states.txt";
+            for (int step = 1, depth = 2, i = 0; i < 5; i++, depth += step) {
                 var states = new List<State>();
+                File.AppendAllText(fileName, "Depth: " + depth + "\n");
                 while (states.Count < 10) {
-                    var state = new State(new char[4, 4] {
-                        {'R', 'R', 'R', 'R'}, 
-                        {'G', 'G', 'G', 'G'}, 
-                        {'Y', 'Y', 'Y', 'Y'}, 
-                        {'B', 'B', 'B', 'B'}, 
-                    }).AddSomeChaos((uint)depth);
+                    var state = State.TARGET_STATE.AddSomeChaos((uint)depth);
                     if (states.Contains(state)) continue;
                     states.Add(state);
                 }
-                file.WriteLine("Depth: " + depth);
                 states.ForEach(it => {
-                    file.WriteLine(it);
-                    file.WriteLine();
+                    File.AppendAllText(fileName, it.ToString() + "\n\n");
                 });
+                File.AppendAllText(fileName, "--------------------\n");
             }
-        }
     }
 
     public static void RunTests(string[] searches) {
@@ -37,11 +32,11 @@ public static class Test {
                     ISearch search = name.ToLower() switch {
                         "width" => new WidthFirstSearch(state),
                         "depth" => new DepthFirstSearch(state),
-                        "bidirectional" => new BiDirectionalSearch(state),
+                        "bidirectional" => new BiDirectionalSearch(state, State.TARGET_STATE),
                         "depth limited" => new DepthLimitedSearch(state),
-                        "a*1" => new AStar(state, State.Heuristics1),
-                        "a*2" => new AStar(state, State.Heuristics2),
-                        "a*3" => new AStar(state, State.TheMostFoolishHeuristics),
+                        "astar1" => new AStar(state, State.Heuristics1),
+                        "astar2" => new AStar(state, State.Heuristics2),
+                        "astar3" => new AStar(state, State.TheMostFoolishHeuristics),
                         _ => throw new Exception("Such search is not exist"),
                     };
                     var path = search.Search();

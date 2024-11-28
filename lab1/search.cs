@@ -115,7 +115,7 @@ public class DepthFirstSearch(State StartState): ISearch {
 }
 
 // LAB №2
-public class BiDirectionalSearch(State start): ISearch {
+public class BiDirectionalSearch(State start, State target): ISearch {
     public Queue<State> StartOpenNodes = new(
         new State[] { start }
     );
@@ -125,12 +125,7 @@ public class BiDirectionalSearch(State start): ISearch {
     //! FUCKING BLACK MAGIC: WHEN `start` IS TARGET, `TARGET_STATE` in `EndOpenNodes`
     //! CHANGE `Parent` FROM NULL TO HIMSELF WITH NULL PARENT
     public Queue<State> EndOpenNodes = new(
-        new State[] { new State(new char[4, 4] {
-                        {'R', 'R', 'R', 'R'}, 
-                        {'G', 'G', 'G', 'G'}, 
-                        {'Y', 'Y', 'Y', 'Y'}, 
-                        {'B', 'B', 'B', 'B'}, 
-                    }) }
+        new State[] { target }
     );
     public HashSet<State> EndCloseNodes = new();
     public SearchInfo EndInfo;
@@ -138,7 +133,7 @@ public class BiDirectionalSearch(State start): ISearch {
     public SearchInfo Info;
 
     public List<State>? Search() {
-        // foreach (var state in this.StartOpenNodes) {
+        // foreach (var state in this.EndOpenNodes) {
         //     Console.WriteLine("state\n" + state);
         //     Console.WriteLine("parent\n" + state.Parent);
         // }
@@ -168,6 +163,7 @@ public class BiDirectionalSearch(State start): ISearch {
                         this.StartOpenNodes.Enqueue(state);
                     }
                     if (this.StartOpenNodes.Contains(endNode)) {
+                        this._printInfo();
                         startNode = this.StartOpenNodes.First(el => el.Equals(endNode));
                         var path = this._getPath(startNode, endNode);
                         return path;
@@ -181,6 +177,7 @@ public class BiDirectionalSearch(State start): ISearch {
                         this.EndOpenNodes.Enqueue(state);
                     }
                     if (this.EndOpenNodes.Contains(startNode)) {
+                        this._printInfo();
                         endNode = this.EndOpenNodes.First(el => el.Equals(startNode));
                         var path = this._getPath(startNode, endNode);
                         return path;

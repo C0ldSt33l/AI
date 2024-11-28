@@ -159,11 +159,11 @@ public class Game {
         Console.WriteLine(name);
         var path = search.Search();
 
-        Console.WriteLine("path");
-        path.ForEach(it => {
-            Console.WriteLine(it);
-            Console.WriteLine();
-        });
+        // Console.WriteLine("path");
+        // path.ForEach(it => {
+        //     Console.WriteLine(it);
+        //     Console.WriteLine();
+        // });
 
         if (path == null) {
             Console.WriteLine("Path is not found\n");
@@ -176,20 +176,20 @@ public class Game {
             this._curState = 0;
         }
 
-        var pathLength = path.Count - 1;
-        var statistic = search.GetStatistic() + "Path length: " + pathLength + "\n\n";
-        File.AppendAllText("report//" + name + ".txt", statistic);
+        // var pathLength = path.Count - 1;
+        // var statistic = search.GetStatistic() + "Path length: " + pathLength + "\n\n";
+        // File.AppendAllText("report//" + name + ".txt", statistic);
 
-        var starStateFile = "report//start_states.txt";
-        if (startStates.Count == 10) { startStates.Clear(); curDepth += 2; }
-        if (startStates.Count == 0) {
-            File.AppendAllText(starStateFile, "Depth: " + curDepth + "\n");
-        }
-        var first = path.First();
-        if ((path.Count - 1) == curDepth && !startStates.Contains(first)) {
-            startStates.Add(first);
-            File.AppendAllText(starStateFile, first.ToString() + "\n\n");
-        }
+        // var starStateFile = "report//start_states.txt";
+        // if (startStates.Count == 10) { startStates.Clear(); curDepth += 2; }
+        // if (startStates.Count == 0) {
+        //     File.AppendAllText(starStateFile, "Depth: " + curDepth + "\n");
+        // }
+        // var first = path.First();
+        // if ((path.Count - 1) == curDepth && !startStates.Contains(first)) {
+        //     startStates.Add(first);
+        //     File.AppendAllText(starStateFile, first.ToString() + "\n\n");
+        // }
     }
 
     public void PlayNextState() {
@@ -275,11 +275,17 @@ public class Game {
     }
     
     private void _setCirclesInWinState() {
+        var state = new State(new char[4, 4] {
+            { 'Y', 'B', 'R', 'R' },
+            { 'R', 'R', 'G', 'B' },
+            { 'Y', 'G', 'Y', 'G' },
+            { 'G', 'Y', 'B', 'B' },
+        });
         var colors = new Color[] { Color.Red, Color.Green, Color.Yellow, Color.Blue };
         this._circles = new Circle[4, 4];
         for (var row = 0; row < this._cells.GetLength(0); row++) {
             for (var col = 0; col < this._cells.GetLength(1); col++) {
-                var circle = new Circle(colors[row]);
+                var circle = new Circle(state.Colors[row, col]);
                 this._cells[row, col].AttachCircle(circle);
                 this._circles[row, col] = circle;
             }
@@ -306,7 +312,7 @@ public class Game {
             new ("Width", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Width search", new WidthFirstSearch(start))),
             new ("Depth", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Depth search", new DepthFirstSearch(start))),
             new ("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), (State start) => this.Search("Depth with limitation search", new DepthLimitedSearch(start))),
-            new ("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), (State start) => this.Search("BiDirectional search", new BiDirectionalSearch(start))),
+            new ("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), (State start) => this.Search("BiDirectional search", new BiDirectionalSearch(start, State.TARGET_STATE))),
 
             new ("A*1", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*1 search", new AStar(start, State.Heuristics1))),
             new ("A*2", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*2 search", new AStar(start, State.Heuristics2))),
@@ -440,8 +446,8 @@ public class Game {
 
 class Program {
     public static void Main(String[] args) {
-        // var game = new Game();
-        // game.Update();
-        Test.GenStarStates();
+        // new Game().Update();
+        // Test.GenStarStates();
+        Test.RunTests(new string[] { "BiDirectional", "AStar1", "AStar3", "Width" });
     }
 }
