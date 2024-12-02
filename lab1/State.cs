@@ -182,7 +182,7 @@ public class State {
                         }
                         if (state.Colors[row, col].Equals(targetColor)) {
                             (int x, int y) = (Math.Abs(targetRow - row), Math.Abs(targetCol - col));
-                            pos[curPos] = (x == 3 ? 1 : x) + (y == 3 ? 1 : y);
+                            pos[curPos] = x + y;
                             curPos++;
                         }
                     }
