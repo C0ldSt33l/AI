@@ -5,9 +5,9 @@ using Raylib_cs;
 namespace Game;
 
 public static class Test {
-    public static void GenStarStates() {
+    public static void GenStartStates() {
         var fileName = "report//start_states.txt";
-            for (int step = 1, depth = 2, i = 0; i < 5; i++, depth += step) {
+            for (int step = 2, depth = 2, i = 0; i < 5; i++, depth += step) {
                 var states = new List<State>();
                 File.AppendAllText(fileName, "Depth: " + depth + "\n");
                 while (states.Count < 10) {
@@ -30,13 +30,13 @@ public static class Test {
                 File.AppendAllText(file, "Depth: " + pair.Key + "\n");
                 foreach (var state in pair.Value) {
                     ISearch search = name.ToLower() switch {
-                        "width" => new WidthFirstSearch(state, State.TARGET_STATE, State.FullDiscovery),
-                        "depth" => new DepthFirstSearch(state, State.TARGET_STATE, State.FullDiscovery),
-                        "bidirectional" => new BiDirectionalSearch(state, State.TARGET_STATE, State.FullDiscovery, State.FullDiscovery),
+                        "width" => new WidthFirstSearch(state, State.TARGET_STATE, State.Discovery),
+                        "depth" => new DepthFirstSearch(state, State.TARGET_STATE, State.Discovery),
+                        "bidirectional" => new BiDirectionalSearch(state, State.TARGET_STATE, State.Discovery, State.ReverseDiscovery),
                         "depth limited" => new DepthLimitedSearch(state, State.TARGET_STATE, State.Discovery),
-                        "astar1" => new AStar(state, State.TARGET_STATE, State.FullDiscovery, State.Heuristics1),
-                        "astar2" => new AStar(state, State.TARGET_STATE, State.FullDiscovery, State.Heuristics2),
-                        "astar3" => new AStar(state, State.TARGET_STATE, State.FullDiscovery, State.TheMostFoolishHeuristics),
+                        "astar1" => new AStar(state, State.TARGET_STATE, State.Discovery, State.Heuristics1),
+                        "astar2" => new AStar(state, State.TARGET_STATE, State.Discovery, State.Heuristics2),
+                        "astar3" => new AStar(state, State.TARGET_STATE, State.Discovery, State.TheMostFoolishHeuristics),
                         _ => throw new Exception("Such search is not exist"),
                     };
                     var path = search.Search();

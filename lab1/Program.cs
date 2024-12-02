@@ -421,8 +421,8 @@ public class Game {
 
 class Program {
     public static void Main(String[] args) {
-        new Game().Update();
-        // Test.GenStarStates();
+        // new Game().Update();
+        Test.GenStartStates();
 
         // Test.RunTests(new string[] { "BiDirectional", "AStar3" });
     }

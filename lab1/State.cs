@@ -70,8 +70,8 @@ public class State {
             for (var i = 0; i < diff; i++) {
                 var idx = rand(0, 3);
                 chaos = odd switch {
-                    true => chaos.moveCol(idx, (Direction)rand(0, 1)),
-                    false => chaos.moveRow(idx, (Direction)rand(2, 3)),
+                    true => chaos.moveCol(idx, Direction.DOWN),
+                    false => chaos.moveRow(idx, Direction.RIGHT),
                 };
                 odd = !odd;
             }
@@ -79,7 +79,7 @@ public class State {
 
             pathLength = new BiDirectionalSearch(
                 chaos, State.TARGET_STATE,
-                State.FullDiscovery, State.FullDiscovery
+                State.Discovery, State.ReverseDiscovery
             ).Search().Count - 1;
             Console.WriteLine("path length: " + pathLength);
             Console.WriteLine("diff :" + (depth - pathLength));
