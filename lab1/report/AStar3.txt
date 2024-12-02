@@ -1,0 +1,196 @@
+Depth: 2
+Iter count: 18
+O node count: 256
+O max node count: 256
+O + C max node count: 273
+Path length: 2
+
+Iter count: 16
+O node count: 226
+O max node count: 226
+O + C max node count: 241
+Path length: 2
+
+Iter count: 20
+O node count: 286
+O max node count: 286
+O + C max node count: 305
+Path length: 2
+
+Iter count: 14
+O node count: 196
+O max node count: 196
+O + C max node count: 209
+Path length: 2
+
+Iter count: 17
+O node count: 241
+O max node count: 241
+O + C max node count: 257
+Path length: 2
+
+Iter count: 20
+O node count: 286
+O max node count: 286
+O + C max node count: 305
+Path length: 2
+
+Iter count: 18
+O node count: 256
+O max node count: 256
+O + C max node count: 273
+Path length: 2
+
+Iter count: 20
+O node count: 286
+O max node count: 286
+O + C max node count: 305
+Path length: 2
+
+Iter count: 20
+O node count: 286
+O max node count: 286
+O + C max node count: 305
+Path length: 2
+
+Iter count: 20
+O node count: 286
+O max node count: 286
+O + C max node count: 305
+Path length: 2
+
+Depth: 3
+Iter count: 90
+O node count: 1336
+O max node count: 1336
+O + C max node count: 1425
+Path length: 3
+
+Iter count: 118
+O node count: 1756
+O max node count: 1756
+O + C max node count: 1873
+Path length: 3
+
+Iter count: 95
+O node count: 1410
+O max node count: 1410
+O + C max node count: 1504
+Path length: 3
+
+Iter count: 101
+O node count: 1499
+O max node count: 1499
+O + C max node count: 1599
+Path length: 3
+
+Iter count: 46
+O node count: 676
+O max node count: 676
+O + C max node count: 721
+Path length: 3
+
+Iter count: 103
+O node count: 1531
+O max node count: 1531
+O + C max node count: 1633
+Path length: 3
+
+Iter count: 86
+O node count: 1274
+O max node count: 1274
+O + C max node count: 1359
+Path length: 3
+
+Iter count: 193
+O node count: 2878
+O max node count: 2878
+O + C max node count: 3070
+Path length: 3
+
+Iter count: 287
+O node count: 4289
+O max node count: 4289
+O + C max node count: 4575
+Path length: 3
+
+Iter count: 195
+O node count: 2910
+O max node count: 2910
+O + C max node count: 3104
+Path length: 3
+
+Depth: 4
+Iter count: 691
+O node count: 10347
+O max node count: 10347
+O + C max node count: 11037
+Path length: 4
+
+Iter count: 1095
+O node count: 16392
+O max node count: 16392
+O + C max node count: 17486
+Path length: 4
+
+Iter count: 2271
+O node count: 34048
+O max node count: 34048
+O + C max node count: 36318
+Path length: 4
+
+Iter count: 1155
+O node count: 17302
+O max node count: 17302
+O + C max node count: 18456
+Path length: 4
+
+Iter count: 1028
+O node count: 15398
+O max node count: 15398
+O + C max node count: 16425
+Path length: 4
+
+Iter count: 1216
+O node count: 18206
+O max node count: 18206
+O + C max node count: 19421
+Path length: 4
+
+Iter count: 430
+O node count: 6432
+O max node count: 6432
+O + C max node count: 6861
+Path length: 4
+
+Iter count: 1256
+O node count: 18802
+O max node count: 18802
+O + C max node count: 20057
+Path length: 4
+
+Iter count: 1384
+O node count: 20724
+O max node count: 20724
+O + C max node count: 22107
+Path length: 4
+
+Iter count: 936
+O node count: 14016
+O max node count: 14016
+O + C max node count: 14951
+Path length: 4
+
+Depth: 5
+Iter count: 8887
+O node count: 133213
+O max node count: 133213
+O + C max node count: 142099
+Path length: 5
+
+Iter count: 13104
+O node count: 196342
+O max node count: 196342
+O + C max node count: 209445
+Path length: 5
+

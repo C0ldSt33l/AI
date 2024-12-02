@@ -3,34 +3,34 @@
 using Raylib_cs;
 using rl = Raylib_cs.Raylib;
 using System.Collections;
+using System.Data.Common;
 
 namespace Game;
 
-class DB(Color selectedColor) {
-    public Queue<State?> OpenNodes = new(new State[]{ State.TARGET_STATE });
-    public HashSet<State?> CloseNodes = new();
-
-    public void genDBStates() {
-        while (this.OpenNodes.Count > 0) {
-            var curState = this.OpenNodes.Dequeue();
-            this.CloseNodes.Add(curState);
+static class DB {
+    public static void genDBStates() {
+        var OpenNodes = new Queue<State?>(new[] { State.TARGET_STATE });
+        var CloseNodes = new HashSet<State?>();
+        while (OpenNodes.Count > 0) {
+            var curState = OpenNodes.Dequeue();
+            CloseNodes.Add(curState);
             foreach (var state in State.FullDiscovery(curState)) {
                 State? find; 
 
-                find = this.OpenNodes.FirstOrDefault(el => state.EqualsByColor(el, selectedColor), null);
+                find = OpenNodes.FirstOrDefault(el => state.EqualsByColor(el, Color.Red), null);
                 if (find != null) continue;
-                find = this.CloseNodes.FirstOrDefault(el => state.EqualsByColor(el, selectedColor), null);
+                find = CloseNodes.FirstOrDefault(el => state.EqualsByColor(el, Color.Red), null);
                 if (find != null) continue;
 
-                this.OpenNodes.Enqueue(state);
+                OpenNodes.Enqueue(state);
             }
         }
 
-        Console.WriteLine("Count of All Possible States: " + this.CloseNodes.Count);
-        this.writeStatesToFile("db/red_subtask.txt");
+        Console.WriteLine("Count of All Possible States: " + CloseNodes.Count);
+        DB.writeStatesToFile(CloseNodes, "db/red_subtask.txt");
     }
 
-    public void calculateDBStatesPathLengths() {
+    public static void calculateDBStatesPathLengths() {
         var positions = File.ReadAllLines("db//color_pos.txt");
         var targets = new State[] {
             new(new char[4, 4] {
@@ -88,11 +88,11 @@ class DB(Color selectedColor) {
         }
     }
     
-    private void writeStatesToFile(string file) {
+    private static void writeStatesToFile(HashSet<State?> closeNodes, string file) {
         var sw = new StreamWriter(file);
         {
-            foreach (var state in this.CloseNodes) {
-                sw.WriteLine(state.GetColorPositions(selectedColor));
+            foreach (var state in closeNodes) {
+                sw.WriteLine(state.GetColorPositions(Color.Red));
             }
         }
         sw.Close();

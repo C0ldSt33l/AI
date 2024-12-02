@@ -146,40 +146,84 @@ public class BiDirectionalSearch(
         // }
         if (start.Equals(target)) return new() { start };
         while(this.StartOpenNodes.Count() > 0 || this.EndOpenNodes.Count() > 0) {
-            this.Info.Update(
-                this.StartOpenNodes.Count + this.EndOpenNodes.Count,
-                this.StartOpenNodes.Count + this.StartCloseNodes.Count + this.EndOpenNodes.Count + this.EndCloseNodes.Count
-            );
+            // this.Info.Update(
+            //     this.StartOpenNodes.Count + this.EndOpenNodes.Count,
+            //     this.StartOpenNodes.Count + this.StartCloseNodes.Count + this.EndOpenNodes.Count + this.EndCloseNodes.Count
+            // );
 
             var newOpenNodes = new Queue<State>();
-            foreach (var node in this.StartOpenNodes) {
-                this.StartInfo.Update(this.StartOpenNodes.Count, this.StartOpenNodes.Count + this.StartCloseNodes.Count);
-                this.StartCloseNodes.Add(node);
-                
-                foreach(var state in discovery(node)) {
-                    var end = this.EndOpenNodes.FirstOrDefault(el => el.Equals(state), null);
-                    if (end != null) return this._getPath(state, end);
+            if (this.EndOpenNodes.Count + this.EndCloseNodes.Count < this.StartCloseNodes.Count + this.StartCloseNodes.Count) {
+                newOpenNodes = new Queue<State>();
+                foreach (var node in this.EndOpenNodes) {
+                    this.EndInfo.Update(this.EndOpenNodes.Count, this.EndOpenNodes.Count + this.EndCloseNodes.Count);
+                    this.EndCloseNodes.Add(node);
 
-                    if (this.StartOpenNodes.Contains(state) || this.StartCloseNodes.Contains(state)) continue;
-                    newOpenNodes.Enqueue(state);
+                    foreach(var state in revDiscovery(node)) {
+                        var start = this.StartOpenNodes.FirstOrDefault(el => el.Equals(state), null);
+                        if (start != null) {
+                            this._printInfo();
+                            return this._getPath(start, state);
+                        }
+
+                        if (this.EndOpenNodes.Contains(state) || this.EndCloseNodes.Contains(state)) continue;
+                        newOpenNodes.Enqueue(state);
+                    }
                 }
-            }
-            this.StartOpenNodes = newOpenNodes;
+                this.EndOpenNodes = newOpenNodes;
 
-            newOpenNodes = new Queue<State>();
-            foreach (var node in this.EndOpenNodes) {
-                this.EndInfo.Update(this.EndOpenNodes.Count, this.EndOpenNodes.Count + this.EndCloseNodes.Count);
-                this.EndCloseNodes.Add(node);
-                
-                foreach(var state in revDiscovery(node)) {
-                    var start = this.StartOpenNodes.FirstOrDefault(el => el.Equals(state), null);
-                    if (start != null) return this._getPath(start, state);
+                foreach (var node in this.StartOpenNodes) {
+                    this.StartInfo.Update(this.StartOpenNodes.Count, this.StartOpenNodes.Count + this.StartCloseNodes.Count);
+                    this.StartCloseNodes.Add(node);
 
-                    if (this.EndOpenNodes.Contains(state) || this.EndCloseNodes.Contains(state)) continue;
-                    newOpenNodes.Enqueue(state);
+                    foreach(var state in discovery(node)) {
+                        var end = this.EndOpenNodes.FirstOrDefault(el => el.Equals(state), null);
+                        if (end != null) {
+                            this._printInfo();
+                            return this._getPath(state, end);
+                        }
+
+                        if (this.StartOpenNodes.Contains(state) || this.StartCloseNodes.Contains(state)) continue;
+                        newOpenNodes.Enqueue(state);
+                    }
                 }
+                this.StartOpenNodes = newOpenNodes;
+
+                } else {
+                    foreach (var node in this.StartOpenNodes) {
+                        this.StartInfo.Update(this.StartOpenNodes.Count, this.StartOpenNodes.Count + this.StartCloseNodes.Count);
+                        this.StartCloseNodes.Add(node);
+
+                        foreach(var state in discovery(node)) {
+                            var end = this.EndOpenNodes.FirstOrDefault(el => el.Equals(state), null);
+                            if (end != null) {
+                                this._printInfo();
+                                return this._getPath(state, end);
+                            }
+
+                            if (this.StartOpenNodes.Contains(state) || this.StartCloseNodes.Contains(state)) continue;
+                            newOpenNodes.Enqueue(state);
+                        }
+                    }
+                    this.StartOpenNodes = newOpenNodes;
+
+                    newOpenNodes = new Queue<State>();
+                    foreach (var node in this.EndOpenNodes) {
+                        this.EndInfo.Update(this.EndOpenNodes.Count, this.EndOpenNodes.Count + this.EndCloseNodes.Count);
+                        this.EndCloseNodes.Add(node);
+
+                        foreach(var state in revDiscovery(node)) {
+                            var start = this.StartOpenNodes.FirstOrDefault(el => el.Equals(state), null);
+                            if (start != null) {
+                                this._printInfo();
+                                return this._getPath(start, state);
+                            }
+
+                            if (this.EndOpenNodes.Contains(state) || this.EndCloseNodes.Contains(state)) continue;
+                            newOpenNodes.Enqueue(state);
+                        }
+                    }
+                    this.EndOpenNodes = newOpenNodes;
             }
-            this.EndOpenNodes = newOpenNodes;
         }
 
         Console.WriteLine("Search finished");

@@ -1,0 +1,32 @@
+O node count: 1821, Depth: 2, b* = 42.1761
+O node count: 529, Depth: 2, b* = 22.5054
+O node count: 718, Depth: 2, b* = 26.3002
+O node count: 575, Depth: 2, b* = 23.4844
+O node count: 1439, Depth: 2, b* = 37.4374
+O node count: 798, Depth: 2, b* = 27.7533
+O node count: 257, Depth: 2, b* = 15.5390
+O node count: 817, Depth: 2, b* = 28.0876
+O node count: 545, Depth: 2, b* = 22.8506
+O node count: 1726, Depth: 2, b* = 41.0482
+
+O node count: 3547, Depth: 3, b* = 14.9031
+O node count: 4406, Depth: 3, b* = 16.0473
+O node count: 2542, Depth: 3, b* = 13.2985
+O node count: 1421, Depth: 3, b* = 10.8901
+O node count: 2551, Depth: 3, b* = 13.3146
+O node count: 1840, Depth: 3, b* = 11.9030
+O node count: 3891, Depth: 3, b* = 15.3814
+O node count: 3802, Depth: 3, b* = 15.2604
+O node count: 8760, Depth: 3, b* = 20.2704
+O node count: 753, Depth: 3, b* = 8.7410
+
+O node count: 12616, Depth: 4, b* = 10.3321
+O node count: 39185, Depth: 4, b* = 13.8077
+O node count: 58095, Depth: 4, b* = 15.2644
+O node count: 40711, Depth: 4, b* = 13.9428
+O node count: 11476, Depth: 4, b* = 10.0837
+O node count: 19791, Depth: 4, b* = 11.5966
+O node count: 10708, Depth: 4, b* = 9.9057
+O node count: 7896, Depth: 4, b* = 9.1583
+O node count: 18846, Depth: 4, b* = 11.4523
+O node count: 29249, Depth: 4, b* = 12.8148

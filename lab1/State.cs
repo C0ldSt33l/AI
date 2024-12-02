@@ -229,7 +229,10 @@ public class State {
 
     // Extra task
     // Using subtask DB to evaluate approximated rest of path
-    public static Dictionary<string, uint> _pathDB = _createPathDB("db//red_subtask_complite.txt");
+    public static Dictionary<string, uint> redDB = _createPathDB("db//red_subtask.txt");
+    public static Dictionary<string, uint> greenDB = _createPathDB("db//green_subtask.txt");
+    public static Dictionary<string, uint> yellowDB = _createPathDB("db//yellow_subtask.txt");
+    public static Dictionary<string, uint> blueDB = _createPathDB("db//blue_subtask.txt");
     private static Dictionary<string, uint> _createPathDB(string path) {
         var db = new Dictionary<string, uint>();
         foreach (var line in File.ReadAllLines(path)) {
@@ -240,8 +243,12 @@ public class State {
         return db;
     }
     public static uint DBHeuristics(State state, State target) {
-        uint valByDB = State._pathDB[state.GetColorPositions(Color.Red)];
-        return valByDB;
+        return new uint[4] {
+            State.redDB[state.GetColorPositions(Color.Red)],
+            State.greenDB[state.GetColorPositions(Color.Green)],
+            State.yellowDB[state.GetColorPositions(Color.Yellow)],
+            State.blueDB[state.GetColorPositions(Color.Blue)],
+        }.Max();
     }
 
     private Color[][] _getRows() {

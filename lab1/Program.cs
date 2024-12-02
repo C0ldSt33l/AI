@@ -152,19 +152,9 @@ public class Game {
         rl.CloseWindow();
     }
 
-    static int curDepth = 2;
-    static List<State> startStates = new();
-
     public void Search(string name, ISearch search) {
         Console.WriteLine(name);
         var path = search.Search();
-
-        // Console.WriteLine("path");
-        // path.ForEach(it => {
-        //     Console.WriteLine(it);
-        //     Console.WriteLine();
-        // });
-
         if (path == null) {
             Console.WriteLine("Path is not found\n");
             this._pathToWin = null;
@@ -175,21 +165,6 @@ public class Game {
             this._pathToWin = path;
             this._curState = 0;
         }
-
-        // var pathLength = path.Count - 1;
-        // var statistic = search.GetStatistic() + "Path length: " + pathLength + "\n\n";
-        // File.AppendAllText("report//" + name + ".txt", statistic);
-
-        // var starStateFile = "report//start_states.txt";
-        // if (startStates.Count == 10) { startStates.Clear(); curDepth += 2; }
-        // if (startStates.Count == 0) {
-        //     File.AppendAllText(starStateFile, "Depth: " + curDepth + "\n");
-        // }
-        // var first = path.First();
-        // if ((path.Count - 1) == curDepth && !startStates.Contains(first)) {
-        //     startStates.Add(first);
-        //     File.AppendAllText(starStateFile, first.ToString() + "\n\n");
-        // }
     }
 
     public void PlayNextState() {
@@ -275,7 +250,12 @@ public class Game {
     }
     
     private void _setCirclesInWinState() {
-        var state = State.TARGET_STATE;
+        var state = new State(new char[4, 4] {
+            { 'B', 'R', 'B', 'G',},
+            { 'Y', 'R', 'R', 'G',},
+            { 'B', 'G', 'Y', 'G',},
+            { 'B', 'Y', 'Y', 'R',},
+        });
         // var colors = new Color[] { Color.Red, Color.Green, Color.Yellow, Color.Blue };
         this._circles = new Circle[4, 4];
         for (var row = 0; row < this._cells.GetLength(0); row++) {
@@ -311,7 +291,7 @@ public class Game {
 
             new ("A*1", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*1 search", new AStar(start, State.TARGET_STATE, State.FullDiscovery, State.Heuristics1))),
             new ("A*2", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*2 search", new AStar(start, State.TARGET_STATE, State.FullDiscovery, State.Heuristics2))),
-            new ("A*3", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*3 search", new AStar(start, State.TARGET_STATE, State.FullDiscovery, State.TheMostFoolishHeuristics))),
+            new ("A*3", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*3 search", new AStar(start, State.TARGET_STATE, State.FullDiscovery, State.DBHeuristics))),
         };
         for (var i = 1; i < 5; i++) {
             var prevButton = this._searchButtons[i - 1];
@@ -441,9 +421,9 @@ public class Game {
 
 class Program {
     public static void Main(String[] args) {
-        // new Game().Update();
+        new Game().Update();
         // Test.GenStarStates();
 
-        Test.RunTests(new string[] { "BiDirectional", "Depth Limited", "AStar1", "AStar2", "Width" });
+        // Test.RunTests(new string[] { "BiDirectional", "AStar3" });
     }
 }
