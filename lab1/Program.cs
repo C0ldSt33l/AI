@@ -155,6 +155,7 @@ public class Game {
     public void Search(string name, ISearch search) {
         Console.WriteLine(name);
         var path = search.Search();
+        Console.WriteLine(search.GetStatistic());
         if (path == null) {
             Console.WriteLine("Path is not found\n");
             this._pathToWin = null;
@@ -256,8 +257,8 @@ public class Game {
         //     { 'B', 'G', 'Y', 'G',},
         //     { 'B', 'Y', 'Y', 'R',},
         // });
-        // var colors = new Color[] { Color.Red, Color.Green, Color.Yellow, Color.Blue };
-        var state = Test.GetStartStates()[10].First();
+        var state = Test.GetStartStates()[6].First();
+        // var state = State.TARGET_STATE;
         this._circles = new Circle[4, 4];
         for (var row = 0; row < this._cells.GetLength(0); row++) {
             for (var col = 0; col < this._cells.GetLength(1); col++) {
@@ -285,14 +286,14 @@ public class Game {
         }
 
         this._searchButtons = new UIButton<Action<State>>[] {
-            new ("Width", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Width search", new WidthFirstSearch(start, State.TARGET_STATE, State.FullDiscovery))),
-            new ("Depth", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Depth search", new DepthFirstSearch(start, State.TARGET_STATE, State.FullDiscovery))),
-            new ("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), (State start) => this.Search("Depth with limitation search", new DepthLimitedSearch(start, State.TARGET_STATE, State.FullDiscovery))),
-            new ("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), (State start) => this.Search("BiDirectional search", new BiDirectionalSearch(start, State.TARGET_STATE, State.FullDiscovery, State.FullDiscovery))),
+            new ("Width", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Width search", new WidthFirstSearch(start, State.TARGET_STATE, State.Discovery))),
+            new ("Depth", new Vector2(130, 75), new Vector2(20, 20), (State start) => this.Search("Depth search", new DepthFirstSearch(start, State.TARGET_STATE, State.Discovery))),
+            new ("Depth with limit", new Vector2(260, 75), new Vector2(20, 20), (State start) => this.Search("Depth with limitation search", new DepthLimitedSearch(start, State.TARGET_STATE, State.Discovery))),
+            new ("BiDirectional", new Vector2(230, 75), new Vector2(20, 20), (State start) => this.Search("BiDirectional search", new BiDirectionalSearch(start, State.TARGET_STATE, State.Discovery, State.ReverseDiscovery))),
 
-            new ("A*1", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*1 search", new AStar(start, State.TARGET_STATE, State.FullDiscovery, State.Heuristics1))),
-            new ("A*2", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*2 search", new AStar(start, State.TARGET_STATE, State.FullDiscovery, State.Heuristics2))),
-            new ("A*3", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*3 search", new AStar(start, State.TARGET_STATE, State.FullDiscovery, State.DBHeuristics))),
+            new ("A*1", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*1 search", new AStar(start, State.TARGET_STATE, State.Discovery, State.Heuristics1))),
+            new ("A*2", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*2 search", new AStar(start, State.TARGET_STATE, State.Discovery, State.Heuristics2))),
+            new ("A*3", new Vector2(100, 75), new Vector2(35, 20), (State start) => this.Search("A*3 search", new AStar(start, State.TARGET_STATE, State.Discovery, State.DBHeuristics))),
         };
         for (var i = 1; i < 5; i++) {
             var prevButton = this._searchButtons[i - 1];
@@ -423,8 +424,10 @@ public class Game {
 class Program {
     public static void Main(String[] args) {
         new Game().Update();
-        // Test.GenStartStates();
 
-        // Test.RunTests(new string[] { "AStar3" });
+        // Test.GenStartStates();
+        // Test.RunTests(new string[] { "AStarDB" });
+
+        // DB.calculateDBPathLengths();
     }
 }

@@ -38,7 +38,8 @@ public static class Test {
                         "astar1" => new AStar(state, State.TARGET_STATE, State.Discovery, State.Heuristics1),
                         "astar2" => new AStar(state, State.TARGET_STATE, State.Discovery, State.Heuristics2),
                         "astar3" => new AStar(state, State.TARGET_STATE, State.Discovery, State.TheMostFoolishHeuristics),
-                        _ => throw new Exception("Such search is not exist"),
+                        "astardb" => new AStar(state, State.TARGET_STATE, State.Discovery, State.DBHeuristics),
+                       _ => throw new Exception("Such search is not exist"),
                     };
                     var path = search.Search();
                     File.AppendAllText(file, search.GetStatistic());

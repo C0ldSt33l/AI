@@ -205,24 +205,8 @@ Max O + C: {this.EndMaxNodes}
         if (start.Equals(target)) return new() { start };
         while(this.StartOpenNodes.Count() > 0 || this.EndOpenNodes.Count() > 0) {
             var newOpenNodes = new Queue<State>();
-            if (this.EndOpenNodes.Count + this.EndCloseNodes.Count < this.StartCloseNodes.Count + this.StartCloseNodes.Count) {
-                newOpenNodes = new Queue<State>();
-                foreach (var node in this.EndOpenNodes) {
-                    this.Info.UpdateEnd(this.EndOpenNodes, this.EndCloseNodes);
-                    this.EndCloseNodes.Add(node);
-
-                    foreach(var state in revDiscovery(node)) {
-                        var start = this.StartOpenNodes.FirstOrDefault(el => el.Equals(state), null);
-                        if (start != null) {
-                            return this._getPath(start, state);
-                        }
-
-                        if (this.EndOpenNodes.Contains(state) || this.EndCloseNodes.Contains(state)) continue;
-                        newOpenNodes.Enqueue(state);
-                    }
-                }
-                this.EndOpenNodes = newOpenNodes;
-
+            Console.WriteLine(this.EndOpenNodes.Count > this.StartOpenNodes.Count);
+            if (this.EndOpenNodes.Count > this.StartOpenNodes.Count) {
                 foreach (var node in this.StartOpenNodes) {
                     this.Info.UpdateStart(this.StartOpenNodes, this.StartCloseNodes);
                     this.StartCloseNodes.Add(node);
@@ -238,40 +222,22 @@ Max O + C: {this.EndMaxNodes}
                     }
                 }
                 this.StartOpenNodes = newOpenNodes;
+            } else {
+                foreach (var node in this.EndOpenNodes) {
+                    this.Info.UpdateEnd(this.EndOpenNodes, this.EndCloseNodes);
+                    this.EndCloseNodes.Add(node);
 
-                } else {
-                    foreach (var node in this.StartOpenNodes) {
-                        this.Info.UpdateStart(this.StartOpenNodes, this.StartCloseNodes);
-                        this.StartCloseNodes.Add(node);
-
-                        foreach(var state in discovery(node)) {
-                            var end = this.EndOpenNodes.FirstOrDefault(el => el.Equals(state), null);
-                            if (end != null) {
-                                return this._getPath(state, end);
-                            }
-
-                            if (this.StartOpenNodes.Contains(state) || this.StartCloseNodes.Contains(state)) continue;
-                            newOpenNodes.Enqueue(state);
+                    foreach(var state in revDiscovery(node)) {
+                        var start = this.StartOpenNodes.FirstOrDefault(el => el.Equals(state), null);
+                        if (start != null) {
+                            return this._getPath(start, state);
                         }
+
+                        if (this.EndOpenNodes.Contains(state) || this.EndCloseNodes.Contains(state)) continue;
+                        newOpenNodes.Enqueue(state);
                     }
-                    this.StartOpenNodes = newOpenNodes;
-
-                    newOpenNodes = new Queue<State>();
-                    foreach (var node in this.EndOpenNodes) {
-                        this.Info.UpdateEnd(this.EndOpenNodes, this.EndCloseNodes);
-                        this.EndCloseNodes.Add(node);
-
-                        foreach(var state in revDiscovery(node)) {
-                            var start = this.StartOpenNodes.FirstOrDefault(el => el.Equals(state), null);
-                            if (start != null) {
-                                return this._getPath(start, state);
-                            }
-
-                            if (this.EndOpenNodes.Contains(state) || this.EndCloseNodes.Contains(state)) continue;
-                            newOpenNodes.Enqueue(state);
-                        }
-                    }
-                    this.EndOpenNodes = newOpenNodes;
+                }
+                this.EndOpenNodes = newOpenNodes;
             }
         }
 
@@ -285,6 +251,7 @@ Max O + C: {this.EndMaxNodes}
                 List<State>
                     startPath = start.GetPath(),
                     endPath = end.GetPath();
+
 
                 endPath.Reverse();
                 endPath.RemoveAt(0);

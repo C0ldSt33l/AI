@@ -30,7 +30,7 @@ static class DB {
         DB.writeStatesToFile(CloseNodes, "db/red_subtask.txt");
     }
 
-    public static void calculateDBStatesPathLengths() {
+    public static void calculateDBPathLengths() {
         var positions = File.ReadAllLines("db//color_pos.txt");
         var targets = new State[] {
             new(new char[4, 4] {
@@ -78,8 +78,8 @@ static class DB {
                 Console.WriteLine(j);
                 dict[positions[j]] = new BiDirectionalSearch(
                     states[j], targets[i],
-                    State.FullDiscovery,
-                    State.FullDiscovery
+                    State.Discovery,
+                    State.ReverseDiscovery
                 ).Search().Count - 1;
             }
             foreach ((string pos, int len) in dict) {
