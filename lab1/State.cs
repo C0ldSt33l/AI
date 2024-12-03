@@ -8,12 +8,18 @@ using Raylib_cs;
 namespace Game;
 
 public class State {
-    public static  State TARGET_STATE = new(new char[4,4] {
+    public static State TARGET_STATE = new(new char[4,4] {
         {'R', 'R', 'R', 'R'},
         {'G', 'G', 'G', 'G'},
         {'Y', 'Y', 'Y', 'Y'},
         {'B', 'B', 'B', 'B'},
-    }, null);
+    });
+    public static State IMPOSSIBLE_STATE = new(new char[4,4] {
+        {'R', 'R', 'R', 'R'},
+        {'R', 'G', 'G', 'G'},
+        {'Y', 'Y', 'Y', 'Y'},
+        {'B', 'B', 'B', 'B'},
+    });
     public  Color[,] Colors = new Color[4, 4];
     public  State? Parent = null;
 
@@ -224,7 +230,7 @@ public class State {
             }
         }
 
-        return (uint)Math.Floor((rowsNotInPlace + colsNotInPlace) / 4.0f);
+        return rowsNotInPlace + colsNotInPlace - 4;
     }
 
     // Extra task

@@ -250,13 +250,14 @@ public class Game {
     }
     
     private void _setCirclesInWinState() {
-        var state = new State(new char[4, 4] {
-            { 'B', 'R', 'B', 'G',},
-            { 'Y', 'R', 'R', 'G',},
-            { 'B', 'G', 'Y', 'G',},
-            { 'B', 'Y', 'Y', 'R',},
-        });
+        // var state = new State(new char[4, 4] {
+        //     { 'B', 'R', 'B', 'G',},
+        //     { 'Y', 'R', 'R', 'G',},
+        //     { 'B', 'G', 'Y', 'G',},
+        //     { 'B', 'Y', 'Y', 'R',},
+        // });
         // var colors = new Color[] { Color.Red, Color.Green, Color.Yellow, Color.Blue };
+        var state = Test.GetStartStates()[10].First();
         this._circles = new Circle[4, 4];
         for (var row = 0; row < this._cells.GetLength(0); row++) {
             for (var col = 0; col < this._cells.GetLength(1); col++) {
@@ -421,9 +422,9 @@ public class Game {
 
 class Program {
     public static void Main(String[] args) {
-        // new Game().Update();
+        new Game().Update();
         // Test.GenStartStates();
 
-        Test.RunTests(new string[] { "BiDirectional", "AStar1", "AStar3" });
+        // Test.RunTests(new string[] { "AStar3" });
     }
 }

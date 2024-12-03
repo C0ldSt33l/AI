@@ -1,736 +1,855 @@
 Depth: 2
-Start
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-End
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
 Path length: 2
 
-Start
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-End
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
 Path length: 2
 
-Start
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-End
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
 Path length: 2
 
-Start
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-End
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
 Path length: 2
 
-Start
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-End
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
 Path length: 2
 
-Start
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-End
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
 Path length: 2
 
-Start
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-End
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
 Path length: 2
 
-Start
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-End
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
 Path length: 2
 
-Start
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-End
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
 Path length: 2
 
-Start
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-End
-Iter count: 1
-O node count: 1
-O max node count: 1
-O + C max node count: 1
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
 Path length: 2
 
 Depth: 4
-Start
-Iter count: 9
-O node count: 8
-O max node count: 8
-O + C max node count: 16
-End
-Iter count: 2
-O node count: 4
-O max node count: 4
-O + C max node count: 5
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 11
+Max O + C: 21
+START
+Cur O: 8
+Cur C: 8
+Max O: 8
+Max C: 8
+Max O + C: 16
+END
+Cur O: 4
+Cur C: 1
+Max O: 4
+Max C: 1
+Max O + C: 5
 Path length: 4
 
-Start
-Iter count: 9
-O node count: 8
-O max node count: 8
-O + C max node count: 16
-End
-Iter count: 5
-O node count: 4
-O max node count: 4
-O + C max node count: 8
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 14
+Max O + C: 24
+START
+Cur O: 8
+Cur C: 8
+Max O: 8
+Max C: 8
+Max O + C: 16
+END
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
 Path length: 4
 
-Start
-Iter count: 9
-O node count: 8
-O max node count: 8
-O + C max node count: 16
-End
-Iter count: 4
-O node count: 4
-O max node count: 4
-O + C max node count: 7
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 13
+Max O + C: 23
+START
+Cur O: 8
+Cur C: 8
+Max O: 8
+Max C: 8
+Max O + C: 16
+END
+Cur O: 4
+Cur C: 3
+Max O: 4
+Max C: 3
+Max O + C: 7
 Path length: 4
 
-Start
-Iter count: 9
-O node count: 8
-O max node count: 8
-O + C max node count: 16
-End
-Iter count: 4
-O node count: 4
-O max node count: 4
-O + C max node count: 7
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 13
+Max O + C: 23
+START
+Cur O: 8
+Cur C: 8
+Max O: 8
+Max C: 8
+Max O + C: 16
+END
+Cur O: 4
+Cur C: 3
+Max O: 4
+Max C: 3
+Max O + C: 7
 Path length: 4
 
-Start
-Iter count: 9
-O node count: 8
-O max node count: 8
-O + C max node count: 16
-End
-Iter count: 5
-O node count: 4
-O max node count: 4
-O + C max node count: 8
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 14
+Max O + C: 24
+START
+Cur O: 8
+Cur C: 8
+Max O: 8
+Max C: 8
+Max O + C: 16
+END
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
 Path length: 4
 
-Start
-Iter count: 9
-O node count: 8
-O max node count: 8
-O + C max node count: 16
-End
-Iter count: 4
-O node count: 4
-O max node count: 4
-O + C max node count: 7
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 13
+Max O + C: 23
+START
+Cur O: 8
+Cur C: 8
+Max O: 8
+Max C: 8
+Max O + C: 16
+END
+Cur O: 4
+Cur C: 3
+Max O: 4
+Max C: 3
+Max O + C: 7
 Path length: 4
 
-Start
-Iter count: 9
-O node count: 8
-O max node count: 8
-O + C max node count: 16
-End
-Iter count: 2
-O node count: 4
-O max node count: 4
-O + C max node count: 5
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 11
+Max O + C: 21
+START
+Cur O: 8
+Cur C: 8
+Max O: 8
+Max C: 8
+Max O + C: 16
+END
+Cur O: 4
+Cur C: 1
+Max O: 4
+Max C: 1
+Max O + C: 5
 Path length: 4
 
-Start
-Iter count: 9
-O node count: 8
-O max node count: 8
-O + C max node count: 16
-End
-Iter count: 2
-O node count: 4
-O max node count: 4
-O + C max node count: 5
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 11
+Max O + C: 21
+START
+Cur O: 8
+Cur C: 8
+Max O: 8
+Max C: 8
+Max O + C: 16
+END
+Cur O: 4
+Cur C: 1
+Max O: 4
+Max C: 1
+Max O + C: 5
 Path length: 4
 
-Start
-Iter count: 9
-O node count: 8
-O max node count: 8
-O + C max node count: 16
-End
-Iter count: 5
-O node count: 4
-O max node count: 4
-O + C max node count: 8
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 14
+Max O + C: 24
+START
+Cur O: 8
+Cur C: 8
+Max O: 8
+Max C: 8
+Max O + C: 16
+END
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
 Path length: 4
 
-Start
-Iter count: 9
-O node count: 8
-O max node count: 8
-O + C max node count: 16
-End
-Iter count: 5
-O node count: 4
-O max node count: 4
-O + C max node count: 8
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 14
+Max O + C: 24
+START
+Cur O: 8
+Cur C: 8
+Max O: 8
+Max C: 8
+Max O + C: 16
+END
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
 Path length: 4
 
 Depth: 6
-Start
-Iter count: 73
-O node count: 64
-O max node count: 64
-O + C max node count: 136
-End
-Iter count: 10
-O node count: 32
-O max node count: 32
-O + C max node count: 41
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 83
+Max O + C: 177
+START
+Cur O: 64
+Cur C: 72
+Max O: 64
+Max C: 72
+Max O + C: 136
+END
+Cur O: 32
+Cur C: 9
+Max O: 32
+Max C: 9
+Max O + C: 41
 Path length: 6
 
-Start
-Iter count: 73
-O node count: 64
-O max node count: 64
-O + C max node count: 136
-End
-Iter count: 36
-O node count: 32
-O max node count: 32
-O + C max node count: 67
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 109
+Max O + C: 203
+START
+Cur O: 64
+Cur C: 72
+Max O: 64
+Max C: 72
+Max O + C: 136
+END
+Cur O: 32
+Cur C: 35
+Max O: 32
+Max C: 35
+Max O + C: 67
 Path length: 6
 
-Start
-Iter count: 73
-O node count: 64
-O max node count: 64
-O + C max node count: 136
-End
-Iter count: 34
-O node count: 32
-O max node count: 32
-O + C max node count: 65
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 107
+Max O + C: 201
+START
+Cur O: 64
+Cur C: 72
+Max O: 64
+Max C: 72
+Max O + C: 136
+END
+Cur O: 32
+Cur C: 33
+Max O: 32
+Max C: 33
+Max O + C: 65
 Path length: 6
 
-Start
-Iter count: 73
-O node count: 64
-O max node count: 64
-O + C max node count: 136
-End
-Iter count: 14
-O node count: 32
-O max node count: 32
-O + C max node count: 45
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 87
+Max O + C: 181
+START
+Cur O: 64
+Cur C: 72
+Max O: 64
+Max C: 72
+Max O + C: 136
+END
+Cur O: 32
+Cur C: 13
+Max O: 32
+Max C: 13
+Max O + C: 45
 Path length: 6
 
-Start
-Iter count: 73
-O node count: 64
-O max node count: 64
-O + C max node count: 136
-End
-Iter count: 11
-O node count: 32
-O max node count: 32
-O + C max node count: 42
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 84
+Max O + C: 178
+START
+Cur O: 64
+Cur C: 72
+Max O: 64
+Max C: 72
+Max O + C: 136
+END
+Cur O: 32
+Cur C: 10
+Max O: 32
+Max C: 10
+Max O + C: 42
 Path length: 6
 
-Start
-Iter count: 73
-O node count: 64
-O max node count: 64
-O + C max node count: 136
-End
-Iter count: 18
-O node count: 32
-O max node count: 32
-O + C max node count: 49
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 91
+Max O + C: 185
+START
+Cur O: 64
+Cur C: 72
+Max O: 64
+Max C: 72
+Max O + C: 136
+END
+Cur O: 32
+Cur C: 17
+Max O: 32
+Max C: 17
+Max O + C: 49
 Path length: 6
 
-Start
-Iter count: 73
-O node count: 64
-O max node count: 64
-O + C max node count: 136
-End
-Iter count: 34
-O node count: 32
-O max node count: 32
-O + C max node count: 65
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 107
+Max O + C: 201
+START
+Cur O: 64
+Cur C: 72
+Max O: 64
+Max C: 72
+Max O + C: 136
+END
+Cur O: 32
+Cur C: 33
+Max O: 32
+Max C: 33
+Max O + C: 65
 Path length: 6
 
-Start
-Iter count: 73
-O node count: 64
-O max node count: 64
-O + C max node count: 136
-End
-Iter count: 6
-O node count: 32
-O max node count: 32
-O + C max node count: 37
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 79
+Max O + C: 173
+START
+Cur O: 64
+Cur C: 72
+Max O: 64
+Max C: 72
+Max O + C: 136
+END
+Cur O: 32
+Cur C: 5
+Max O: 32
+Max C: 5
+Max O + C: 37
 Path length: 6
 
-Start
-Iter count: 73
-O node count: 64
-O max node count: 64
-O + C max node count: 136
-End
-Iter count: 14
-O node count: 32
-O max node count: 32
-O + C max node count: 45
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 87
+Max O + C: 181
+START
+Cur O: 64
+Cur C: 72
+Max O: 64
+Max C: 72
+Max O + C: 136
+END
+Cur O: 32
+Cur C: 13
+Max O: 32
+Max C: 13
+Max O + C: 45
 Path length: 6
 
-Start
-Iter count: 73
-O node count: 64
-O max node count: 64
-O + C max node count: 136
-End
-Iter count: 12
-O node count: 32
-O max node count: 32
-O + C max node count: 43
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 85
+Max O + C: 179
+START
+Cur O: 64
+Cur C: 72
+Max O: 64
+Max C: 72
+Max O + C: 136
+END
+Cur O: 32
+Cur C: 11
+Max O: 32
+Max C: 11
+Max O + C: 43
 Path length: 6
 
 Depth: 8
-Start
-Iter count: 584
-O node count: 511
-O max node count: 511
-O + C max node count: 1094
-End
-Iter count: 217
-O node count: 256
-O max node count: 256
-O + C max node count: 472
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 801
+Max O + C: 1566
+START
+Cur O: 511
+Cur C: 583
+Max O: 511
+Max C: 583
+Max O + C: 1094
+END
+Cur O: 256
+Cur C: 216
+Max O: 256
+Max C: 216
+Max O + C: 472
 Path length: 8
 
-Start
-Iter count: 585
-O node count: 512
-O max node count: 512
-O + C max node count: 1096
-End
-Iter count: 205
-O node count: 256
-O max node count: 256
-O + C max node count: 460
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 790
+Max O + C: 1556
+START
+Cur O: 512
+Cur C: 584
+Max O: 512
+Max C: 584
+Max O + C: 1096
+END
+Cur O: 256
+Cur C: 204
+Max O: 256
+Max C: 204
+Max O + C: 460
 Path length: 8
 
-Start
-Iter count: 584
-O node count: 511
-O max node count: 511
-O + C max node count: 1094
-End
-Iter count: 155
-O node count: 256
-O max node count: 256
-O + C max node count: 410
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 739
+Max O + C: 1504
+START
+Cur O: 511
+Cur C: 583
+Max O: 511
+Max C: 583
+Max O + C: 1094
+END
+Cur O: 256
+Cur C: 154
+Max O: 256
+Max C: 154
+Max O + C: 410
 Path length: 8
 
-Start
-Iter count: 584
-O node count: 511
-O max node count: 511
-O + C max node count: 1094
-End
-Iter count: 105
-O node count: 256
-O max node count: 256
-O + C max node count: 360
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 689
+Max O + C: 1454
+START
+Cur O: 511
+Cur C: 583
+Max O: 511
+Max C: 583
+Max O + C: 1094
+END
+Cur O: 256
+Cur C: 104
+Max O: 256
+Max C: 104
+Max O + C: 360
 Path length: 8
 
-Start
-Iter count: 585
-O node count: 512
-O max node count: 512
-O + C max node count: 1096
-End
-Iter count: 109
-O node count: 256
-O max node count: 256
-O + C max node count: 364
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 694
+Max O + C: 1460
+START
+Cur O: 512
+Cur C: 584
+Max O: 512
+Max C: 584
+Max O + C: 1096
+END
+Cur O: 256
+Cur C: 108
+Max O: 256
+Max C: 108
+Max O + C: 364
 Path length: 8
 
-Start
-Iter count: 584
-O node count: 511
-O max node count: 511
-O + C max node count: 1094
-End
-Iter count: 219
-O node count: 256
-O max node count: 256
-O + C max node count: 474
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 803
+Max O + C: 1568
+START
+Cur O: 511
+Cur C: 583
+Max O: 511
+Max C: 583
+Max O + C: 1094
+END
+Cur O: 256
+Cur C: 218
+Max O: 256
+Max C: 218
+Max O + C: 474
 Path length: 8
 
-Start
-Iter count: 585
-O node count: 512
-O max node count: 512
-O + C max node count: 1096
-End
-Iter count: 253
-O node count: 256
-O max node count: 256
-O + C max node count: 508
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 838
+Max O + C: 1604
+START
+Cur O: 512
+Cur C: 584
+Max O: 512
+Max C: 584
+Max O + C: 1096
+END
+Cur O: 256
+Cur C: 252
+Max O: 256
+Max C: 252
+Max O + C: 508
 Path length: 8
 
-Start
-Iter count: 583
-O node count: 510
-O max node count: 510
-O + C max node count: 1092
-End
-Iter count: 103
-O node count: 256
-O max node count: 256
-O + C max node count: 358
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 686
+Max O + C: 1450
+START
+Cur O: 510
+Cur C: 582
+Max O: 510
+Max C: 582
+Max O + C: 1092
+END
+Cur O: 256
+Cur C: 102
+Max O: 256
+Max C: 102
+Max O + C: 358
 Path length: 8
 
-Start
-Iter count: 584
-O node count: 511
-O max node count: 511
-O + C max node count: 1094
-End
-Iter count: 41
-O node count: 256
-O max node count: 256
-O + C max node count: 296
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 625
+Max O + C: 1390
+START
+Cur O: 511
+Cur C: 583
+Max O: 511
+Max C: 583
+Max O + C: 1094
+END
+Cur O: 256
+Cur C: 40
+Max O: 256
+Max C: 40
+Max O + C: 296
 Path length: 8
 
-Start
-Iter count: 584
-O node count: 511
-O max node count: 511
-O + C max node count: 1094
-End
-Iter count: 151
-O node count: 256
-O max node count: 256
-O + C max node count: 406
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 735
+Max O + C: 1500
+START
+Cur O: 511
+Cur C: 583
+Max O: 511
+Max C: 583
+Max O + C: 1094
+END
+Cur O: 256
+Cur C: 150
+Max O: 256
+Max C: 150
+Max O + C: 406
 Path length: 8
 
 Depth: 10
-Start
-Iter count: 4675
-O node count: 4090
-O max node count: 4090
-O + C max node count: 8764
-End
-Iter count: 387
-O node count: 2032
-O max node count: 2032
-O + C max node count: 2418
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 5062
+Max O + C: 11182
+START
+Cur O: 4090
+Cur C: 4674
+Max O: 4090
+Max C: 4674
+Max O + C: 8764
+END
+Cur O: 2032
+Cur C: 386
+Max O: 2032
+Max C: 386
+Max O + C: 2418
 Path length: 10
 
-Start
-Iter count: 4675
-O node count: 4090
-O max node count: 4090
-O + C max node count: 8764
-End
-Iter count: 372
-O node count: 2032
-O max node count: 2032
-O + C max node count: 2403
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 5047
+Max O + C: 11167
+START
+Cur O: 4090
+Cur C: 4674
+Max O: 4090
+Max C: 4674
+Max O + C: 8764
+END
+Cur O: 2032
+Cur C: 371
+Max O: 2032
+Max C: 371
+Max O + C: 2403
 Path length: 10
 
-Start
-Iter count: 4629
-O node count: 4046
-O max node count: 4046
-O + C max node count: 8674
-End
-Iter count: 572
-O node count: 2032
-O max node count: 2032
-O + C max node count: 2603
-Common
-Iter count: 0
-O node count: 0
-O max node count: 0
-O + C max node count: 0
+COMMON
+Iters: 5201
+Max O + C: 11277
+START
+Cur O: 4046
+Cur C: 4628
+Max O: 4046
+Max C: 4628
+Max O + C: 8674
+END
+Cur O: 2032
+Cur C: 571
+Max O: 2032
+Max C: 571
+Max O + C: 2603
+Path length: 10
+
+COMMON
+Iters: 5916
+Max O + C: 12035
+START
+Cur O: 4089
+Cur C: 4673
+Max O: 4089
+Max C: 4673
+Max O + C: 8762
+END
+Cur O: 2032
+Cur C: 1241
+Max O: 2032
+Max C: 1241
+Max O + C: 3273
+Path length: 10
+
+COMMON
+Iters: 5129
+Max O + C: 11216
+START
+Cur O: 4057
+Cur C: 4639
+Max O: 4057
+Max C: 4639
+Max O + C: 8696
+END
+Cur O: 2032
+Cur C: 488
+Max O: 2032
+Max C: 488
+Max O + C: 2520
+Path length: 10
+
+COMMON
+Iters: 5317
+Max O + C: 11431
+START
+Cur O: 4084
+Cur C: 4668
+Max O: 4084
+Max C: 4668
+Max O + C: 8752
+END
+Cur O: 2032
+Cur C: 647
+Max O: 2032
+Max C: 647
+Max O + C: 2679
+Path length: 10
+
+COMMON
+Iters: 5874
+Max O + C: 11951
+START
+Cur O: 4047
+Cur C: 4629
+Max O: 4047
+Max C: 4629
+Max O + C: 8676
+END
+Cur O: 2032
+Cur C: 1243
+Max O: 2032
+Max C: 1243
+Max O + C: 3275
+Path length: 10
+
+COMMON
+Iters: 5494
+Max O + C: 11589
+START
+Cur O: 4065
+Cur C: 4648
+Max O: 4065
+Max C: 4648
+Max O + C: 8713
+END
+Cur O: 2032
+Cur C: 844
+Max O: 2032
+Max C: 844
+Max O + C: 2876
+Path length: 10
+
+COMMON
+Iters: 6391
+Max O + C: 12495
+START
+Cur O: 4074
+Cur C: 4657
+Max O: 4074
+Max C: 4657
+Max O + C: 8731
+END
+Cur O: 2032
+Cur C: 1732
+Max O: 2032
+Max C: 1732
+Max O + C: 3764
+Path length: 10
+
+COMMON
+Iters: 5064
+Max O + C: 11126
+START
+Cur O: 4032
+Cur C: 4613
+Max O: 4032
+Max C: 4613
+Max O + C: 8645
+END
+Cur O: 2032
+Cur C: 449
+Max O: 2032
+Max C: 449
+Max O + C: 2481
 Path length: 10
 

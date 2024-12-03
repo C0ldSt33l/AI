@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using System.Runtime.Versioning;
 using Microsoft.Win32.SafeHandles;
 using Raylib_cs;
@@ -46,8 +47,26 @@ public static class Test {
             }
         }
     }
+    public static void ImpossibleTest(string[] searches) {
+        const string fileName = "report//Impossible Test.txt";
+        foreach (var name in searches) {
+            ISearch search = name.ToLower() switch {
+                "width" => new WidthFirstSearch(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery),
+                "depth" => new DepthFirstSearch(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery),
+                "bidirectional" => new BiDirectionalSearch(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery, State.ReverseDiscovery),
+                "depth limited" => new DepthLimitedSearch(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery),
+                "astar1" => new AStar(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery, State.Heuristics1),
+                "astar2" => new AStar(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery, State.Heuristics2),
+                "astar3" => new AStar(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery, State.TheMostFoolishHeuristics),
+                _ => throw new Exception("Such search is not exist"),
+            };
+            var _ = search.Search();
+            File.AppendAllText(fileName, name.ToUpper() + '\n');
+            File.AppendAllText(fileName, search.GetStatistic() + "\n\n");
+        }
+    }
 
-    private static Dictionary<uint, List<State>> GetStartStates(string file = "report//start_states.txt") {
+    public static Dictionary<uint, List<State>> GetStartStates(string file = "report//start_states.txt") {
         var dict = new Dictionary<uint, List<State>>();
         var lines = File.ReadAllLines(file);
         for (var i = 0; i < lines.Length; i++) {
