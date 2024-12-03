@@ -48,16 +48,29 @@ public static class Test {
         }
     }
     public static void ImpossibleTest(string[] searches) {
+        State
+            start = new(new char[4,4] {
+                {'R', 'R', 'R', 'R'},
+                {'R', 'R', 'R', 'R'},
+                {'R', 'R', 'R', 'R'},
+                {'B', 'B', 'B', 'B'},
+            }),
+            target = new(new char[4,4] {
+                {'R', 'R', 'R', 'R'},
+                {'R', 'R', 'R', 'R'},
+                {'R', 'R', 'R', 'R'},
+                {'R', 'B', 'B', 'B'},
+            });
         const string fileName = "report//Impossible Test.txt";
         foreach (var name in searches) {
             ISearch search = name.ToLower() switch {
-                "width" => new WidthFirstSearch(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery),
-                "depth" => new DepthFirstSearch(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery),
-                "bidirectional" => new BiDirectionalSearch(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery, State.ReverseDiscovery),
-                "depth limited" => new DepthLimitedSearch(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery),
-                "astar1" => new AStar(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery, State.Heuristics1),
-                "astar2" => new AStar(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery, State.Heuristics2),
-                "astar3" => new AStar(State.IMPOSSIBLE_STATE, State.TARGET_STATE, State.Discovery, State.TheMostFoolishHeuristics),
+                "width" => new WidthFirstSearch(start, target, State.Discovery),
+                "depth" => new DepthFirstSearch(start, target, State.Discovery),
+                "bidirectional" => new BiDirectionalSearch(start, target, State.Discovery, State.ReverseDiscovery),
+                "depth limited" => new DepthLimitedSearch(start, target, State.Discovery),
+                "astar1" => new AStar(start, target, State.Discovery, State.Heuristics1),
+                "astar2" => new AStar(start, target, State.Discovery, State.Heuristics2),
+                "astar3" => new AStar(start, target, State.Discovery, State.TheMostFoolishHeuristics),
                 _ => throw new Exception("Such search is not exist"),
             };
             var _ = search.Search();

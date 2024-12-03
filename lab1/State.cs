@@ -14,12 +14,7 @@ public class State {
         {'Y', 'Y', 'Y', 'Y'},
         {'B', 'B', 'B', 'B'},
     });
-    public static State IMPOSSIBLE_STATE = new(new char[4,4] {
-        {'R', 'R', 'R', 'R'},
-        {'R', 'G', 'G', 'G'},
-        {'Y', 'Y', 'Y', 'Y'},
-        {'B', 'B', 'B', 'B'},
-    });
+    
     public  Color[,] Colors = new Color[4, 4];
     public  State? Parent = null;
 
