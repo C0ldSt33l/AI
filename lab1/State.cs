@@ -343,7 +343,7 @@ public class State {
         }
 
         var colors = this.Colors.Clone() as Color[,];
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < this.Size; i++) {
             colors[i, col] = colColors.First.Value;
             colColors.RemoveFirst();
         }

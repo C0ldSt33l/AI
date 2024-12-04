@@ -58,17 +58,12 @@ public class WidthFirstSearch(
 
     public SearchInfo Info = new();
 
-    public string SaveFile = "report//width_search.txt";
-
     public List<State>? Search() {
         while (this.OpenNodes.Count > 0) {
             this.Info.Update(this.OpenNodes, this.CloseNodes);
             var node = this.OpenNodes.Dequeue();
 
             if (node.Equals(target)) {
-                Console.WriteLine(this.Info);
-                Console.WriteLine("Search finished");
-
                 return node.GetPath();
             }
             this.CloseNodes.Add(node);
@@ -80,7 +75,6 @@ public class WidthFirstSearch(
             }
         }
 
-        Console.WriteLine("Search finished");
         return null;
     }
 
@@ -101,8 +95,6 @@ public class DepthFirstSearch(
 
             var node = this.OpenNodes.Pop();
             if (node.Equals(target)) {
-                Console.WriteLine(this.Info);
-                Console.WriteLine("Search finished");
                 return node.GetPath();
             }
             this.CloseNodes.Add(node);
@@ -114,7 +106,6 @@ public class DepthFirstSearch(
             }
         }
 
-        Console.WriteLine("Search finished");
         return null;
     }
 
@@ -240,7 +231,6 @@ Max O + C: {this.EndMaxNodes}
             }
         }
 
-        Console.WriteLine("Search finished");
         return null;
     }
 
@@ -281,12 +271,10 @@ public class DepthLimitedSearch(
 
         while (true) {
             while (this.OpenNodes.Count > 0) {
+                this.Info.Update(this.OpenNodes,this.CloseNodes);
                 var (node, depth) = this.OpenNodes.Pop();
 
                 if (node.IsTargetState()) {
-                    this.Info.Update(this.OpenNodes,this.CloseNodes);
-                    Console.WriteLine(this.Info);
-                    Console.WriteLine("Search finished");
                     return node.GetPath();
                 }
 
@@ -299,8 +287,6 @@ public class DepthLimitedSearch(
                         this.OpenNodes.Push((state, depth + 1));
                     }
                 }
-
-                this.Info.Update(this.OpenNodes, this.CloseNodes);
             }
 
             maxDepth++;
@@ -330,14 +316,11 @@ public class AStar(
     public SearchInfo Info = new();
 
     public List<State>? Search() {
-        // Console.WriteLine("hash: " + start.GetHashCode());
         while (this.OpenNodes.Count > 0) {
             this.Info.Update(this.OpenNodes, this.CloseNodes);
             var item = this.OpenNodes.First();
             this.OpenNodes.RemoveAt(0);
             if (item.state.IsTargetState()) {
-                Console.WriteLine(this.Info);
-                Console.WriteLine("Search finished");
                 return item.state.GetPath();
             }
             this.CloseNodes.Add(item);
@@ -365,7 +348,6 @@ public class AStar(
             this._sortOpenNodes();
         }
 
-        Console.WriteLine("Search finished");
         return null;
     }
 

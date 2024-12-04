@@ -156,6 +156,7 @@ public class Game {
         Console.WriteLine(name);
         var path = search.Search();
         Console.WriteLine(search.GetStatistic());
+        Console.WriteLine("Search finished");
         if (path == null) {
             Console.WriteLine("Path is not found\n");
             this._pathToWin = null;
@@ -423,12 +424,22 @@ public class Game {
 
 class Program {
     public static void Main(String[] args) {
-        new Game().Update();
+        // new Game().Update();
 
         // Test.GenStartStates();
         // Test.RunTests(new string[] { "Width" });
         // Test.ImpossibleTest(new string[] { "width", "bidirectional", "depth limited", "astar1", "astar2", "astar3" });
 
         // DB.calculateDBPathLengths();
+
+        var state = new State(new char[2,2] {
+            { 'R', 'R', },
+            { 'R', 'G', },
+        });
+        var nodes = State.Discovery(state);
+        nodes.ForEach(el => {
+            Console.WriteLine(el);
+            Console.WriteLine();
+        });
     }
 }
