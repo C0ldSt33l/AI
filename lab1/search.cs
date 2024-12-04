@@ -205,7 +205,6 @@ Max O + C: {this.EndMaxNodes}
         if (start.Equals(target)) return new() { start };
         while(this.StartOpenNodes.Count() > 0 || this.EndOpenNodes.Count() > 0) {
             var newOpenNodes = new Queue<State>();
-            Console.WriteLine(this.EndOpenNodes.Count > this.StartOpenNodes.Count);
             if (this.EndOpenNodes.Count > this.StartOpenNodes.Count) {
                 foreach (var node in this.StartOpenNodes) {
                     this.Info.UpdateStart(this.StartOpenNodes, this.StartCloseNodes);

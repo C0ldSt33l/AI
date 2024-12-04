@@ -257,8 +257,8 @@ public class Game {
         //     { 'B', 'G', 'Y', 'G',},
         //     { 'B', 'Y', 'Y', 'R',},
         // });
-        var state = Test.GetStartStates()[6].First();
-        // var state = State.TARGET_STATE;
+        // var state = Test.GetStartStates()[6].First();
+        var state = State.TARGET_STATE;
         this._circles = new Circle[4, 4];
         for (var row = 0; row < this._cells.GetLength(0); row++) {
             for (var col = 0; col < this._cells.GetLength(1); col++) {
@@ -426,7 +426,8 @@ class Program {
         new Game().Update();
 
         // Test.GenStartStates();
-        // Test.RunTests(new string[] { "AStarDB" });
+        // Test.RunTests(new string[] { "Width" });
+        // Test.ImpossibleTest(new string[] { "width", "bidirectional", "depth limited", "astar1", "astar2", "astar3" });
 
         // DB.calculateDBPathLengths();
     }

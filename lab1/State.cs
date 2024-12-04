@@ -7,6 +7,7 @@ using Raylib_cs;
 
 namespace Game;
 
+// NOTE: add ability to set field size
 public class State {
     public static State TARGET_STATE = new(new char[4,4] {
         {'R', 'R', 'R', 'R'},
@@ -15,48 +16,54 @@ public class State {
         {'B', 'B', 'B', 'B'},
     });
     
+    public int Size;
     public  Color[,] Colors = new Color[4, 4];
     public  State? Parent = null;
 
     public State(int[] colorPos, Color c, State? parent = null) {
-        for (var row = 0; row < 4; row++) {
-            for (var col = 0; col < 4; col++) {
-                this.Colors[row, col] =
-                    colorPos.Contains(row * 4 + col + 1) ?
-                        c : Color.Black;
-            }
-        }
+        this._initColors(
+            colorPos.Length,
+            (row, col) =>colorPos.Contains(row * this.Size + col + 1) ? c : Color.Black 
+        );
         this.Parent = parent;
     }
 
     public State(string[] colors, State? parent = null) {
-        for (var i = 0; i < 4; i++) {
-            var chars = colors[i].Trim().Replace(" ", "").ToCharArray();
-            for (int j = 0; j < 4; j++) {
-                this.Colors[i, j] = this.CharToColor(chars[j]);
-            }
-        }
+        var cols = colors.Select(el => el.Trim().Replace(" ", "").ToCharArray()).ToArray();
+        this._initColors(
+            colors.Length,
+            (row, col) => this.CharToColor(cols[row][col])
+        );
+        this.Parent = parent;
     }
     public State(Circle[,] circles, State? parent = null) {
-        for (var row = 0; row < circles.GetLength(0); row++) {
-            for (var col = 0; col < circles.GetLength(1); col++) {
-                this.Colors[row, col] = circles[row, col].Color;
-            }
-        }
+        this._initColors(
+            circles.GetLength(0),
+            (row, col) => circles[row, col].Color
+        );
         this.Parent = parent;
     }
     public State(Color[,] colors, State? parent = null) {
+        this.Size = colors.GetLength(0);
         this.Colors = colors;
         this.Parent = parent;
     }
     
     public State(char[,] chars, State? parent = null) {
-        for (var row = 0; row < 4; row++) {
-            for (var col = 0; col < 4; col++) {
-                this.Colors[row, col] = this.CharToColor(chars[row, col]);
+        this._initColors(
+            chars.GetLength(0),
+            (row, col) => this.CharToColor(chars[row, col])
+        );
+        this.Parent = parent;
+    }
+    private void _initColors(int size, Func<int, int, Color> initer) {
+        this.Size = size;
+        this.Colors = new Color[size, size];
+        for (var row = 0; row < this.Size; row++) {
+            for (var col = 0; col < this.Size; col++) {
+                this.Colors[row, col] = initer(row, col);
             }
         }
-        this.Parent = parent;
     }
 
     public State AddSomeChaos(uint depth) {
@@ -69,7 +76,7 @@ public class State {
             Console.WriteLine("depth: " + depth);
             var diff = depth - pathLength;
             for (var i = 0; i < diff; i++) {
-                var idx = rand(0, 3);
+                var idx = rand(0, this.Size - 1);
                 chaos = odd switch {
                     true => chaos.moveCol(idx, Direction.DOWN),
                     false => chaos.moveRow(idx, Direction.RIGHT),
@@ -95,7 +102,7 @@ public class State {
 
     public static List<State> FullDiscovery(State state) {
         var states = new List<State>();
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < state.Size; i++) {
             states.Add(state.moveRow(i, Direction.LEFT));
             states.Add(state.moveCol(i, Direction.UP));
             states.Add(state.moveRow(i, Direction.RIGHT));
@@ -106,7 +113,7 @@ public class State {
     }
     public static List<State> Discovery(State state) {
         var states = new List<State>();
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < state.Size; i++) {
             states.Add(state.moveRow(i, Direction.LEFT));
             states.Add(state.moveCol(i, Direction.UP));
         }
@@ -115,7 +122,7 @@ public class State {
     }
     public static List<State> ReverseDiscovery(State state) {
         var states = new List<State>();
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < state.Size; i++) {
             states.Add(state.moveRow(i, Direction.RIGHT));
             states.Add(state.moveCol(i, Direction.DOWN));
         }
@@ -142,10 +149,10 @@ public class State {
     }
 
     public string GetColorPositions(Color c) {
-        var pos = new uint[4] { 0, 0, 0, 0 };
+        var pos = new uint[this.Size];
 
-        for (int count = 0, i = 0; count < 4; i++) {
-            int row = i / 4, col = i % 4; 
+        for (int count = 0, i = 0; count < this.Size; i++) {
+            int row = i / this.Size, col = i % this.Size; 
             if (this.Colors[row, col].Equals(c)) {
                 pos[count++] = (uint)(i + 1);
             }
@@ -157,8 +164,8 @@ public class State {
     // Search how many colors not on its own places
     public static uint Heuristics1(State state, State target) {
         float value = 0;
-        for (var row = 0; row < state.Colors.GetLength(0); row++) {
-            for (var col = 0; col < state.Colors.GetLength(1); col++) {
+        for (var row = 0; row < state.Size; row++) {
+            for (var col = 0; col < state.Size; col++) {
                 if (!state.Colors[row, col].Equals(target.Colors[row, col])) value++;
             }
         }
@@ -170,15 +177,15 @@ public class State {
     public static uint Heuristics2(State state, State target) {
         float value = 0;
 
-        for (var targetRow = 0; targetRow < 4; targetRow++) {
-            for (var targetCol = 0; targetCol < 4; targetCol++) {
+        for (var targetRow = 0; targetRow < target.Size; targetRow++) {
+            for (var targetCol = 0; targetCol < target.Size; targetCol++) {
                 var targetColor = target.Colors[targetRow, targetCol];
-                var pos = new int[4];
+                var pos = new int[target.Size];
                 var curPos = 0;
-                for (var row = 0; row < 4; row++) {
-                    for (var col = 0; col < 4; col++) {
-                        if (curPos == 4) {
-                            value += pos.Min();
+                for (var row = 0; row < state.Size; row++) {
+                    for (var col = 0; col < state.Size; col++) {
+                        if (curPos == state.Size) {
+                            value += pos.Max();
                             goto Skip;
                         }
                         if (state.Colors[row, col].Equals(targetColor)) {
@@ -192,7 +199,7 @@ public class State {
             }
         }
 
-        return (uint)Math.Floor(value / 4.0f);
+        return (uint)Math.Floor(value / (float)state.Size);
     }
         
 
@@ -207,8 +214,8 @@ public class State {
         var targetRows = target._getRows();
         var targetCols = target._getCols();
 
-        for (var i = 0; i < 4; i++) {
-            for (var j = 0; j < 4; j++) {
+        for (var i = 0; i < state.Size; i++) {
+            for (var j = 0; j < state.Size; j++) {
                 if (!rows[i][j].Equals(targetRows[i][j])) {
                     rowsNotInPlace++;
                     break;
@@ -216,8 +223,8 @@ public class State {
             }
         }
 
-        for (var i = 0; i < 4; i++) {
-            for (var j = 0; j < 4; j++) {
+        for (var i = 0; i < state.Size; i++) {
+            for (var j = 0; j < state.Size; j++) {
                 if (!cols[i][j].Equals(targetCols[i][j])) {
                     colsNotInPlace++;
                     break;
@@ -225,7 +232,7 @@ public class State {
             }
         }
 
-        return rowsNotInPlace + colsNotInPlace - 4;
+        return rowsNotInPlace + colsNotInPlace - (uint)(state.Size + 1);
     }
 
     // Extra task
@@ -253,7 +260,7 @@ public class State {
     }
 
     private Color[][] _getRows() {
-        var rows = new Color[4][] {
+        var rows = new Color[][] {
             new Color[4] { Color.White, Color.White, Color.White, Color.White },
             new Color[4] { Color.White, Color.White, Color.White, Color.White },
             new Color[4] { Color.White, Color.White, Color.White, Color.White },
@@ -286,7 +293,7 @@ public class State {
 
     private State moveRow(int row, Direction dir) {
         var rowColors = new LinkedList<Color>();
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < this.Size; i++) {
             rowColors.AddLast(this.Colors[row, i]);
         }
 
@@ -306,7 +313,7 @@ public class State {
         }
 
         var colors = this.Colors.Clone() as Color[,];
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < this.Size; i++) {
             colors[row, i] = rowColors.First.Value;
             rowColors.RemoveFirst();
         }
@@ -316,7 +323,7 @@ public class State {
 
     private State moveCol(int col, Direction dir) {
         var colColors = new LinkedList<Color>();
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < this.Size; i++) {
             colColors.AddLast(this.Colors[i, col]);
         }
 
@@ -346,11 +353,11 @@ public class State {
 
     public override string ToString() {
         var builder = new StringBuilder(4 * 4 * 2 + 4);
-        for (var row = 0; row < 4; row++) {
-            for (var col = 0; col < 4; col++) {
+        for (var row = 0; row < this.Size; row++) {
+            for (var col = 0; col < this.Size; col++) {
                 builder.Append(this.ColorToChar(this.Colors[row, col])).Append(' ');
             }
-            if (row < 3) builder.Append('\n');
+            if (row < this.Size - 1) builder.Append('\n');
         }
 
         return builder.ToString();
@@ -382,8 +389,9 @@ public class State {
         if (obj == null || this.GetType() != obj.GetType()) return false;
         
         var state = obj as State;
-        for (var row = 0; row < 4; row++) {
-            for (var col = 0; col < 4; col++) {
+        if (this.Size != state.Size) return false;
+        for (var row = 0; row < this.Size; row++) {
+            for (var col = 0; col < this.Size; col++) {
                 if (!this.Colors[row, col].Equals(state.Colors[row, col]))  return false;
             }
         }
@@ -392,10 +400,11 @@ public class State {
     }
 
     public bool EqualsByColor(State other, Color c) {
+        if (this.Size != other.Size) return false;
         var col_count = 0;
-        for (var row = 0; row < this.Colors.GetLength(0); row++) {
-            for (var col = 0; col < this.Colors.GetLength(1); col++) {
-                if (col_count == 4) break;
+        for (var row = 0; row < this.Size; row++) {
+            for (var col = 0; col < this.Size; col++) {
+                if (col_count == this.Size) break;
                 if (this.Colors[row, col].Equals(c)) {
                     if (other.Colors[row, col].Equals(c))
                         col_count++;

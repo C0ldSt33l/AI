@@ -66,7 +66,7 @@ public static class Test {
         foreach (var name in searches) {
             ISearch search = name.ToLower() switch {
                 "width" => new WidthFirstSearch(start, target, State.Discovery),
-                "depth" => new DepthFirstSearch(start, target, State.Discovery),
+                // "depth" => new DepthFirstSearch(start, target, State.Discovery),
                 "bidirectional" => new BiDirectionalSearch(start, target, State.Discovery, State.ReverseDiscovery),
                 "depth limited" => new DepthLimitedSearch(start, target, State.Discovery),
                 "astar1" => new AStar(start, target, State.Discovery, State.Heuristics1),
@@ -91,8 +91,7 @@ public static class Test {
                 
                 var states = new List<State>();
                 for (;!lines[i].Contains("-"); i += 5) {
-                    var colors = new char[4,4];
-                    var state = new State(lines[(i)..(i + 5)]);
+                    var state = new State(lines[i..(i + 5)]);
                     states.Add(state);
                 }
                 dict[depth] = states;
