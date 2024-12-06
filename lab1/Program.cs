@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Linq.Expressions;
+using System.Numerics;
 using System.Security.Cryptography;
 using Raylib_cs;
 using rl = Raylib_cs.Raylib;
@@ -428,18 +429,6 @@ class Program {
 
         // Test.GenStartStates();
         // Test.RunTests(new string[] { "Width" });
-        // Test.ImpossibleTest(new string[] { "width", "bidirectional", "depth limited", "astar1", "astar2", "astar3" });
-
-        // DB.calculateDBPathLengths();
-
-        var state = new State(new char[2,2] {
-            { 'R', 'R', },
-            { 'R', 'G', },
-        });
-        var nodes = State.Discovery(state);
-        nodes.ForEach(el => {
-            Console.WriteLine(el);
-            Console.WriteLine();
-        });
+        Test.ImpossibleTest(new string[] { "astar1", "astar2", "astar3" });
     }
 }

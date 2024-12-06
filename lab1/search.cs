@@ -1,4 +1,5 @@
 using System.Data;
+using System.Diagnostics.Metrics;
 
 namespace Game;
 
@@ -69,8 +70,8 @@ public class WidthFirstSearch(
             this.CloseNodes.Add(node);
 
             foreach (var state in discovery(node)) {
-                if (this.OpenNodes.Contains(state)) continue;
-                if (this.CloseNodes.Contains(state)) continue;
+                if (this.OpenNodes.Any(it => it.Equals(state))) continue;
+                if (this.CloseNodes.Any(it => it.Equals(state))) continue;
                 this.OpenNodes.Enqueue(state);
             }
         }
@@ -100,8 +101,8 @@ public class DepthFirstSearch(
             this.CloseNodes.Add(node);
 
             foreach (var state in discovery(node)) {
-                if (this.OpenNodes.Any(n => node.Equals(state))) continue;
-                if (this.CloseNodes.Contains(state)) continue;
+                if (this.OpenNodes.Any(it => node.Equals(state))) continue;
+                if (this.CloseNodes.Any(it => node.Equals(state))) continue;
                 this.OpenNodes.Push(state);
             }
         }
@@ -195,6 +196,7 @@ Max O + C: {this.EndMaxNodes}
     public List<State>? Search() {
         if (start.Equals(target)) return new() { start };
         while(this.StartOpenNodes.Count() > 0 || this.EndOpenNodes.Count() > 0) {
+            Console.WriteLine(this.GetStatistic());
             var newOpenNodes = new Queue<State>();
             if (this.EndOpenNodes.Count > this.StartOpenNodes.Count) {
                 foreach (var node in this.StartOpenNodes) {
@@ -203,11 +205,12 @@ Max O + C: {this.EndMaxNodes}
 
                     foreach(var state in discovery(node)) {
                         var end = this.EndOpenNodes.FirstOrDefault(el => el.Equals(state), null);
-                        if (end != null) {
-                            return this._getPath(state, end);
-                        }
+                        if (end != null) return this._getPath(state, end);
 
-                        if (this.StartOpenNodes.Contains(state) || this.StartCloseNodes.Contains(state)) continue;
+                        if (
+                            this.StartOpenNodes.Any(it => it.Equals(state)) ||
+                            this.StartCloseNodes.Any(it => it.Equals(state))
+                        ) continue;
                         newOpenNodes.Enqueue(state);
                     }
                 }
@@ -219,11 +222,12 @@ Max O + C: {this.EndMaxNodes}
 
                     foreach(var state in revDiscovery(node)) {
                         var start = this.StartOpenNodes.FirstOrDefault(el => el.Equals(state), null);
-                        if (start != null) {
-                            return this._getPath(start, state);
-                        }
+                        if (start != null) return this._getPath(start, state);
 
-                        if (this.EndOpenNodes.Contains(state) || this.EndCloseNodes.Contains(state)) continue;
+                        if (
+                            this.EndOpenNodes.Any(it => it.Equals(state)) ||
+                            this.EndCloseNodes.Any(it => it.Equals(state))
+                        ) continue;
                         newOpenNodes.Enqueue(state);
                     }
                 }
@@ -274,7 +278,7 @@ public class DepthLimitedSearch(
                 this.Info.Update(this.OpenNodes,this.CloseNodes);
                 var (node, depth) = this.OpenNodes.Pop();
 
-                if (node.IsTargetState()) {
+                if (node.Equals(target)) {
                     return node.GetPath();
                 }
 
@@ -282,8 +286,8 @@ public class DepthLimitedSearch(
 
                 if (depth < maxDepth) {
                     foreach (var state in discovery(node)) {
-                        if (this.OpenNodes.Any(n => n.node.Equals(state))) continue;
-                        if (this.CloseNodes.Contains(state)) continue;
+                        if (this.OpenNodes.Any(it => it.node.Equals(state))) continue;
+                        if (this.CloseNodes.Any(it => it.Equals(state))) continue;
                         this.OpenNodes.Push((state, depth + 1));
                     }
                 }
@@ -318,27 +322,32 @@ public class AStar(
     public List<State>? Search() {
         while (this.OpenNodes.Count > 0) {
             this.Info.Update(this.OpenNodes, this.CloseNodes);
+            Console.WriteLine(this.Info);
             var item = this.OpenNodes.First();
             this.OpenNodes.RemoveAt(0);
-            if (item.state.IsTargetState()) {
+            if (item.state.Equals(target)) {
                 return item.state.GetPath();
             }
             this.CloseNodes.Add(item);
 
-            var traveledPath = (uint)item.state.GetPath().Count;
+            var traveledPath = item.state.GetPath().Count - 1;
             foreach (var state in discovery(item.state)) {
-                var newVal = traveledPath + heuristics(state, target);
+                var newVal = (uint)(traveledPath + heuristics(state, target));
 
-                var openNodeIndex = this.OpenNodes.FindIndex(((State, uint) item) => item.Item1.Equals(state));
-                if (openNodeIndex > -1 && newVal < this.OpenNodes[openNodeIndex].val) {
-                    this.OpenNodes[openNodeIndex] = (state, newVal);
+                var openNodeIndex = this.OpenNodes.FindIndex(((State, uint) it) => it.Item1.Equals(state));
+                if (openNodeIndex > -1) {
+                    if (newVal < this.OpenNodes[openNodeIndex].val) {
+                        this.OpenNodes[openNodeIndex] = (state, newVal);
+                    }
                     continue;
                 }
                 
                 (State? state, uint val) inCloseNode = this.CloseNodes.FirstOrDefault(item => item.state.Equals(state), (null, 0));
-                if (inCloseNode.state != null && newVal < inCloseNode.val) {
-                    this.CloseNodes.Remove(inCloseNode);
-                    this.OpenNodes.Add((state, newVal));
+                if (inCloseNode.state != null) {
+                    if (newVal < inCloseNode.val) {
+                        this.CloseNodes.RemoveWhere(it => it.state.Equals(state));
+                        this.OpenNodes.Add((state, newVal));
+                    }
                     continue;
                 }
 

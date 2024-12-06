@@ -32,7 +32,7 @@ public static class Test {
                 foreach (var state in pair.Value) {
                     ISearch search = name.ToLower() switch {
                         "width" => new WidthFirstSearch(state, State.TARGET_STATE, State.Discovery),
-                        "depth" => new DepthFirstSearch(state, State.TARGET_STATE, State.Discovery),
+                        // "depth" => new DepthFirstSearch(state, State.TARGET_STATE, State.Discovery),
                         "bidirectional" => new BiDirectionalSearch(state, State.TARGET_STATE, State.Discovery, State.ReverseDiscovery),
                         "depth limited" => new DepthLimitedSearch(state, State.TARGET_STATE, State.Discovery),
                         "astar1" => new AStar(state, State.TARGET_STATE, State.Discovery, State.Heuristics1),
@@ -50,20 +50,17 @@ public static class Test {
     }
     public static void ImpossibleTest(string[] searches) {
         State
-            start = new(new char[4,4] {
-                {'R', 'R', 'R', 'R'},
-                {'R', 'R', 'R', 'R'},
-                {'R', 'R', 'R', 'R'},
-                {'B', 'B', 'B', 'B'},
+            start = new(new char[2,2] {
+                { 'R', 'R', },
+                { 'R', 'G', },
             }),
-            target = new(new char[4,4] {
-                {'R', 'R', 'R', 'R'},
-                {'R', 'R', 'R', 'R'},
-                {'R', 'R', 'R', 'R'},
-                {'R', 'B', 'B', 'B'},
+            target = new(new char[2,2] {
+                { 'R', 'R', },
+                { 'G', 'G', },
             });
         const string fileName = "report//Impossible Test.txt";
         foreach (var name in searches) {
+            File.AppendAllText(fileName, name.ToUpper() + '\n');
             ISearch search = name.ToLower() switch {
                 "width" => new WidthFirstSearch(start, target, State.Discovery),
                 // "depth" => new DepthFirstSearch(start, target, State.Discovery),
@@ -75,7 +72,6 @@ public static class Test {
                 _ => throw new Exception("Such search is not exist"),
             };
             var _ = search.Search();
-            File.AppendAllText(fileName, name.ToUpper() + '\n');
             File.AppendAllText(fileName, search.GetStatistic() + "\n\n");
         }
     }

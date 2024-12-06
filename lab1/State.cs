@@ -170,7 +170,7 @@ public class State {
             }
         }
 
-        return (uint)Math.Floor(value / 4.0f);
+        return (uint)Math.Floor(value / (float)state.Size);
     }
 
     // Manhattan distance (Mosany)
@@ -259,15 +259,11 @@ public class State {
         }.Max();
     }
 
-    private Color[][] _getRows() {
-        var rows = new Color[][] {
-            new Color[4] { Color.White, Color.White, Color.White, Color.White },
-            new Color[4] { Color.White, Color.White, Color.White, Color.White },
-            new Color[4] { Color.White, Color.White, Color.White, Color.White },
-            new Color[4] { Color.White, Color.White, Color.White, Color.White },
-        };
-        for (var row = 0; row < this.Colors.GetLength(0); row++) {
-            for (var col = 0; col < this.Colors.GetLength(1); col++) {
+    public Color[][] _getRows() {
+        var rows = new Color[this.Size][];
+        for (var row = 0; row < this.Size; row++) {
+            rows[row] = new Color[this.Size];
+            for (var col = 0; col < this.Size; col++) {
                 rows[row][col] = this.Colors[row, col];
             }
         }
@@ -275,15 +271,13 @@ public class State {
         return rows;
     }
 
-    private Color[][] _getCols() {
-        var cols = new Color[4][] {
-            new Color[4] { Color.White, Color.White, Color.White, Color.White },
-            new Color[4] { Color.White, Color.White, Color.White, Color.White },
-            new Color[4] { Color.White, Color.White, Color.White, Color.White },
-            new Color[4] { Color.White, Color.White, Color.White, Color.White },
-        };
-        for (var col = 0; col < this.Colors.GetLength(0); col++) {
-            for (var row = 0; row < this.Colors.GetLength(1); row++) {
+    public Color[][] _getCols() {
+        var cols = new Color[this.Size][];
+        for (var i = 0; i < this.Size; i++) {
+            cols[i] = new Color[this.Size];
+        }
+        for (var col = 0; col < this.Size; col++) {
+            for (var row = 0; row < this.Size; row++) {
                 cols[row][col] = this.Colors[col, row];
             }
         }
