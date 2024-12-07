@@ -427,8 +427,9 @@ class Program {
     public static void Main(String[] args) {
         // new Game().Update();
 
-        // Test.GenStartStates();
         // Test.RunTests(new string[] { "Width" });
-        Test.ImpossibleTest(new string[] { "width" });
+        // Test.ImpossibleTest(new string[] { "width" });
+
+        DB.calculateDBPathLengths();
     }
 }
