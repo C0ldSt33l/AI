@@ -1,0 +1,765 @@
+Depth: 2
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+Path length: 2
+
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+Path length: 2
+
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+Path length: 2
+
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+Path length: 2
+
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+Path length: 2
+
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+Path length: 2
+
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+Path length: 2
+
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+Path length: 2
+
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+Path length: 2
+
+COMMON
+Iters: 2
+Max O + C: 2
+START
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+END
+Iters: 1
+Cur O: 1
+Cur C: 0
+Max O: 1
+Max C: 0
+Max O + C: 1
+Path length: 2
+
+Depth: 4
+COMMON
+Iters: 13
+Max O + C: 23
+START
+Iters: 8
+Cur O: 8
+Cur C: 7
+Max O: 8
+Max C: 7
+Max O + C: 15
+END
+Iters: 5
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
+Path length: 4
+
+COMMON
+Iters: 13
+Max O + C: 23
+START
+Iters: 8
+Cur O: 8
+Cur C: 7
+Max O: 8
+Max C: 7
+Max O + C: 15
+END
+Iters: 5
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
+Path length: 4
+
+COMMON
+Iters: 13
+Max O + C: 23
+START
+Iters: 8
+Cur O: 8
+Cur C: 7
+Max O: 8
+Max C: 7
+Max O + C: 15
+END
+Iters: 5
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
+Path length: 4
+
+COMMON
+Iters: 13
+Max O + C: 23
+START
+Iters: 8
+Cur O: 8
+Cur C: 7
+Max O: 8
+Max C: 7
+Max O + C: 15
+END
+Iters: 5
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
+Path length: 4
+
+COMMON
+Iters: 13
+Max O + C: 23
+START
+Iters: 8
+Cur O: 8
+Cur C: 7
+Max O: 8
+Max C: 7
+Max O + C: 15
+END
+Iters: 5
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
+Path length: 4
+
+COMMON
+Iters: 9
+Max O + C: 19
+START
+Iters: 4
+Cur O: 8
+Cur C: 3
+Max O: 8
+Max C: 3
+Max O + C: 11
+END
+Iters: 5
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
+Path length: 4
+
+COMMON
+Iters: 7
+Max O + C: 17
+START
+Iters: 2
+Cur O: 8
+Cur C: 1
+Max O: 8
+Max C: 1
+Max O + C: 9
+END
+Iters: 5
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
+Path length: 4
+
+COMMON
+Iters: 11
+Max O + C: 21
+START
+Iters: 6
+Cur O: 8
+Cur C: 5
+Max O: 8
+Max C: 5
+Max O + C: 13
+END
+Iters: 5
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
+Path length: 4
+
+COMMON
+Iters: 11
+Max O + C: 21
+START
+Iters: 6
+Cur O: 8
+Cur C: 5
+Max O: 8
+Max C: 5
+Max O + C: 13
+END
+Iters: 5
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
+Path length: 4
+
+COMMON
+Iters: 11
+Max O + C: 21
+START
+Iters: 6
+Cur O: 8
+Cur C: 5
+Max O: 8
+Max C: 5
+Max O + C: 13
+END
+Iters: 5
+Cur O: 4
+Cur C: 4
+Max O: 4
+Max C: 4
+Max O + C: 8
+Path length: 4
+
+Depth: 6
+COMMON
+Iters: 52
+Max O + C: 140
+START
+Iters: 15
+Cur O: 64
+Cur C: 14
+Max O: 64
+Max C: 14
+Max O + C: 78
+END
+Iters: 37
+Cur O: 32
+Cur C: 30
+Max O: 32
+Max C: 30
+Max O + C: 62
+Path length: 6
+
+COMMON
+Iters: 86
+Max O + C: 168
+START
+Iters: 49
+Cur O: 63
+Cur C: 43
+Max O: 63
+Max C: 43
+Max O + C: 106
+END
+Iters: 37
+Cur O: 32
+Cur C: 30
+Max O: 32
+Max C: 30
+Max O + C: 62
+Path length: 6
+
+COMMON
+Iters: 54
+Max O + C: 142
+START
+Iters: 17
+Cur O: 64
+Cur C: 16
+Max O: 64
+Max C: 16
+Max O + C: 80
+END
+Iters: 37
+Cur O: 32
+Cur C: 30
+Max O: 32
+Max C: 30
+Max O + C: 62
+Path length: 6
+
+COMMON
+Iters: 82
+Max O + C: 166
+START
+Iters: 45
+Cur O: 64
+Cur C: 40
+Max O: 64
+Max C: 40
+Max O + C: 104
+END
+Iters: 37
+Cur O: 32
+Cur C: 30
+Max O: 32
+Max C: 30
+Max O + C: 62
+Path length: 6
+
+COMMON
+Iters: 50
+Max O + C: 137
+START
+Iters: 13
+Cur O: 63
+Cur C: 12
+Max O: 63
+Max C: 12
+Max O + C: 75
+END
+Iters: 37
+Cur O: 32
+Cur C: 30
+Max O: 32
+Max C: 30
+Max O + C: 62
+Path length: 6
+
+COMMON
+Iters: 102
+Max O + C: 180
+START
+Iters: 65
+Cur O: 64
+Cur C: 54
+Max O: 64
+Max C: 54
+Max O + C: 118
+END
+Iters: 37
+Cur O: 32
+Cur C: 30
+Max O: 32
+Max C: 30
+Max O + C: 62
+Path length: 6
+
+COMMON
+Iters: 66
+Max O + C: 153
+START
+Iters: 29
+Cur O: 64
+Cur C: 27
+Max O: 64
+Max C: 27
+Max O + C: 91
+END
+Iters: 37
+Cur O: 32
+Cur C: 30
+Max O: 32
+Max C: 30
+Max O + C: 62
+Path length: 6
+
+COMMON
+Iters: 70
+Max O + C: 157
+START
+Iters: 33
+Cur O: 64
+Cur C: 31
+Max O: 64
+Max C: 31
+Max O + C: 95
+END
+Iters: 37
+Cur O: 32
+Cur C: 30
+Max O: 32
+Max C: 30
+Max O + C: 62
+Path length: 6
+
+COMMON
+Iters: 50
+Max O + C: 137
+START
+Iters: 13
+Cur O: 63
+Cur C: 12
+Max O: 63
+Max C: 12
+Max O + C: 75
+END
+Iters: 37
+Cur O: 32
+Cur C: 30
+Max O: 32
+Max C: 30
+Max O + C: 62
+Path length: 6
+
+COMMON
+Iters: 52
+Max O + C: 140
+START
+Iters: 15
+Cur O: 64
+Cur C: 14
+Max O: 64
+Max C: 14
+Max O + C: 78
+END
+Iters: 37
+Cur O: 32
+Cur C: 30
+Max O: 32
+Max C: 30
+Max O + C: 62
+Path length: 6
+
+Depth: 8
+COMMON
+Iters: 377
+Max O + C: 1030
+START
+Iters: 84
+Cur O: 511
+Cur C: 69
+Max O: 511
+Max C: 69
+Max O + C: 580
+END
+Iters: 293
+Cur O: 256
+Cur C: 194
+Max O: 256
+Max C: 194
+Max O + C: 450
+Path length: 8
+
+COMMON
+Iters: 446
+Max O + C: 1074
+START
+Iters: 153
+Cur O: 498
+Cur C: 126
+Max O: 498
+Max C: 126
+Max O + C: 624
+END
+Iters: 293
+Cur O: 256
+Cur C: 194
+Max O: 256
+Max C: 194
+Max O + C: 450
+Path length: 8
+
+COMMON
+Iters: 690
+Max O + C: 1214
+START
+Iters: 397
+Cur O: 479
+Cur C: 285
+Max O: 479
+Max C: 285
+Max O + C: 764
+END
+Iters: 293
+Cur O: 256
+Cur C: 194
+Max O: 256
+Max C: 194
+Max O + C: 450
+Path length: 8
+
+COMMON
+Iters: 515
+Max O + C: 1134
+START
+Iters: 222
+Cur O: 508
+Cur C: 176
+Max O: 508
+Max C: 176
+Max O + C: 684
+END
+Iters: 293
+Cur O: 256
+Cur C: 194
+Max O: 256
+Max C: 194
+Max O + C: 450
+Path length: 8
+
+COMMON
+Iters: 390
+Max O + C: 1043
+START
+Iters: 97
+Cur O: 510
+Cur C: 83
+Max O: 510
+Max C: 83
+Max O + C: 593
+END
+Iters: 293
+Cur O: 256
+Cur C: 194
+Max O: 256
+Max C: 194
+Max O + C: 450
+Path length: 8
+
+COMMON
+Iters: 853
+Max O + C: 1336
+START
+Iters: 560
+Cur O: 512
+Cur C: 374
+Max O: 512
+Max C: 374
+Max O + C: 886
+END
+Iters: 293
+Cur O: 256
+Cur C: 194
+Max O: 256
+Max C: 194
+Max O + C: 450
+Path length: 8
+
+COMMON
+Iters: 527
+Max O + C: 1131
+START
+Iters: 234
+Cur O: 495
+Cur C: 186
+Max O: 495
+Max C: 186
+Max O + C: 681
+END
+Iters: 293
+Cur O: 256
+Cur C: 194
+Max O: 256
+Max C: 194
+Max O + C: 450
+Path length: 8
+
+COMMON
+Iters: 509
+Max O + C: 1129
+START
+Iters: 216
+Cur O: 511
+Cur C: 168
+Max O: 511
+Max C: 168
+Max O + C: 679
+END
+Iters: 293
+Cur O: 256
+Cur C: 194
+Max O: 256
+Max C: 194
+Max O + C: 450
+Path length: 8
+
+COMMON
+Iters: 378
+Max O + C: 924
+START
+Iters: 85
+Cur O: 402
+Cur C: 72
+Max O: 402
+Max C: 72
+Max O + C: 474
+END
+Iters: 293
+Cur O: 256
+Cur C: 194
+Max O: 256
+Max C: 194
+Max O + C: 450
+Path length: 8
+
+COMMON
+Iters: 780
+Max O + C: 1294
+START
+Iters: 487
+Cur O: 511
+Cur C: 333
+Max O: 511
+Max C: 333
+Max O + C: 844
+END
+Iters: 293
+Cur O: 256
+Cur C: 194
+Max O: 256
+Max C: 194
+Max O + C: 450
+Path length: 8
+
+Depth: 10

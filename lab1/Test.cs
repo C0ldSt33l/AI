@@ -82,7 +82,7 @@ public static class Test {
                 
                 var states = new List<State>();
                 for (;!lines[i].Contains("-"); i += 5) {
-                    var state = new State(lines[i..(i + 5)]);
+                    var state = new State(lines[i..(i + 4)]);
                     states.Add(state);
                 }
                 dict[depth] = states;
