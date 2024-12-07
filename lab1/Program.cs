@@ -427,9 +427,8 @@ class Program {
     public static void Main(String[] args) {
         // new Game().Update();
 
-        // Test.RunTests(new string[] { "Width" });
+        Test.RunTests(new string[] { "Bidirectional", "AStarDB" });
         // Test.ImpossibleTest(new string[] { "width" });
 
-        DB.calculateDBPathLengths();
     }
 }

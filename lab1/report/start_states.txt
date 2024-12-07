@@ -1,5 +1,4 @@
 Depth: 2
-Depth: 2
 R R R B 
 R G G G 
 Y Y Y G 
