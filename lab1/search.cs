@@ -132,12 +132,14 @@ public class BiDirectionalSearch(
     public struct BiDirInfo {
         public int Iters;
 
+        public int StartIters;
         public int StartCurOpenNodes;
         public int StartMaxOpenNodes;
         public int StartCurCloseNodes;
         public int StartMaxCloseNodes;
         public int StartMaxNodes;
 
+        public int EndIters;
         public int EndCurOpenNodes;
         public int EndMaxOpenNodes;
         public int EndCurCloseNodes;
@@ -148,25 +150,25 @@ public class BiDirectionalSearch(
 
         public BiDirInfo() {}
         public void UpdateStart(IEnumerable<State> openNodes, IEnumerable<State> closeNodes) {
-            this.Iters++;
-
+            this.StartIters++;
             this.StartCurOpenNodes = openNodes.Count();
             this.StartMaxOpenNodes = Math.Max(this.StartMaxOpenNodes, openNodes.Count());
             this.StartCurCloseNodes = closeNodes.Count();
             this.StartMaxCloseNodes = Math.Max(this.StartMaxCloseNodes, closeNodes.Count());
             this.StartMaxNodes = Math.Max(this.StartMaxNodes, openNodes.Count() + closeNodes.Count());
 
+            this.Iters++;
             this.MaxNodeCount = Math.Max(this.MaxNodeCount, this.StartCurOpenNodes + this.StartCurCloseNodes + this.EndCurOpenNodes + this.EndCurCloseNodes);
         }
         public void UpdateEnd(IEnumerable<State> openNodes, IEnumerable<State> closeNodes) {
-            this.Iters++;
-
+            this.EndIters++;
             this.EndCurOpenNodes = openNodes.Count();
             this.EndMaxOpenNodes = Math.Max(this.EndMaxOpenNodes, openNodes.Count());
             this.EndCurCloseNodes = closeNodes.Count();
             this.EndMaxCloseNodes = Math.Max(this.EndMaxCloseNodes, closeNodes.Count());
             this.EndMaxNodes = Math.Max(this.EndMaxNodes, openNodes.Count() + closeNodes.Count());
 
+            this.Iters++;
             this.MaxNodeCount = Math.Max(this.MaxNodeCount, this.StartCurOpenNodes + this.StartCurCloseNodes + this.EndCurOpenNodes + this.EndCurCloseNodes);
         }
 
@@ -176,12 +178,14 @@ $@"COMMON
 Iters: {this.Iters}
 Max O + C: {this.MaxNodeCount}
 START
+Iters: {this.StartIters}
 Cur O: {this.StartCurOpenNodes}
 Cur C: {this.StartCurCloseNodes}
 Max O: {this.StartMaxOpenNodes}
 Max C: {this.StartMaxCloseNodes}
 Max O + C: {this.StartMaxNodes}
 END
+Iters: {this.EndIters}
 Cur O: {this.EndCurOpenNodes}
 Cur C: {this.EndCurCloseNodes}
 Max O: {this.EndMaxOpenNodes}
@@ -195,10 +199,10 @@ Max O + C: {this.EndMaxNodes}
 
     public List<State>? Search() {
         if (start.Equals(target)) return new() { start };
+
         while(this.StartOpenNodes.Count() > 0 || this.EndOpenNodes.Count() > 0) {
-            Console.WriteLine(this.GetStatistic());
             var newOpenNodes = new Queue<State>();
-            if (this.EndOpenNodes.Count > this.StartOpenNodes.Count) {
+            if (this.EndOpenNodes.Count > this.StartOpenNodes.Count && this.StartOpenNodes.Count != 0) {
                 foreach (var node in this.StartOpenNodes) {
                     this.Info.UpdateStart(this.StartOpenNodes, this.StartCloseNodes);
                     this.StartCloseNodes.Add(node);
@@ -235,21 +239,47 @@ Max O + C: {this.EndMaxNodes}
             }
         }
 
+        // this._printNodes();
         return null;
     }
 
     public string GetStatistic() => this.Info.ToString();
 
     private List<State>? _getPath(State start, State end) {
-                List<State>
-                    startPath = start.GetPath(),
-                    endPath = end.GetPath();
+        List<State>
+            startPath = start.GetPath(),
+            endPath = end.GetPath();
 
+        endPath.Reverse();
+        endPath.RemoveAt(0);
 
-                endPath.Reverse();
-                endPath.RemoveAt(0);
+        return startPath.Concat(endPath).ToList();
+    }
 
-                return startPath.Concat(endPath).ToList();
+    private void _printNodes() {
+        Console.WriteLine("START");
+        Console.WriteLine("open: " + this.StartOpenNodes.Count);
+        foreach (var node in this.StartOpenNodes) {
+            Console.WriteLine(node);
+            Console.WriteLine();
+        }
+        Console.WriteLine("close: " + this.StartCloseNodes.Count);
+        foreach (var node in this.StartCloseNodes) {
+            Console.WriteLine(node);
+            Console.WriteLine();
+        }
+
+        Console.WriteLine("END");
+        Console.WriteLine("open: " + this.EndOpenNodes.Count);
+        foreach (var node in this.EndOpenNodes) {
+            Console.WriteLine(node);
+            Console.WriteLine();
+        }
+        Console.WriteLine("close: " + this.EndCloseNodes.Count);
+        foreach (var node in this.EndCloseNodes) {
+            Console.WriteLine(node);
+            Console.WriteLine();
+        }
     }
 }
 
@@ -265,10 +295,6 @@ public class DepthLimitedSearch(
     private int maxDepth = 1;
 
     public SearchInfo Info;
-
-    // public DepthLimitedSearch(State startState) {
-    //     OpenNodes.Push((startState, 0));
-    // }
 
     public List<State>? Search() {
         State startState = OpenNodes.Peek().node;
@@ -322,7 +348,6 @@ public class AStar(
     public List<State>? Search() {
         while (this.OpenNodes.Count > 0) {
             this.Info.Update(this.OpenNodes, this.CloseNodes);
-            Console.WriteLine(this.Info);
             var item = this.OpenNodes.First();
             this.OpenNodes.RemoveAt(0);
             if (item.state.Equals(target)) {
@@ -345,7 +370,7 @@ public class AStar(
                 (State? state, uint val) inCloseNode = this.CloseNodes.FirstOrDefault(item => item.state.Equals(state), (null, 0));
                 if (inCloseNode.state != null) {
                     if (newVal < inCloseNode.val) {
-                        this.CloseNodes.RemoveWhere(it => it.state.Equals(state));
+                        this.CloseNodes.Remove(inCloseNode);
                         this.OpenNodes.Add((state, newVal));
                     }
                     continue;

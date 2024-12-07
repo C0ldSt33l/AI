@@ -1,0 +1,56 @@
+ASTAR1
+Iter: 4
+Cur O: 1
+Cur C: 3
+Max O: 2
+Max C: 3
+Max O + C: 4
+
+
+ASTAR2
+Iter: 4
+Cur O: 1
+Cur C: 3
+Max O: 2
+Max C: 3
+Max O + C: 4
+
+
+ASTAR3
+Iter: 6
+Cur O: 1
+Cur C: 3
+Max O: 3
+Max C: 3
+Max O + C: 4
+
+
+BIDIRECTIONAL
+COMMON
+Iters: 14
+Max O + C: 18
+START
+Iters: 5
+Cur O: 2
+Cur C: 4
+Max O: 2
+Max C: 4
+Max O + C: 6
+END
+Iters: 9
+Cur O: 6
+Cur C: 6
+Max O: 6
+Max C: 6
+Max O + C: 12
+
+
+WIDTH
+Iter: 4
+Cur O: 1
+Cur C: 3
+Max O: 2
+Max C: 3
+Max O + C: 4
+
+

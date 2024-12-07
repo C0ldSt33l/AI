@@ -7,7 +7,6 @@ using Raylib_cs;
 
 namespace Game;
 
-// NOTE: add ability to set field size
 public class State {
     public static State TARGET_STATE = new(new char[4,4] {
         {'R', 'R', 'R', 'R'},
@@ -100,34 +99,37 @@ public class State {
         return chaos;
     }
 
-    public static List<State> FullDiscovery(State state) {
-        var states = new List<State>();
-        for (var i = 0; i < state.Size; i++) {
-            states.Add(state.moveRow(i, Direction.LEFT));
-            states.Add(state.moveCol(i, Direction.UP));
-            states.Add(state.moveRow(i, Direction.RIGHT));
-            states.Add(state.moveCol(i, Direction.DOWN));
+    public static List<State> FullDiscovery(State parent) {
+        var children = new List<State>();
+        for (var i = 0; i < parent.Size; i++) {
+            children.Add(parent.moveRow(i, Direction.LEFT));
+            children.Add(parent.moveCol(i, Direction.UP));
+            children.Add(parent.moveRow(i, Direction.RIGHT));
+            children.Add(parent.moveCol(i, Direction.DOWN));
         }
+        children.RemoveAll(it => it.Equals(parent));
 
-        return states;
+        return children;
     }
-    public static List<State> Discovery(State state) {
-        var states = new List<State>();
-        for (var i = 0; i < state.Size; i++) {
-            states.Add(state.moveRow(i, Direction.LEFT));
-            states.Add(state.moveCol(i, Direction.UP));
+    public static List<State> Discovery(State parent) {
+        var children = new List<State>();
+        for (var i = 0; i < parent.Size; i++) {
+            children.Add(parent.moveRow(i, Direction.LEFT));
+            children.Add(parent.moveCol(i, Direction.UP));
         }
+        children.RemoveAll(it => it.Equals(parent));
 
-        return states;
+        return children;
     }
-    public static List<State> ReverseDiscovery(State state) {
-        var states = new List<State>();
-        for (var i = 0; i < state.Size; i++) {
-            states.Add(state.moveRow(i, Direction.RIGHT));
-            states.Add(state.moveCol(i, Direction.DOWN));
+    public static List<State> ReverseDiscovery(State child) {
+        var parents = new List<State>();
+        for (var i = 0; i < child.Size; i++) {
+            parents.Add(child.moveRow(i, Direction.RIGHT));
+            parents.Add(child.moveCol(i, Direction.DOWN));
         }
+        parents.RemoveAll(it => it.Equals(child));
 
-        return states;
+        return parents;
     }
 
     public List<State> GetPath() {
@@ -185,7 +187,7 @@ public class State {
                 for (var row = 0; row < state.Size; row++) {
                     for (var col = 0; col < state.Size; col++) {
                         if (curPos == state.Size) {
-                            value += pos.Max();
+                            value += pos.Min();
                             goto Skip;
                         }
                         if (state.Colors[row, col].Equals(targetColor)) {
@@ -391,6 +393,16 @@ public class State {
         }
 
         return true;
+    }
+
+    public override int GetHashCode() {
+        var str = "";
+        var i = 1;
+        foreach (var color in this.Colors) {
+            str += i.ToString() + this.ColorToChar(color);
+        }
+
+        return str.GetHashCode();
     }
 
     public bool EqualsByColor(State other, Color c) {

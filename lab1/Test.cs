@@ -1,8 +1,3 @@
-using System.Runtime.Serialization;
-using System.Runtime.Versioning;
-using Microsoft.Win32.SafeHandles;
-using Raylib_cs;
-
 namespace Game;
 
 public static class Test {

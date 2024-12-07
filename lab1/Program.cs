@@ -429,6 +429,6 @@ class Program {
 
         // Test.GenStartStates();
         // Test.RunTests(new string[] { "Width" });
-        Test.ImpossibleTest(new string[] { "astar1", "astar2", "astar3" });
+        Test.ImpossibleTest(new string[] { "width" });
     }
 }
