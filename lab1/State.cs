@@ -107,7 +107,7 @@ public class State {
             children.Add(parent.moveRow(i, Direction.RIGHT));
             children.Add(parent.moveCol(i, Direction.DOWN));
         }
-        children.RemoveAll(it => it.Equals(parent));
+        // children.RemoveAll(it => it.Equals(parent));
 
         return children;
     }
@@ -117,7 +117,7 @@ public class State {
             children.Add(parent.moveRow(i, Direction.LEFT));
             children.Add(parent.moveCol(i, Direction.UP));
         }
-        children.RemoveAll(it => it.Equals(parent));
+        // children.RemoveAll(it => it.Equals(parent));
 
         return children;
     }
@@ -127,7 +127,7 @@ public class State {
             parents.Add(child.moveRow(i, Direction.RIGHT));
             parents.Add(child.moveCol(i, Direction.DOWN));
         }
-        parents.RemoveAll(it => it.Equals(child));
+        // parents.RemoveAll(it => it.Equals(child));
 
         return parents;
     }
@@ -172,7 +172,7 @@ public class State {
             }
         }
 
-        return (uint)Math.Floor(value / (float)state.Size);
+        return (uint)Math.Ceiling(value / (float)state.Size);
     }
 
     // Manhattan distance (Mosany)
@@ -201,7 +201,7 @@ public class State {
             }
         }
 
-        return (uint)Math.Floor(value / (float)state.Size);
+        return (uint)Math.Ceiling(value / (float)state.Size);
     }
         
 

@@ -1,0 +1,171 @@
+Depth: 2
+Iter: 31
+Cur O: 161
+Cur C: 30
+Max O: 161
+Max C: 30
+Max O + C: 191
+Path length: 2
+
+Iter: 17
+Cur O: 89
+Cur C: 16
+Max O: 89
+Max C: 16
+Max O + C: 105
+Path length: 2
+
+Iter: 52
+Cur O: 263
+Cur C: 51
+Max O: 263
+Max C: 51
+Max O + C: 314
+Path length: 2
+
+Iter: 28
+Cur O: 147
+Cur C: 27
+Max O: 147
+Max C: 27
+Max O + C: 174
+Path length: 2
+
+Iter: 13
+Cur O: 69
+Cur C: 12
+Max O: 69
+Max C: 12
+Max O + C: 81
+Path length: 2
+
+Iter: 39
+Cur O: 199
+Cur C: 38
+Max O: 199
+Max C: 38
+Max O + C: 237
+Path length: 2
+
+Iter: 50
+Cur O: 250
+Cur C: 49
+Max O: 250
+Max C: 49
+Max O + C: 299
+Path length: 2
+
+Iter: 15
+Cur O: 80
+Cur C: 14
+Max O: 80
+Max C: 14
+Max O + C: 94
+Path length: 2
+
+Iter: 44
+Cur O: 227
+Cur C: 43
+Max O: 227
+Max C: 43
+Max O + C: 270
+Path length: 2
+
+Iter: 49
+Cur O: 244
+Cur C: 48
+Max O: 244
+Max C: 48
+Max O + C: 292
+Path length: 2
+
+Depth: 4
+Iter: 1888
+Cur O: 9194
+Cur C: 1887
+Max O: 9194
+Max C: 1887
+Max O + C: 11081
+Path length: 4
+
+Iter: 1831
+Cur O: 8728
+Cur C: 1830
+Max O: 8728
+Max C: 1830
+Max O + C: 10558
+Path length: 4
+
+Iter: 2061
+Cur O: 10093
+Cur C: 2060
+Max O: 10093
+Max C: 2060
+Max O + C: 12153
+Path length: 4
+
+Iter: 1879
+Cur O: 9047
+Cur C: 1878
+Max O: 9047
+Max C: 1878
+Max O + C: 10925
+Path length: 4
+
+Iter: 1919
+Cur O: 9549
+Cur C: 1918
+Max O: 9549
+Max C: 1918
+Max O + C: 11467
+Path length: 4
+
+Iter: 1191
+Cur O: 5799
+Cur C: 1190
+Max O: 5799
+Max C: 1190
+Max O + C: 6989
+Path length: 4
+
+Iter: 577
+Cur O: 2823
+Cur C: 576
+Max O: 2823
+Max C: 576
+Max O + C: 3399
+Path length: 4
+
+Iter: 1427
+Cur O: 7007
+Cur C: 1426
+Max O: 7007
+Max C: 1426
+Max O + C: 8433
+Path length: 4
+
+Iter: 1642
+Cur O: 7967
+Cur C: 1641
+Max O: 7967
+Max C: 1641
+Max O + C: 9608
+Path length: 4
+
+Iter: 1529
+Cur O: 7431
+Cur C: 1528
+Max O: 7431
+Max C: 1528
+Max O + C: 8959
+Path length: 4
+
+Depth: 6
+Iter: 23217
+Cur O: 111235
+Cur C: 23216
+Max O: 111235
+Max C: 23216
+Max O + C: 134451
+Path length: 6
+

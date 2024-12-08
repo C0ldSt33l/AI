@@ -427,8 +427,14 @@ class Program {
     public static void Main(String[] args) {
         // new Game().Update();
 
-        Test.RunTests(new string[] { "Bidirectional", "AStarDB" });
+        Test.RunTests(searches: new string[] { "AStarDB" });
         // Test.ImpossibleTest(new string[] { "width" });
 
+//         new BiDirectionalSearch(
+//             Test.GetStartStates()[6][0],
+//             State.TARGET_STATE,
+//             State.Discovery,
+//             State.ReverseDiscovery
+// ).Search();
     }
 }

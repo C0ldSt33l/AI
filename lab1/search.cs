@@ -201,10 +201,11 @@ Max O + C: {this.EndMaxNodes}
         if (start.Equals(target)) return new() { start };
 
         while(this.StartOpenNodes.Count() > 0 || this.EndOpenNodes.Count() > 0) {
-            var newOpenNodes = new Queue<State>();
             if (this.EndOpenNodes.Count > this.StartOpenNodes.Count && this.StartOpenNodes.Count != 0) {
+                var newOpenNodes = new Queue<State>();
+                // Console.WriteLine("start open before: " + this.StartOpenNodes.Count);
                 foreach (var node in this.StartOpenNodes) {
-                    this.Info.UpdateStart(this.StartOpenNodes, this.StartCloseNodes);
+                    this.Info.UpdateStart(this.StartOpenNodes.Concat(newOpenNodes), this.StartCloseNodes);
                     this.StartCloseNodes.Add(node);
 
                     foreach(var state in discovery(node)) {
@@ -219,11 +220,15 @@ Max O + C: {this.EndMaxNodes}
                     }
                 }
                 this.StartOpenNodes = newOpenNodes;
+                // Console.WriteLine("start open after: " + this.StartOpenNodes.Count);
             } else {
+                var newOpenNodes = new Queue<State>();
+                // Console.WriteLine("end open before: " + this.StartOpenNodes.Count);
                 foreach (var node in this.EndOpenNodes) {
-                    this.Info.UpdateEnd(this.EndOpenNodes, this.EndCloseNodes);
+                    this.Info.UpdateEnd(this.EndOpenNodes.Concat(newOpenNodes), this.EndCloseNodes);
                     this.EndCloseNodes.Add(node);
 
+                    // Console.WriteLine(revDiscovery(node).Count);
                     foreach(var state in revDiscovery(node)) {
                         var start = this.StartOpenNodes.FirstOrDefault(el => el.Equals(state), null);
                         if (start != null) return this._getPath(start, state);
@@ -236,11 +241,13 @@ Max O + C: {this.EndMaxNodes}
                     }
                 }
                 this.EndOpenNodes = newOpenNodes;
+                // Console.WriteLine("end open after: " + newOpenNodes.Count);
+                // Console.WriteLine("end open after: " + this.EndOpenNodes.Count);
             }
         }
 
         // this._printNodes();
-        return null;
+        return new();
     }
 
     public string GetStatistic() => this.Info.ToString();
@@ -345,7 +352,7 @@ public class AStar(
 
     public SearchInfo Info = new();
 
-    public List<State>? Search() {
+    public List<State> Search() {
         while (this.OpenNodes.Count > 0) {
             this.Info.Update(this.OpenNodes, this.CloseNodes);
             var item = this.OpenNodes.First();

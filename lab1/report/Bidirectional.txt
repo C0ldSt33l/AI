@@ -192,121 +192,121 @@ Path length: 2
 Depth: 4
 COMMON
 Iters: 13
-Max O + C: 23
+Max O + C: 94
 START
 Iters: 8
-Cur O: 8
+Cur O: 55
 Cur C: 7
-Max O: 8
+Max O: 55
 Max C: 7
-Max O + C: 15
+Max O + C: 62
 END
 Iters: 5
-Cur O: 4
+Cur O: 28
 Cur C: 4
-Max O: 4
+Max O: 28
 Max C: 4
-Max O + C: 8
+Max O + C: 32
 Path length: 4
 
 COMMON
 Iters: 13
-Max O + C: 23
+Max O + C: 95
 START
 Iters: 8
-Cur O: 8
+Cur O: 56
 Cur C: 7
-Max O: 8
+Max O: 56
 Max C: 7
-Max O + C: 15
+Max O + C: 63
 END
 Iters: 5
-Cur O: 4
+Cur O: 28
 Cur C: 4
-Max O: 4
+Max O: 28
 Max C: 4
-Max O + C: 8
+Max O + C: 32
 Path length: 4
 
 COMMON
 Iters: 13
-Max O + C: 23
+Max O + C: 95
 START
 Iters: 8
-Cur O: 8
+Cur O: 56
 Cur C: 7
-Max O: 8
+Max O: 56
 Max C: 7
-Max O + C: 15
+Max O + C: 63
 END
 Iters: 5
-Cur O: 4
+Cur O: 28
 Cur C: 4
-Max O: 4
+Max O: 28
 Max C: 4
-Max O + C: 8
+Max O + C: 32
 Path length: 4
 
 COMMON
 Iters: 13
-Max O + C: 23
+Max O + C: 94
 START
 Iters: 8
-Cur O: 8
+Cur O: 55
 Cur C: 7
-Max O: 8
+Max O: 55
 Max C: 7
-Max O + C: 15
+Max O + C: 62
 END
 Iters: 5
-Cur O: 4
+Cur O: 28
 Cur C: 4
-Max O: 4
+Max O: 28
 Max C: 4
-Max O + C: 8
+Max O + C: 32
 Path length: 4
 
 COMMON
 Iters: 13
-Max O + C: 23
+Max O + C: 94
 START
 Iters: 8
-Cur O: 8
+Cur O: 55
 Cur C: 7
-Max O: 8
+Max O: 55
 Max C: 7
-Max O + C: 15
+Max O + C: 62
 END
 Iters: 5
-Cur O: 4
+Cur O: 28
 Cur C: 4
-Max O: 4
+Max O: 28
 Max C: 4
-Max O + C: 8
+Max O + C: 32
 Path length: 4
 
 COMMON
 Iters: 9
-Max O + C: 19
+Max O + C: 59
 START
 Iters: 4
-Cur O: 8
+Cur O: 24
 Cur C: 3
-Max O: 8
+Max O: 24
 Max C: 3
-Max O + C: 11
+Max O + C: 27
 END
 Iters: 5
-Cur O: 4
+Cur O: 28
 Cur C: 4
-Max O: 4
+Max O: 28
 Max C: 4
-Max O + C: 8
+Max O + C: 32
 Path length: 4
 
 COMMON
 Iters: 7
-Max O + C: 17
+Max O + C: 41
 START
 Iters: 2
 Cur O: 8
@@ -316,450 +316,640 @@ Max C: 1
 Max O + C: 9
 END
 Iters: 5
-Cur O: 4
+Cur O: 28
 Cur C: 4
-Max O: 4
+Max O: 28
 Max C: 4
-Max O + C: 8
+Max O + C: 32
 Path length: 4
 
 COMMON
 Iters: 11
-Max O + C: 21
+Max O + C: 75
 START
 Iters: 6
-Cur O: 8
+Cur O: 38
 Cur C: 5
-Max O: 8
+Max O: 38
 Max C: 5
-Max O + C: 13
+Max O + C: 43
 END
 Iters: 5
-Cur O: 4
+Cur O: 28
 Cur C: 4
-Max O: 4
+Max O: 28
 Max C: 4
-Max O + C: 8
+Max O + C: 32
 Path length: 4
 
 COMMON
 Iters: 11
-Max O + C: 21
+Max O + C: 77
 START
 Iters: 6
-Cur O: 8
+Cur O: 40
 Cur C: 5
-Max O: 8
+Max O: 40
 Max C: 5
-Max O + C: 13
+Max O + C: 45
 END
 Iters: 5
-Cur O: 4
+Cur O: 28
 Cur C: 4
-Max O: 4
+Max O: 28
 Max C: 4
-Max O + C: 8
+Max O + C: 32
 Path length: 4
 
 COMMON
 Iters: 11
-Max O + C: 21
+Max O + C: 77
 START
 Iters: 6
-Cur O: 8
+Cur O: 40
 Cur C: 5
-Max O: 8
+Max O: 40
 Max C: 5
-Max O + C: 13
+Max O + C: 45
 END
 Iters: 5
-Cur O: 4
+Cur O: 28
 Cur C: 4
-Max O: 4
+Max O: 28
 Max C: 4
-Max O + C: 8
+Max O + C: 32
 Path length: 4
 
 Depth: 6
 COMMON
 Iters: 52
-Max O + C: 140
+Max O + C: 428
 START
 Iters: 15
-Cur O: 64
+Cur O: 104
 Cur C: 14
-Max O: 64
+Max O: 104
 Max C: 14
-Max O + C: 78
+Max O + C: 118
 END
 Iters: 37
-Cur O: 32
+Cur O: 280
 Cur C: 30
-Max O: 32
+Max O: 280
 Max C: 30
-Max O + C: 62
+Max O + C: 310
 Path length: 6
 
 COMMON
 Iters: 86
-Max O + C: 168
+Max O + C: 726
 START
 Iters: 49
-Cur O: 63
+Cur O: 373
 Cur C: 43
-Max O: 63
+Max O: 373
 Max C: 43
-Max O + C: 106
+Max O + C: 416
 END
 Iters: 37
-Cur O: 32
+Cur O: 280
 Cur C: 30
-Max O: 32
+Max O: 280
 Max C: 30
-Max O + C: 62
+Max O + C: 310
 Path length: 6
 
 COMMON
 Iters: 54
-Max O + C: 142
+Max O + C: 445
 START
 Iters: 17
-Cur O: 64
+Cur O: 119
 Cur C: 16
-Max O: 64
+Max O: 119
 Max C: 16
-Max O + C: 80
+Max O + C: 135
 END
 Iters: 37
-Cur O: 32
+Cur O: 280
 Cur C: 30
-Max O: 32
+Max O: 280
 Max C: 30
-Max O + C: 62
+Max O + C: 310
 Path length: 6
 
 COMMON
 Iters: 82
-Max O + C: 166
+Max O + C: 690
 START
 Iters: 45
-Cur O: 64
+Cur O: 340
 Cur C: 40
-Max O: 64
+Max O: 340
 Max C: 40
-Max O + C: 104
+Max O + C: 380
 END
 Iters: 37
-Cur O: 32
+Cur O: 280
 Cur C: 30
-Max O: 32
+Max O: 280
 Max C: 30
-Max O + C: 62
+Max O + C: 310
 Path length: 6
 
 COMMON
 Iters: 50
-Max O + C: 137
+Max O + C: 409
 START
 Iters: 13
-Cur O: 63
+Cur O: 87
 Cur C: 12
-Max O: 63
+Max O: 87
 Max C: 12
-Max O + C: 75
+Max O + C: 99
 END
 Iters: 37
-Cur O: 32
+Cur O: 280
 Cur C: 30
-Max O: 32
+Max O: 280
 Max C: 30
-Max O + C: 62
+Max O + C: 310
 Path length: 6
 
 COMMON
 Iters: 102
-Max O + C: 180
+Max O + C: 866
 START
 Iters: 65
-Cur O: 64
+Cur O: 502
 Cur C: 54
-Max O: 64
+Max O: 502
 Max C: 54
-Max O + C: 118
+Max O + C: 556
 END
 Iters: 37
-Cur O: 32
+Cur O: 280
 Cur C: 30
-Max O: 32
+Max O: 280
 Max C: 30
-Max O + C: 62
+Max O + C: 310
 Path length: 6
 
 COMMON
 Iters: 66
-Max O + C: 153
+Max O + C: 551
 START
 Iters: 29
-Cur O: 64
+Cur O: 214
 Cur C: 27
-Max O: 64
+Max O: 214
 Max C: 27
-Max O + C: 91
+Max O + C: 241
 END
 Iters: 37
-Cur O: 32
+Cur O: 280
 Cur C: 30
-Max O: 32
+Max O: 280
 Max C: 30
-Max O + C: 62
+Max O + C: 310
 Path length: 6
 
 COMMON
 Iters: 70
-Max O + C: 157
+Max O + C: 589
 START
 Iters: 33
-Cur O: 64
+Cur O: 248
 Cur C: 31
-Max O: 64
+Max O: 248
 Max C: 31
-Max O + C: 95
+Max O + C: 279
 END
 Iters: 37
-Cur O: 32
+Cur O: 280
 Cur C: 30
-Max O: 32
+Max O: 280
 Max C: 30
-Max O + C: 62
+Max O + C: 310
 Path length: 6
 
 COMMON
 Iters: 50
-Max O + C: 137
+Max O + C: 409
 START
 Iters: 13
-Cur O: 63
+Cur O: 87
 Cur C: 12
-Max O: 63
+Max O: 87
 Max C: 12
-Max O + C: 75
+Max O + C: 99
 END
 Iters: 37
-Cur O: 32
+Cur O: 280
 Cur C: 30
-Max O: 32
+Max O: 280
 Max C: 30
-Max O + C: 62
+Max O + C: 310
 Path length: 6
 
 COMMON
 Iters: 52
-Max O + C: 140
+Max O + C: 428
 START
 Iters: 15
-Cur O: 64
+Cur O: 104
 Cur C: 14
-Max O: 64
+Max O: 104
 Max C: 14
-Max O + C: 78
+Max O + C: 118
 END
 Iters: 37
-Cur O: 32
+Cur O: 280
 Cur C: 30
-Max O: 32
+Max O: 280
 Max C: 30
-Max O + C: 62
+Max O + C: 310
 Path length: 6
 
 Depth: 8
 COMMON
 Iters: 377
-Max O + C: 1030
+Max O + C: 3114
 START
 Iters: 84
-Cur O: 511
+Cur O: 590
 Cur C: 69
-Max O: 511
+Max O: 590
 Max C: 69
-Max O + C: 580
+Max O + C: 659
 END
 Iters: 293
-Cur O: 256
+Cur O: 2261
 Cur C: 194
-Max O: 256
+Max O: 2261
 Max C: 194
-Max O + C: 450
+Max O + C: 2455
 Path length: 8
 
 COMMON
 Iters: 446
-Max O + C: 1074
+Max O + C: 3705
 START
 Iters: 153
-Cur O: 498
+Cur O: 1124
 Cur C: 126
-Max O: 498
+Max O: 1124
 Max C: 126
-Max O + C: 624
+Max O + C: 1250
 END
 Iters: 293
-Cur O: 256
+Cur O: 2261
 Cur C: 194
-Max O: 256
+Max O: 2261
 Max C: 194
-Max O + C: 450
+Max O + C: 2455
 Path length: 8
 
 COMMON
 Iters: 690
-Max O + C: 1214
+Max O + C: 5730
 START
 Iters: 397
-Cur O: 479
+Cur O: 2990
 Cur C: 285
-Max O: 479
+Max O: 2990
 Max C: 285
-Max O + C: 764
+Max O + C: 3275
 END
 Iters: 293
-Cur O: 256
+Cur O: 2261
 Cur C: 194
-Max O: 256
+Max O: 2261
 Max C: 194
-Max O + C: 450
+Max O + C: 2455
 Path length: 8
 
 COMMON
 Iters: 515
-Max O + C: 1134
+Max O + C: 4299
 START
 Iters: 222
-Cur O: 508
+Cur O: 1668
 Cur C: 176
-Max O: 508
+Max O: 1668
 Max C: 176
-Max O + C: 684
+Max O + C: 1844
 END
 Iters: 293
-Cur O: 256
+Cur O: 2261
 Cur C: 194
-Max O: 256
+Max O: 2261
 Max C: 194
-Max O + C: 450
+Max O + C: 2455
 Path length: 8
 
 COMMON
 Iters: 390
-Max O + C: 1043
+Max O + C: 3230
 START
 Iters: 97
-Cur O: 510
+Cur O: 692
 Cur C: 83
-Max O: 510
+Max O: 692
 Max C: 83
-Max O + C: 593
+Max O + C: 775
 END
 Iters: 293
-Cur O: 256
+Cur O: 2261
 Cur C: 194
-Max O: 256
+Max O: 2261
 Max C: 194
-Max O + C: 450
+Max O + C: 2455
 Path length: 8
 
 COMMON
 Iters: 853
-Max O + C: 1336
+Max O + C: 7208
 START
 Iters: 560
-Cur O: 512
+Cur O: 4379
 Cur C: 374
-Max O: 512
+Max O: 4379
 Max C: 374
-Max O + C: 886
+Max O + C: 4753
 END
 Iters: 293
-Cur O: 256
+Cur O: 2261
 Cur C: 194
-Max O: 256
+Max O: 2261
 Max C: 194
-Max O + C: 450
+Max O + C: 2455
 Path length: 8
 
 COMMON
 Iters: 527
-Max O + C: 1131
+Max O + C: 4387
 START
 Iters: 234
-Cur O: 495
+Cur O: 1746
 Cur C: 186
-Max O: 495
+Max O: 1746
 Max C: 186
-Max O + C: 681
+Max O + C: 1932
 END
 Iters: 293
-Cur O: 256
+Cur O: 2261
 Cur C: 194
-Max O: 256
+Max O: 2261
 Max C: 194
-Max O + C: 450
+Max O + C: 2455
 Path length: 8
 
 COMMON
 Iters: 509
-Max O + C: 1129
+Max O + C: 4265
 START
 Iters: 216
-Cur O: 511
+Cur O: 1642
 Cur C: 168
-Max O: 511
+Max O: 1642
 Max C: 168
-Max O + C: 679
+Max O + C: 1810
 END
 Iters: 293
-Cur O: 256
+Cur O: 2261
 Cur C: 194
-Max O: 256
+Max O: 2261
 Max C: 194
-Max O + C: 450
+Max O + C: 2455
 Path length: 8
 
 COMMON
 Iters: 378
-Max O + C: 924
+Max O + C: 3111
 START
 Iters: 85
-Cur O: 402
+Cur O: 584
 Cur C: 72
-Max O: 402
+Max O: 584
 Max C: 72
-Max O + C: 474
+Max O + C: 656
 END
 Iters: 293
-Cur O: 256
+Cur O: 2261
 Cur C: 194
-Max O: 256
+Max O: 2261
 Max C: 194
-Max O + C: 450
+Max O + C: 2455
 Path length: 8
 
 COMMON
 Iters: 780
-Max O + C: 1294
+Max O + C: 6576
 START
 Iters: 487
-Cur O: 511
+Cur O: 3788
 Cur C: 333
-Max O: 511
+Max O: 3788
 Max C: 333
-Max O + C: 844
+Max O + C: 4121
 END
 Iters: 293
-Cur O: 256
+Cur O: 2261
 Cur C: 194
-Max O: 256
+Max O: 2261
 Max C: 194
-Max O + C: 450
+Max O + C: 2455
 Path length: 8
 
 Depth: 10
+COMMON
+Iters: 4807
+Max O + C: 38536
+START
+Iters: 2502
+Cur O: 19078
+Cur C: 1511
+Max O: 19078
+Max C: 1511
+Max O + C: 20589
+END
+Iters: 2305
+Cur O: 16772
+Cur C: 1175
+Max O: 16772
+Max C: 1175
+Max O + C: 17947
+Path length: 10
+
+COMMON
+Iters: 3642
+Max O + C: 28766
+START
+Iters: 1337
+Cur O: 9986
+Cur C: 833
+Max O: 9986
+Max C: 833
+Max O + C: 10819
+END
+Iters: 2305
+Cur O: 16772
+Cur C: 1175
+Max O: 16772
+Max C: 1175
+Max O + C: 17947
+Path length: 10
+
+COMMON
+Iters: 3081
+Max O + C: 24004
+START
+Iters: 776
+Cur O: 5529
+Cur C: 528
+Max O: 5529
+Max C: 528
+Max O + C: 6057
+END
+Iters: 2305
+Cur O: 16772
+Cur C: 1175
+Max O: 16772
+Max C: 1175
+Max O + C: 17947
+Path length: 10
+
+COMMON
+Iters: 3262
+Max O + C: 25574
+START
+Iters: 957
+Cur O: 6984
+Cur C: 643
+Max O: 6984
+Max C: 643
+Max O + C: 7627
+END
+Iters: 2305
+Cur O: 16772
+Cur C: 1175
+Max O: 16772
+Max C: 1175
+Max O + C: 17947
+Path length: 10
+
+COMMON
+Iters: 4377
+Max O + C: 34942
+START
+Iters: 2072
+Cur O: 15793
+Cur C: 1202
+Max O: 15793
+Max C: 1202
+Max O + C: 16995
+END
+Iters: 2305
+Cur O: 16772
+Cur C: 1175
+Max O: 16772
+Max C: 1175
+Max O + C: 17947
+Path length: 10
+
+COMMON
+Iters: 3986
+Max O + C: 31644
+START
+Iters: 1681
+Cur O: 12677
+Cur C: 1020
+Max O: 12677
+Max C: 1020
+Max O + C: 13697
+END
+Iters: 2305
+Cur O: 16772
+Cur C: 1175
+Max O: 16772
+Max C: 1175
+Max O + C: 17947
+Path length: 10
+
+COMMON
+Iters: 3689
+Max O + C: 29175
+START
+Iters: 1384
+Cur O: 10307
+Cur C: 921
+Max O: 10307
+Max C: 921
+Max O + C: 11228
+END
+Iters: 2305
+Cur O: 16772
+Cur C: 1175
+Max O: 16772
+Max C: 1175
+Max O + C: 17947
+Path length: 10
+
+COMMON
+Iters: 4322
+Max O + C: 34391
+START
+Iters: 2017
+Cur O: 15307
+Cur C: 1137
+Max O: 15307
+Max C: 1137
+Max O + C: 16444
+END
+Iters: 2305
+Cur O: 16772
+Cur C: 1175
+Max O: 16772
+Max C: 1175
+Max O + C: 17947
+Path length: 10
+
+COMMON
+Iters: 5202
+Max O + C: 41769
+START
+Iters: 2897
+Cur O: 22155
+Cur C: 1667
+Max O: 22155
+Max C: 1667
+Max O + C: 23822
+END
+Iters: 2305
+Cur O: 16772
+Cur C: 1175
+Max O: 16772
+Max C: 1175
+Max O + C: 17947
+Path length: 10
+
+COMMON
+Iters: 3917
+Max O + C: 30960
+START
+Iters: 1612
+Cur O: 12005
+Cur C: 1008
+Max O: 12005
+Max C: 1008
+Max O + C: 13013
+END
+Iters: 2305
+Cur O: 16772
+Cur C: 1175
+Max O: 16772
+Max C: 1175
+Max O + C: 17947
+Path length: 10
+
