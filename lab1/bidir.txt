@@ -1,0 +1,447 @@
+Depth: 2
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Depth: 4
+Iters: 13
+Max O + C: 94
+
+Iters: 13
+Max O + C: 95
+
+Iters: 13
+Max O + C: 95
+
+Iters: 13
+Max O + C: 94
+
+Iters: 13
+Max O + C: 94
+
+Iters: 9
+Max O + C: 59
+
+Iters: 7
+Max O + C: 41
+
+Iters: 11
+Max O + C: 75
+
+Iters: 11
+Max O + C: 77
+
+Iters: 11
+Max O + C: 77
+
+Depth: 6
+Iters: 52
+Max O + C: 428
+
+Iters: 86
+Max O + C: 726
+
+Iters: 54
+Max O + C: 445
+
+Iters: 82
+Max O + C: 690
+
+Iters: 50
+Max O + C: 409
+
+Iters: 102
+Max O + C: 866
+
+Iters: 66
+Max O + C: 551
+
+Iters: 70
+Max O + C: 589
+
+Iters: 50
+Max O + C: 409
+
+Iters: 52
+Max O + C: 428
+
+Depth: 8
+Iters: 377
+Max O + C: 3114
+
+Iters: 446
+Max O + C: 3705
+
+Iters: 690
+Max O + C: 5730
+
+Iters: 515
+Max O + C: 4299
+
+Iters: 390
+Max O + C: 3230
+
+Iters: 853
+Max O + C: 7208
+
+Iters: 527
+Max O + C: 4387
+
+Iters: 509
+Max O + C: 4265
+
+Iters: 378
+Max O + C: 3111
+
+Iters: 780
+Max O + C: 6576
+
+Depth: 10
+Iters: 4807
+Max O + C: 38536
+
+Iters: 3642
+Max O + C: 28766
+
+Iters: 3081
+Max O + C: 24004
+
+Iters: 3262
+Max O + C: 25574
+
+Iters: 4377
+Max O + C: 34942
+
+Iters: 3986
+Max O + C: 31644
+
+Iters: 3689
+Max O + C: 29175
+
+Iters: 4322
+Max O + C: 34391
+
+Iters: 5202
+Max O + C: 41769
+
+Iters: 3917
+Max O + C: 30960
+
+Depth: 2
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Depth: 4
+Iters: 13
+Max O + C: 94
+
+Iters: 13
+Max O + C: 95
+
+Iters: 13
+Max O + C: 95
+
+Iters: 13
+Max O + C: 94
+
+Iters: 13
+Max O + C: 94
+
+Iters: 9
+Max O + C: 59
+
+Iters: 7
+Max O + C: 41
+
+Iters: 11
+Max O + C: 75
+
+Iters: 11
+Max O + C: 77
+
+Iters: 11
+Max O + C: 77
+
+Depth: 6
+Iters: 52
+Max O + C: 428
+
+Iters: 86
+Max O + C: 726
+
+Iters: 54
+Max O + C: 445
+
+Iters: 82
+Max O + C: 690
+
+Iters: 50
+Max O + C: 409
+
+Iters: 102
+Max O + C: 866
+
+Iters: 66
+Max O + C: 551
+
+Iters: 70
+Max O + C: 589
+
+Iters: 50
+Max O + C: 409
+
+Iters: 52
+Max O + C: 428
+
+Depth: 8
+Iters: 377
+Max O + C: 3114
+
+Iters: 446
+Max O + C: 3705
+
+Iters: 690
+Max O + C: 5730
+
+Iters: 515
+Max O + C: 4299
+
+Iters: 390
+Max O + C: 3230
+
+Iters: 853
+Max O + C: 7208
+
+Iters: 527
+Max O + C: 4387
+
+Iters: 509
+Max O + C: 4265
+
+Iters: 378
+Max O + C: 3111
+
+Iters: 780
+Max O + C: 6576
+
+Depth: 10
+Iters: 4807
+Max O + C: 38536
+
+Iters: 3642
+Max O + C: 28766
+
+Iters: 3081
+Max O + C: 24004
+
+Iters: 3262
+Max O + C: 25574
+
+Depth: 2
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Iters: 2
+Max O + C: 2
+
+Depth: 4
+Iters: 13
+Max O + C: 94
+
+Iters: 13
+Max O + C: 95
+
+Iters: 13
+Max O + C: 95
+
+Iters: 13
+Max O + C: 94
+
+Iters: 13
+Max O + C: 94
+
+Iters: 9
+Max O + C: 59
+
+Iters: 7
+Max O + C: 41
+
+Iters: 11
+Max O + C: 75
+
+Iters: 11
+Max O + C: 77
+
+Iters: 11
+Max O + C: 77
+
+Depth: 6
+Iters: 52
+Max O + C: 428
+
+Iters: 86
+Max O + C: 726
+
+Iters: 54
+Max O + C: 445
+
+Iters: 82
+Max O + C: 690
+
+Iters: 50
+Max O + C: 409
+
+Iters: 102
+Max O + C: 866
+
+Iters: 66
+Max O + C: 551
+
+Iters: 70
+Max O + C: 589
+
+Iters: 50
+Max O + C: 409
+
+Iters: 52
+Max O + C: 428
+
+Depth: 8
+Iters: 377
+Max O + C: 3114
+
+Iters: 446
+Max O + C: 3705
+
+Iters: 690
+Max O + C: 5730
+
+Iters: 515
+Max O + C: 4299
+
+Iters: 390
+Max O + C: 3230
+
+Iters: 853
+Max O + C: 7208
+
+Iters: 527
+Max O + C: 4387
+
+Iters: 509
+Max O + C: 4265
+
+Iters: 378
+Max O + C: 3111
+
+Iters: 780
+Max O + C: 6576
+
+Depth: 10
+Iters: 4807
+Max O + C: 38536
+
+Iters: 3642
+Max O + C: 28766
+
+Iters: 3081
+Max O + C: 24004
+
+Iters: 3262
+Max O + C: 25574
+
+Iters: 4377
+Max O + C: 34942
+
+Iters: 3986
+Max O + C: 31644
+
+Iters: 3689
+Max O + C: 29175
+
+Iters: 4322
+Max O + C: 34391
+
+Iters: 5202
+Max O + C: 41769
+
+Iters: 3917
+Max O + C: 30960
+

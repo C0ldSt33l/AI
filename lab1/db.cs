@@ -27,7 +27,7 @@ static class DB {
         }
 
         Console.WriteLine("Count of All Possible States: " + CloseNodes.Count);
-        DB.writeStatesToFile(CloseNodes, "db/red_subtask.txt");
+        DB.writeStatesToFile(CloseNodes, "db/color_pos.txt");
     }
 
     public static void calculateDBPathLengths() {

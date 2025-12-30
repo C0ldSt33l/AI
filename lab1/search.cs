@@ -138,6 +138,7 @@ public class BiDirectionalSearch(
         public int StartCurCloseNodes;
         public int StartMaxCloseNodes;
         public int StartMaxNodes;
+        public int StartPathLength;
 
         public int EndIters;
         public int EndCurOpenNodes;
@@ -145,6 +146,7 @@ public class BiDirectionalSearch(
         public int EndCurCloseNodes;
         public int EndMaxCloseNodes;
         public int EndMaxNodes;
+        public int EndPathLength;
 
         public int MaxNodeCount;
 
@@ -184,6 +186,7 @@ Cur C: {this.StartCurCloseNodes}
 Max O: {this.StartMaxOpenNodes}
 Max C: {this.StartMaxCloseNodes}
 Max O + C: {this.StartMaxNodes}
+Path length: {this.StartPathLength}
 END
 Iters: {this.EndIters}
 Cur O: {this.EndCurOpenNodes}
@@ -191,6 +194,7 @@ Cur C: {this.EndCurCloseNodes}
 Max O: {this.EndMaxOpenNodes}
 Max C: {this.EndMaxCloseNodes}
 Max O + C: {this.EndMaxNodes}
+Path length: {this.EndPathLength}
 ";
         }
 
@@ -201,11 +205,29 @@ Max O + C: {this.EndMaxNodes}
         if (start.Equals(target)) return new() { start };
 
         while(this.StartOpenNodes.Count() > 0 || this.EndOpenNodes.Count() > 0) {
-            if (this.EndOpenNodes.Count > this.StartOpenNodes.Count && this.StartOpenNodes.Count != 0) {
+            if (this.EndOpenNodes.Count < this.StartOpenNodes.Count && this.EndOpenNodes.Count != 0) {
                 var newOpenNodes = new Queue<State>();
-                // Console.WriteLine("start open before: " + this.StartOpenNodes.Count);
+                foreach (var node in this.EndOpenNodes) {
+                        this.Info.UpdateEnd(this.EndOpenNodes.Concat(newOpenNodes), this.EndCloseNodes);
+                    this.EndCloseNodes.Add(node);
+
+                    foreach(var state in revDiscovery(node)) {
+                        var start = this.StartOpenNodes.FirstOrDefault(el => el.Equals(state), null);
+                        if (start != null) return this._getPath(start, state);
+
+                        if (
+                            this.EndOpenNodes.Any(it => it.Equals(state)) ||
+                            this.EndCloseNodes.Any(it => it.Equals(state))
+                        ) continue;
+                        newOpenNodes.Enqueue(state);
+                    }
+                }
+                this.EndOpenNodes = newOpenNodes;
+ 
+            } else {
+                var newOpenNodes = new Queue<State>();
                 foreach (var node in this.StartOpenNodes) {
-                    this.Info.UpdateStart(this.StartOpenNodes.Concat(newOpenNodes), this.StartCloseNodes);
+                        this.Info.UpdateStart(this.StartOpenNodes.Concat(newOpenNodes), this.StartCloseNodes);
                     this.StartCloseNodes.Add(node);
 
                     foreach(var state in discovery(node)) {
@@ -220,29 +242,6 @@ Max O + C: {this.EndMaxNodes}
                     }
                 }
                 this.StartOpenNodes = newOpenNodes;
-                // Console.WriteLine("start open after: " + this.StartOpenNodes.Count);
-            } else {
-                var newOpenNodes = new Queue<State>();
-                // Console.WriteLine("end open before: " + this.StartOpenNodes.Count);
-                foreach (var node in this.EndOpenNodes) {
-                    this.Info.UpdateEnd(this.EndOpenNodes.Concat(newOpenNodes), this.EndCloseNodes);
-                    this.EndCloseNodes.Add(node);
-
-                    // Console.WriteLine(revDiscovery(node).Count);
-                    foreach(var state in revDiscovery(node)) {
-                        var start = this.StartOpenNodes.FirstOrDefault(el => el.Equals(state), null);
-                        if (start != null) return this._getPath(start, state);
-
-                        if (
-                            this.EndOpenNodes.Any(it => it.Equals(state)) ||
-                            this.EndCloseNodes.Any(it => it.Equals(state))
-                        ) continue;
-                        newOpenNodes.Enqueue(state);
-                    }
-                }
-                this.EndOpenNodes = newOpenNodes;
-                // Console.WriteLine("end open after: " + newOpenNodes.Count);
-                // Console.WriteLine("end open after: " + this.EndOpenNodes.Count);
             }
         }
 
@@ -259,6 +258,9 @@ Max O + C: {this.EndMaxNodes}
 
         endPath.Reverse();
         endPath.RemoveAt(0);
+
+        this.Info.StartPathLength = startPath.Count;
+        this.Info.EndPathLength = endPath.Count;
 
         return startPath.Concat(endPath).ToList();
     }
@@ -362,7 +364,7 @@ public class AStar(
             }
             this.CloseNodes.Add(item);
 
-            var traveledPath = item.state.GetPath().Count - 1;
+            var traveledPath = item.state.GetPath().Count;
             foreach (var state in discovery(item.state)) {
                 var newVal = (uint)(traveledPath + heuristics(state, target));
 
@@ -389,7 +391,7 @@ public class AStar(
             this._sortOpenNodes();
         }
 
-        return null;
+        return new();
     }
 
     public string GetStatistic() => this.Info.ToString();
